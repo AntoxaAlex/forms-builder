@@ -60,24 +60,57 @@
 
 .drag-section{
   width: 35%;
-  background-color: gold;
+  background-color: transparent;
+  border: 1px solid rgb(217,217,217);
+  border-radius: 25px;
   box-sizing: border-box;
+  padding: 20px;
 }
 
 .drop-section{
   width: 60%;
-  background-color: pink;
+  background-color: transparent;
+  border: 1px solid rgb(217,217,217);
+  border-radius: 25px;
   box-sizing: border-box;
 }
 
-.example-box{
-  border: 1px solid black;
-  border-radius: 25px;
-  background-color: whitesmoke;
-  width: 50px;
+.draggable-element:hover{
+  cursor: pointer;
 }
 
-.example-box:hover{
-  cursor: pointer;
+.drag-item-list{
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: 100%;
+  margin: 0;
+}
+
+.draggable-element-content{
+  width:100px;
+  height:50px;
+  border: 1px solid black;
+  border-radius: 25px;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.example-list{
+  height: 100%;
+}
+
+.draggable-input{
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  background-color: #F0F0F0;
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom: 2px solid black;
 }
 

@@ -1,4 +1,5 @@
 <div [class]="{'main-container':true}">
+<!--  Styles Accordion-->
   <cdk-accordion class="example-accordion">
     <cdk-accordion-item
       *ngFor="let item of items; let index = index;"
@@ -23,33 +24,106 @@
         [attr.aria-labelledby]="'accordion-header-' + index">
           <ng-template [cdkPortalOutlet]="sectionOnePortal"></ng-template>
       </div>
-      <ng-template #sectionOnePortalContent>
-        <mat-slider
-          class="example-margin"
-          id="formPadding"
-          [max]=100
-          [min]=0
-          [step]=1
-          [thumbLabel]=true
-          [(ngModel)]="formData.padding"
-          aria-labelledby="example-name-label">
-        </mat-slider>
-        <label for="formPadding">Padding</label>
-      </ng-template>
-      <ng-template #fieldPortalContent></ng-template>
     </cdk-accordion-item>
   </cdk-accordion>
-  <div [class]="{'drag-drop-section':true,'example-boundary':true}">
+
+<!--  Drag and Drop Aria-->
+  <div [class]="{'drag-drop-section':true,'drag-drop-boundary':true}" cdkDropListGroup>
       <div
         id="drop-aria"
         [class]="{'drop-section':true}"
         [style]="{'padding':formData.padding+'px'}"
-      ></div>
-      <div [class]="{'drag-section':true}">
-        <div class="example-box" cdkDragBoundary=".example-boundary" cdkDrag>
-          input
+      >
+        <div
+          id="drop-list"
+          cdkDropList
+          #dropList="cdkDropList"
+          [cdkDropListData]="dropElements"
+          class="example-list"
+          (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let element of dropElements" cdkDrag>
+            <div *ngIf="element==='input'">
+              <mat-form-field id="drag-input" #dragInput class="example-full-width" appearance="fill" cdkDrag>
+                <mat-label>Change text</mat-label>
+                <input matInput>
+              </mat-form-field>
+            </div>
+            <div *ngIf="element==='textarea'">
+              <mat-form-field id="drag-text" #dragTextarea class="example-full-width" appearance="fill" cdkDrag>
+                <textarea matInput placeholder="Change text"></textarea>
+              </mat-form-field>
+            </div>
+            <div *ngIf="element==='button'">
+              <button #dragButton mat-button cdkDrag>Button</button>
+            </div>
+            <div *ngIf="element==='checkbox'">
+              <mat-checkbox id="drag-check" #dragCheck class="example-margin" cdkDrag>Checkbox</mat-checkbox>
+            </div>
+            <div *ngIf="element==='select'">
+              <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag (click)="customiseInput()">
+                <mat-label>Select</mat-label>
+                <mat-select>
+                  <mat-option>
+                    Select Option 1
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
         </div>
+      </div>
+      <div
+         [class]="{'drag-section':true}"
+      >
+        <ng-template [cdkPortalOutlet]="sectionThreePortal"></ng-template>
       </div>
   </div>
 </div>
 
+
+<ng-template #sectionOnePortalContent>
+<!--  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+  <div *ngIf="isFormStyling; else filedStyling">
+    <mat-slider
+      class="example-margin"
+      id="formPadding"
+      [max]=100
+      [min]=0
+      [step]=1
+      [thumbLabel]=true
+      [(ngModel)]="formData.padding"
+      aria-labelledby="example-name-label">
+    </mat-slider>
+    <label for="formPadding">Padding</label>
+  </div>
+  <ng-template #filedStyling>
+    <p>Field styling</p>
+  </ng-template>
+</ng-template>
+
+<ng-template #sectionThreePortalContent>
+  <div
+    cdkDropList
+    [cdkDropListData]="dragElements"
+    [cdkDropListConnectedTo]="[dropList]"
+    (cdkDropListDropped)="drop($event)"
+    class="drag-item-list"
+  >
+    <mat-form-field id="drag-input" #dragInput class="example-full-width" appearance="fill" cdkDrag>
+      <mat-label>Input</mat-label>
+      <input matInput disabled>
+    </mat-form-field>
+    <mat-form-field id="drag-text" #dragTextarea class="example-full-width" appearance="fill" cdkDrag>
+      <mat-label>Textarea</mat-label>
+      <textarea matInput placeholder="Ex. 100 Main St" disabled>text</textarea>
+    </mat-form-field>
+    <button id="drag-btn" #dragButton mat-button cdkDrag>Button</button>
+    <mat-checkbox id="drag-check" #dragCheck class="example-margin" disabled cdkDrag>Checkbox</mat-checkbox>
+    <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag>
+      <mat-label>Select</mat-label>
+      <mat-select disabled>
+        <mat-option>Select option</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</ng-template>

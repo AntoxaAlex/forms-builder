@@ -11,21 +11,24 @@ import {PortalModule} from "@angular/cdk/portal";
 import {FormsModule} from "@angular/forms";
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatInputModule} from '@angular/material/input';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    FormsBuilderComponent
+    FormsBuilderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    DragDropModule,
     MatCheckboxModule,
     CdkAccordionModule,
     MatSliderModule,
@@ -34,7 +37,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatSlideToggleModule,
     PortalModule,
     FormsModule,
-    DragDropModule
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
