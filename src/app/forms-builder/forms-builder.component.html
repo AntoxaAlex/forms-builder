@@ -1,129 +1,127 @@
-<div [class]="{'main-container':true}">
-<!--  Styles Accordion-->
-  <cdk-accordion class="example-accordion">
-    <cdk-accordion-item
-      *ngFor="let item of items; let index = index;"
-      #accordionItem="cdkAccordionItem"
-      class="example-accordion-item"
-      role="button"
-      tabindex="0"
-      [attr.id]="'accordion-header-' + index"
-      [attr.aria-expanded]="accordionItem.expanded"
-      [attr.aria-controls]="'accordion-body-' + index">
-      <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
-        {{ item }}
-        <span class="example-accordion-item-description">
-        {{ accordionItem.expanded ? '-' : '+' }}
-      </span>
-      </div>
-      <div
-        class="example-accordion-item-body"
-        role="region"
-        [style.display]="accordionItem.expanded ? '' : 'none'"
-        [attr.id]="'accordion-body-' + index"
-        [attr.aria-labelledby]="'accordion-header-' + index">
-          <ng-template [cdkPortalOutlet]="sectionOnePortal"></ng-template>
-      </div>
-    </cdk-accordion-item>
-  </cdk-accordion>
-
-<!--  Drag and Drop Aria-->
-  <div [class]="{'drag-drop-section':true,'drag-drop-boundary':true}" cdkDropListGroup>
-      <div
-        id="drop-aria"
-        [class]="{'drop-section':true}"
-        [style]="{'padding':formData.padding+'px'}"
-      >
-        <div
-          id="drop-list"
-          cdkDropList
-          #dropList="cdkDropList"
-          [cdkDropListData]="dropElements"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)">
-          <div class="example-box" *ngFor="let element of dropElements" cdkDrag>
-            <div *ngIf="element==='input'">
-              <mat-form-field id="drag-input" #dragInput class="example-full-width" appearance="fill" cdkDrag>
-                <mat-label>Change text</mat-label>
-                <input matInput>
-              </mat-form-field>
-            </div>
-            <div *ngIf="element==='textarea'">
-              <mat-form-field id="drag-text" #dragTextarea class="example-full-width" appearance="fill" cdkDrag>
-                <textarea matInput placeholder="Change text"></textarea>
-              </mat-form-field>
-            </div>
-            <div *ngIf="element==='button'">
-              <button #dragButton mat-button cdkDrag>Button</button>
-            </div>
-            <div *ngIf="element==='checkbox'">
-              <mat-checkbox id="drag-check" #dragCheck class="example-margin" cdkDrag>Checkbox</mat-checkbox>
-            </div>
-            <div *ngIf="element==='select'">
-              <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag (click)="customiseInput()">
-                <mat-label>Select</mat-label>
-                <mat-select>
-                  <mat-option>
-                    Select Option 1
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-         [class]="{'drag-section':true}"
-      >
-        <ng-template [cdkPortalOutlet]="sectionThreePortal"></ng-template>
-      </div>
+<!--Main container for forms-builder-->
+<div [class.main-container]=true>
+<!-- Accordion Component -->
+  <app-forms-builder-accordion
+    [class.accordion]=true
+    [accordionPortal]="accordionPortal"
+    [isFormStyleActive]="accordionData.isFormStyleActive"
+    [accordionData]="accordionData.isFormStyleActive ? accordionData.formStyle : accordionData.fieldStyle"
+    [cdkPortalOutlet]="cdkPortalOutlet"
+  ></app-forms-builder-accordion>
+<!-- Drop Area Component -->
+  <div [class.drag-drop-section]=true>
+    <app-forms-builder-drop-area
+      [dropAreaPortal]="dropAreaPortal"
+      [cdkPortalOutlet]="cdkPortalOutlet"
+      [class.drop-section]=true
+      [style.padding]="accordionData.formStyle.padding + 'px'"
+      [style.backgroundColor]="accordionData.formStyle.backgroundColor"
+      (mouseenter)="isDragging ? isDragItemEnter=true : isDragItemEnter=false"
+      (mouseleave)="isDragItemEnter=false"
+    ></app-forms-builder-drop-area>
+<!--  Drag Area Component  -->
+    <app-forms-builder-drag-area
+      [dragAreaPortal]="dragAreaPortal"
+      [cdkPortalOutlet]="cdkPortalOutlet"
+      [class.drag-section]=true
+      [cdkDragDropped]="cdkDragDropped"
+      [cdkDragStarted]="cdkDragStarted"
+    ></app-forms-builder-drag-area>
   </div>
 </div>
 
+<!--Portal Templates-->
 
-<ng-template #sectionOnePortalContent>
-<!--  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-  <div *ngIf="isFormStyling; else filedStyling">
-    <mat-slider
-      class="example-margin"
-      id="formPadding"
-      [max]=100
-      [min]=0
-      [step]=1
-      [thumbLabel]=true
-      [(ngModel)]="formData.padding"
-      aria-labelledby="example-name-label">
-    </mat-slider>
-    <label for="formPadding">Padding</label>
+<!--Accordion Portal Content-->
+<ng-template #accordionPortalContent>
+  <div *ngIf="accordionData.isFormStyleActive; else filedStyling">
+    <div [class.accordion-container]=true>
+      <label for="formPadding">Padding</label>
+      <mat-slider
+        class="example-margin"
+        id="formPadding"
+        [max]=100
+        [min]=0
+        [step]=1
+        [thumbLabel]=true
+        [(ngModel)]="accordionData.formStyle.padding"
+        aria-labelledby="example-name-label">
+      </mat-slider>
+    </div>
+    <div [class.accordion-container]=true>
+      <label for="formBackgroundColor">Background Color</label>
+      <mat-form-field id="formBackgroundColor" class="example-form-field" appearance="fill">
+        <input matInput type="color" [(ngModel)]="accordionData.formStyle.backgroundColor">
+      </mat-form-field>
+    </div>
   </div>
   <ng-template #filedStyling>
     <p>Field styling</p>
   </ng-template>
 </ng-template>
 
-<ng-template #sectionThreePortalContent>
+<!--Drag Area Portal Content-->
+<ng-template #dragAreaPortalContent>
   <div
     cdkDropList
-    [cdkDropListData]="dragElements"
-    [cdkDropListConnectedTo]="[dropList]"
-    (cdkDropListDropped)="drop($event)"
     class="drag-item-list"
   >
-    <mat-form-field id="drag-input" #dragInput class="example-full-width" appearance="fill" cdkDrag>
+    <mat-form-field id="drag-input" #dragInput class="example-full-width" appearance="fill" cdkDrag (cdkDragDropped)="drop($event)" (cdkDragStarted)="isDragging=true">
       <mat-label>Input</mat-label>
       <input matInput disabled>
     </mat-form-field>
-    <mat-form-field id="drag-text" #dragTextarea class="example-full-width" appearance="fill" cdkDrag>
+    <mat-form-field id="drag-textarea" #dragTextarea class="example-full-width" appearance="fill" cdkDrag (cdkDragDropped)="drop($event)" (cdkDragStarted)="isDragging=true">
       <mat-label>Textarea</mat-label>
       <textarea matInput placeholder="Ex. 100 Main St" disabled>text</textarea>
     </mat-form-field>
-    <button id="drag-btn" #dragButton mat-button cdkDrag>Button</button>
-    <mat-checkbox id="drag-check" #dragCheck class="example-margin" disabled cdkDrag>Checkbox</mat-checkbox>
-    <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag>
+    <button id="drag-button" #dragButton mat-button cdkDrag (cdkDragDropped)="drop($event)" (cdkDragStarted)="isDragging=true">Button</button>
+    <mat-checkbox id="drag-checkbox" #dragCheck class="example-margin" disabled cdkDrag (cdkDragDropped)="drop($event)" (cdkDragStarted)="isDragging=true">Checkbox</mat-checkbox>
+    <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag (cdkDragDropped)="drop($event)" (cdkDragStarted)="isDragging=true">
       <mat-label>Select</mat-label>
       <mat-select disabled>
         <mat-option>Select option</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
+</ng-template>
+
+<!--Drop Area Portal Content-->
+<ng-template #dropAreaPortalContent>
+  <div
+    id="drop-list"
+    cdkDropList
+    #dropList="cdkDropList"
+    [cdkDropListData]="dropElements"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let element of dropElements" cdkDrag>
+      <div class="dropped-item" [style]="{top:element.y+'px',left:element.x+'px'}" *ngIf="element.elementId==='drag-input'">
+        <mat-form-field id="drag-input" #dragInput class="example-full-width" appearance="fill" cdkDrag>
+          <mat-label>Change text</mat-label>
+          <input matInput (click)="customiseInput($event)">
+        </mat-form-field>
+      </div>
+      <div class="dropped-item"  *ngIf="element.elementId==='drag-textarea'" [style]="{top:element.y+'px',left:element.x+'px'}">
+        <mat-form-field id="drag-text" #dragTextarea class="example-full-width" appearance="fill" cdkDrag>
+          <textarea matInput placeholder="Change text"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="dropped-item"  *ngIf="element.elementId==='drag-button'" [style]="{top:element.y+'px',left:element.x+'px'}">
+        <button #dragButton mat-button cdkDrag>Button</button>
+      </div>
+      <div class="dropped-item"  *ngIf="element.elementId==='drag-checkbox'" [style]="{top:element.y+'px',left:element.x+'px'}">
+        <mat-checkbox id="drag-check" #dragCheck class="example-margin" cdkDrag>Checkbox</mat-checkbox>
+      </div>
+      <div class="dropped-item"  *ngIf="element.elementId==='drag-select'" [style]="{top:element.y+'px',left:element.x+'px'}">
+        <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag (click)="customiseInput($event)">
+          <mat-label>Select</mat-label>
+          <mat-select>
+            <mat-option>
+              Select Option 1
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
   </div>
 </ng-template>

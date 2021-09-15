@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-
-import { AppRoutingModule } from './app-routing.module';
+//Components
 import { AppComponent } from './app.component';
 import { FormsBuilderComponent } from './forms-builder/forms-builder.component';
+import { FormsBuilderAccordionComponent} from "./forms-builder/subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
+import {FormsBuilderDropAreaComponent} from "./forms-builder/subcomponents/forms-builder-drop-area/forms-builder-drop-area.component";
+import {FormsBuilderDragAreaComponent} from "./forms-builder/subcomponents/forms-builder-drag-area/forms-builder-drag-area.component";
+
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox'
 import {PortalModule} from "@angular/cdk/portal";
@@ -23,6 +27,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
   declarations: [
     AppComponent,
     FormsBuilderComponent,
+    FormsBuilderAccordionComponent,
+    FormsBuilderDropAreaComponent,
+    FormsBuilderDragAreaComponent
   ],
   imports: [
     BrowserModule,

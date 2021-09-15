@@ -1,37 +1,30 @@
 import {
   AfterViewInit,
-  AfterViewChecked,
   Component,
   Input,
   Output,
-  OnInit,
-  TemplateRef,
   ViewChild,
   ViewContainerRef,
-  ElementRef
 } from '@angular/core';
-import {NgTemplateOutlet} from "@angular/common";
-import {Portal,TemplatePortal} from "@angular/cdk/portal";
-import {CdkDropList, copyArrayItem} from "@angular/cdk/drag-drop";
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {TemplatePortal} from "@angular/cdk/portal";
 
 
-export interface FormDataInterface {
-  padding:number,
-  backgroundColor:string,
-  textColor:string
-}
-
-export interface FieldDataInterface {
-  placeholder:string,
-  width:number,
-  height:number,
-  required:boolean,
-  borderStyle:string,
-  inputFortSize:number,
-  selectFontWeight:number,
-  inputTextColor:string
-}
+// export interface FormDataInterface {
+//   padding:number,
+//   backgroundColor:string,
+//   textColor:string
+// }
+//
+// export interface FieldDataInterface {
+//   placeholder:string,
+//   width:number,
+//   height:number,
+//   required:boolean,
+//   borderStyle:string,
+//   inputFortSize:number,
+//   selectFontWeight:number,
+//   inputTextColor:string
+// }
 
 @Component({
   selector: 'app-forms-builder',
@@ -39,15 +32,16 @@ export interface FieldDataInterface {
   styleUrls: ['./forms-builder.component.css']
 })
 export class FormsBuilderComponent implements AfterViewInit{
-
+  @Input("cdkPortalOutlet")cdkPortalOutlet:any
   @Input("cdkDropListData")cdkDropListData:any
   @Input('cdkDropListConnectedTo') connectedTo: any
   @Input('cdkDropListData') data: any
-  @Output('cdkDropListDropped') dropped: any
+  @Output('cdkDragDropped') cdkDragDropped: any
+  @Output('cdkDragStarted') cdkDragStarted:any
 
-  @ViewChild("sectionOnePortalContent") sectionOnePortalContent:any
-  @ViewChild("sectionTwoPortalContent") sectionTwoPortalContent:any
-  @ViewChild("sectionThreePortalContent") sectionThreePortalContent:any
+  @ViewChild("accordionPortalContent") accordionPortalContent:any
+  @ViewChild("dropAreaPortalContent")dropAreaPortalContent:any
+  @ViewChild("dragAreaPortalContent") dragAreaPortalContent:any
 
   @ViewChild("dragInput") dragInput:any
   @ViewChild("dragTextarea") dragTextarea:any
@@ -55,65 +49,83 @@ export class FormsBuilderComponent implements AfterViewInit{
   @ViewChild("dragCheck") dragCheck:any
   @ViewChild("dragSelect") dragSelect:any
 
-  items = ['Form General Styling', 'Field Styling'];
+  //Accordion Data
+  accordionData = {
+    isFormStyleActive:true,
+    formStyle:{
+      padding:20,
+      backgroundColor:"#fff"
+    },
+    fieldStyle:{
+      placeholder:"Type some text",
+      width:100,
+      height:50,
+      required:false,
+      borderStyle:"solid",
+      inputFortSize:20,
+      selectFontWeight:400,
+      inputTextColor:"#000"
+    }
+  }
   expandedIndex = 0;
-  isFormStyling:boolean = true
-  formData:FormDataInterface = {
-    padding:20,
-    backgroundColor:"#fff",
-    textColor:"#000"
-  }
-  inputElement:FieldDataInterface = {
-    placeholder:"Type some text",
-    width:100,
-    height:50,
-    required:false,
-    borderStyle:"solid",
-    inputFortSize:20,
-    selectFontWeight:400,
-    inputTextColor:"#000"
-  }
 
-  dropElements = []
+  //Variables for checking if element is dragged and if it crossing a Drop Area
+  isDragging:boolean = false
+  isDragItemEnter:boolean = false
 
-  dragElements = [
-    "input",
-    "textarea",
-    "button",
-    "checkbox",
-    "select"
-  ]
-  sectionOnePortal:any
-  sectionTwoPortal:any
-  sectionThreePortal:any
+  //Dropped elements array for Drop Area
+  dropElements:any = []
+
+  //Portals
+  accordionPortal:any
+  dropAreaPortal:any
+  dragAreaPortal:any
 
   constructor(private _viewContainerRef: ViewContainerRef) { }
 
   ngAfterViewInit() {
-    this.sectionOnePortal = new TemplatePortal(this.sectionOnePortalContent,this._viewContainerRef)
-    this.sectionThreePortal = new TemplatePortal(this.sectionThreePortalContent,this._viewContainerRef)
+    this.accordionPortal = new TemplatePortal(this.accordionPortalContent,this._viewContainerRef)
+    this.dropAreaPortal = new TemplatePortal(this.dropAreaPortalContent,this._viewContainerRef)
+    this.dragAreaPortal = new TemplatePortal(this.dragAreaPortalContent,this._viewContainerRef)
   }
 
-  drop(event:any){
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      copyArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-      console.log(this.dropElements)
+  //Get dropped item position in Drop Area
+  getPosition = (el:string,point:number):any => {
+    const dropItem = document.getElementById("drop-list")
+    if(dropItem){
+      if(el==="x"){
+        console.log(point)
+        console.log(dropItem.getBoundingClientRect().x)
+        console.log(point - dropItem.getBoundingClientRect().x)
+        return point - dropItem.getBoundingClientRect().x
+      }else if(el==="y"){
+        console.log(point)
+        console.log(dropItem.getBoundingClientRect().y)
+        console.log(point - dropItem.getBoundingClientRect().y)
+      return point - dropItem.getBoundingClientRect().y
+    }
     }
   }
 
-  customiseInput(){
-      this.isFormStyling = false
+
+  //Drop event handler
+  drop(event:any){
+    if(this.isDragItemEnter){
+      console.log("success")
+      const dropPoint = event.dropPoint
+      const elementId = event.item.element.nativeElement.id
+      const x = this.getPosition("x",dropPoint.x)
+      const y = this.getPosition("y",dropPoint.y)
+      this.dropElements.push({elementId,x,y})
+      this.isDragging = false
+      this.isDragItemEnter = false
+      console.log("isDragging:"+this.isDragging)
+      console.log("isDragItemEnter:"+this.isDragItemEnter)
+    }
   }
 
-  // crateHTMLNode = (element:any) =>{
-  //   const div = document.getElementById("drop-list")
-  //   if(div){
-  //     div.prepend(element)
-  //   }
-  // }
+  customiseInput(event:any){
+      this.accordionData.isFormStyleActive = false
+  }
+
 }
