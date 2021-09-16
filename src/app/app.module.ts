@@ -8,13 +8,13 @@ import { FormsBuilderAccordionComponent} from "./forms-builder/subcomponents/for
 import {FormsBuilderDropAreaComponent} from "./forms-builder/subcomponents/forms-builder-drop-area/forms-builder-drop-area.component";
 import {FormsBuilderDragAreaComponent} from "./forms-builder/subcomponents/forms-builder-drag-area/forms-builder-drag-area.component";
 
+//Modules
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox'
 import {PortalModule} from "@angular/cdk/portal";
 import {FormsModule} from "@angular/forms";
 import {CdkAccordionModule} from '@angular/cdk/accordion';
-import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatRadioModule} from '@angular/material/radio';

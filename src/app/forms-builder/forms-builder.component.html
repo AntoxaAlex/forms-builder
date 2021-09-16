@@ -8,6 +8,7 @@
     [isFormStyleActive]="accordionData.isFormStyleActive"
     [accordionData]="accordionData.isFormStyleActive ? accordionData.formStyle : accordionData.fieldStyle"
     [cdkPortalOutlet]="cdkPortalOutlet"
+    [ngModel]="ngModel"
   ></app-forms-builder-accordion>
 <!-- Drop Area Component -->
   <div [class.drag-drop-section]=true>
@@ -40,10 +41,10 @@
     <div *ngIf="accordionData.isFormStyleActive; else filedStyling">
       <div *ngFor="let item of accordionData.formStyle|keyvalue">
         <div *ngIf="item.key==='padding'" [class.style-item]=true>
-          <label for="formPadding">Padding</label>
+          <label [htmlFor]="item.key">Padding</label>
           <mat-slider
             class="example-margin"
-            id="formPadding"
+            [id]="item.key"
             [max]=100
             [min]=0
             [step]=1
@@ -53,16 +54,16 @@
           </mat-slider>
         </div>
         <div *ngIf="item.key==='backgroundColor'" [class.style-item]=true>
-          <label for="formBackgroundColor">Background Color</label>
-          <mat-form-field id="formBackgroundColor" class="example-form-field" appearance="fill">
+          <label [htmlFor]="item.key">Background Color</label>
+          <mat-form-field [id]="item.key" class="example-form-field" appearance="fill">
             <input matInput type="color" [(ngModel)]="accordionData.formStyle.backgroundColor">
           </mat-form-field>
         </div>
         <div *ngIf="item.key==='fontSize'" [class.style-item]=true>
-          <label for="formPadding">Font Size</label>
+          <label [htmlFor]="item.key">Font Size</label>
           <mat-slider
             class="example-margin"
-            id="formPadding"
+            [id]="item.key"
             [max]=20
             [min]=10
             [step]=1

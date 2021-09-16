@@ -7,9 +7,9 @@
     [attr.id]="'accordion-header'"
     [attr.aria-controls]="'accordion-body'"
     [attr.aria-expanded]="accordionItem.expanded">
-    <div class="accordion-item-header" (click)="accordionItem.toggle()">
+    <div class="accordion-item-header">
       {{ isFormStyleActive ? "Form Styles" : "Field Styles" }}
-      <span class="accordion-item-description">{{ accordionItem.expanded ? '-' : '+' }}</span>
+      <button class="accordion-item-description" #expandBtn>{{ accordionItem.expanded ? '-' : '+' }}</button>
     </div>
     <div
       class="accordion-item-body"

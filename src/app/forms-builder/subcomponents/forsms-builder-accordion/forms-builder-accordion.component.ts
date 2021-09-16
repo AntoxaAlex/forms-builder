@@ -1,4 +1,4 @@
-import {Component,Input} from "@angular/core";
+import {Component, Input, Output, ViewChild} from "@angular/core";
 import {SubclassComponent} from "../subclass.component";
 
 @Component({
@@ -11,6 +11,12 @@ export class FormsBuilderAccordionComponent extends SubclassComponent{
   @Input("isFormStyleActive") isFormStyleActive:any
   @Input("accordionData") accordionData:any
   @Input("accordionPortal") accordionPortal:any
+  @Input("cdkPortalOutlet") cdkPortalOutlet:any
+  @Input("ngModel") ngModel:any
+
+  @ViewChild("accordionItem") accordionItem:any
+  @ViewChild("expandBtn") expandBtn:any
+
 
   constructor() {
     super();

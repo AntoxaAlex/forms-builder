@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 import {TemplatePortal} from "@angular/cdk/portal";
 
+import {fromEvent} from "rxjs";
+
+import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
+
 
 // export interface FormDataInterface {
 //   padding:number,
@@ -21,9 +25,9 @@ import {TemplatePortal} from "@angular/cdk/portal";
 //   height:number,
 //   required:boolean,
 //   borderStyle:string,
-//   inputFortSize:number,
-//   selectFontWeight:number,
-//   inputTextColor:string
+//   fortSize:number,
+//   fontWeight:number,
+//   color:string
 // }
 
 @Component({
@@ -39,6 +43,8 @@ export class FormsBuilderComponent implements AfterViewInit{
   @Output('cdkDragDropped') cdkDragDropped: any
   @Output('cdkDragStarted') cdkDragStarted:any
 
+  @Input("ngModel") ngModel:any
+
   @ViewChild("accordionPortalContent") accordionPortalContent:any
   @ViewChild("dropAreaPortalContent")dropAreaPortalContent:any
   @ViewChild("dragAreaPortalContent") dragAreaPortalContent:any
@@ -48,6 +54,12 @@ export class FormsBuilderComponent implements AfterViewInit{
   @ViewChild("dragButton") dragButton:any
   @ViewChild("dragCheck") dragCheck:any
   @ViewChild("dragSelect") dragSelect:any
+
+  @ViewChild(FormsBuilderAccordionComponent) accordionComponent:any
+
+
+  //Observables
+  expandAccordionObservable:any
 
   //Accordion Data
   accordionData = {
@@ -90,6 +102,10 @@ export class FormsBuilderComponent implements AfterViewInit{
     this.accordionPortal = new TemplatePortal(this.accordionPortalContent,this._viewContainerRef)
     this.dropAreaPortal = new TemplatePortal(this.dropAreaPortalContent,this._viewContainerRef)
     this.dragAreaPortal = new TemplatePortal(this.dragAreaPortalContent,this._viewContainerRef)
+
+    this.expandAccordionObservable = fromEvent(this.accordionComponent.expandBtn.nativeElement,"click").subscribe((evt:any)=>{
+      this.accordionComponent.accordionItem.toggle()
+    })
   }
 
   //Get dropped item position in Drop Area
@@ -113,12 +129,15 @@ export class FormsBuilderComponent implements AfterViewInit{
 
   //Drop event handler
   drop(event:any){
+    //If dragged element crossed Drop Area
     if(this.isDragItemEnter){
-      console.log("success")
+      //Retrieve information about drop position and element id from event
       const dropPoint = event.dropPoint
       const elementId = event.item.element.nativeElement.id
+      //Get element position relative to Drop Area
       const x = this.getPosition("x",dropPoint.x)
       const y = this.getPosition("y",dropPoint.y)
+      //Add element into Drop Area
       this.dropElements.push({
         elementId,
         x,
@@ -135,10 +154,9 @@ export class FormsBuilderComponent implements AfterViewInit{
         }})
       this.isDragging = false
       this.isDragItemEnter = false
-      console.log("isDragging:"+this.isDragging)
-      console.log("isDragItemEnter:"+this.isDragItemEnter)
     }
   }
+
 
   customiseInput(index:number){
       this.selectedIndex = index
