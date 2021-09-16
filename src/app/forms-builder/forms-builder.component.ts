@@ -54,7 +54,8 @@ export class FormsBuilderComponent implements AfterViewInit{
     isFormStyleActive:true,
     formStyle:{
       padding:20,
-      backgroundColor:"#fff"
+      backgroundColor:"#fff",
+      fontSize:14
     },
     fieldStyle:{
       placeholder:"Type some text",
@@ -62,11 +63,13 @@ export class FormsBuilderComponent implements AfterViewInit{
       height:50,
       required:false,
       borderStyle:"solid",
-      inputFortSize:20,
-      selectFontWeight:400,
-      inputTextColor:"#000"
+      fontSize:20,
+      fontWeight:400,
+      color:"#000"
     }
   }
+
+  selectedIndex:number = 0
   expandedIndex = 0;
 
   //Variables for checking if element is dragged and if it crossing a Drop Area
@@ -116,7 +119,20 @@ export class FormsBuilderComponent implements AfterViewInit{
       const elementId = event.item.element.nativeElement.id
       const x = this.getPosition("x",dropPoint.x)
       const y = this.getPosition("y",dropPoint.y)
-      this.dropElements.push({elementId,x,y})
+      this.dropElements.push({
+        elementId,
+        x,
+        y,
+        styles:{
+          placeholder:"Type some text",
+          width:100,
+          height:50,
+          required:false,
+          borderStyle:"solid",
+          fontSize:20,
+          fontWeight:400,
+          color:"#000"
+        }})
       this.isDragging = false
       this.isDragItemEnter = false
       console.log("isDragging:"+this.isDragging)
@@ -124,7 +140,8 @@ export class FormsBuilderComponent implements AfterViewInit{
     }
   }
 
-  customiseInput(event:any){
+  customiseInput(index:number){
+      this.selectedIndex = index
       this.accordionData.isFormStyleActive = false
   }
 

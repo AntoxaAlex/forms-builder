@@ -2,16 +2,31 @@ h1{
   text-align: center;
 }
 .accordion-container{
+  overflow-x: auto;
+  display: grid;
+  grid-column-gap: 50px;
+  scroll-snap-type: x proximity;
+  grid-template-rows: minmax(100px, 1fr);
+}
+.accordion .ng-star-inserted{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.style-item{
+  margin: 0;
+  position: relative;
+  padding: 10px;
+  scroll-snap-align: center;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: ease;
 }
-.accordion .ng-star-inserted{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 .main-container{
   width: 90%;
@@ -30,7 +45,7 @@ h1{
 .drag-section{
   width: 35%;
   height: 400px;
-  background-color: transparent;
+  background-color: rgba(255,215,64,0.8);
   border: 1px solid rgb(217,217,217);
   border-radius: 25px;
   box-sizing: border-box;
@@ -40,7 +55,7 @@ h1{
 .drop-section{
   height: 600px;
   width: 60%;
-  background-color: transparent;
+  background: transparent;
   border: 1px solid rgb(217,217,217);
   border-radius: 25px;
   box-sizing: border-box;

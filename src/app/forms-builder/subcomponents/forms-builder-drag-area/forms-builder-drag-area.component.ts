@@ -1,4 +1,5 @@
 import {Component, Input, Output} from "@angular/core";
+import {SubclassComponent} from "../subclass.component";
 
 @Component({
   selector: 'app-forms-builder-drag-area',
@@ -6,9 +7,13 @@ import {Component, Input, Output} from "@angular/core";
   styleUrls: ['./forms-builder-drag-area.component.css']
 })
 
-export class FormsBuilderDragAreaComponent {
+export class FormsBuilderDragAreaComponent extends SubclassComponent{
   @Input("dragAreaPortal") dragAreaPortal:any
   @Input("cdkPortalOutlet") cdkPortalOutlet:any
   @Input("cdkDragDropped") cdkDragDropped:any
   @Input("cdkDragStarted") cdkDragStarted:any
+
+  constructor() {
+    super();
+  }
 }
