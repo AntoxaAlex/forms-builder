@@ -9,9 +9,6 @@ import {SubclassComponent} from "../subclass.component";
 
 export class FormsBuilderDragAreaComponent extends SubclassComponent{
   @Input("dragAreaPortal") dragAreaPortal:any
-  @Input("cdkPortalOutlet") cdkPortalOutlet:any
-  @Input("cdkDragDropped") cdkDragDropped:any
-  @Input("cdkDragStarted") cdkDragStarted:any
 
   constructor() {
     super();

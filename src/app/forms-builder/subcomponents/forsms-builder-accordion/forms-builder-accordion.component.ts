@@ -12,7 +12,6 @@ export class FormsBuilderAccordionComponent extends SubclassComponent{
   @Input("accordionData") accordionData:any
   @Input("accordionPortal") accordionPortal:any
   @Input("cdkPortalOutlet") cdkPortalOutlet:any
-  @Input("ngModel") ngModel:any
 
   @ViewChild("accordionItem") accordionItem:any
   @ViewChild("expandBtn") expandBtn:any

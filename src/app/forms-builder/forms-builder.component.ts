@@ -5,37 +5,31 @@ import {
   Output,
   ViewChild,
   ViewContainerRef,
+  ChangeDetectionStrategy,
+  OnInit, EventEmitter, ViewChildren, AfterViewChecked, ChangeDetectorRef
 } from '@angular/core';
 import {TemplatePortal} from "@angular/cdk/portal";
 
-import {fromEvent} from "rxjs";
+import {from, fromEvent,merge} from "rxjs";
+import {map, } from "rxjs/operators";
 
 import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
+import {StyleItemComponent} from "./style-item/style-item.component";
+import {Store} from "@ngrx/store";
+import {select} from "@ngrx/store";
+import {selectAccordion,selectDragArea,selectDropArea} from "../selectors";
+import {FormsBuilderContentState} from "../reducers";
 
-
-// export interface FormDataInterface {
-//   padding:number,
-//   backgroundColor:string,
-//   textColor:string
-// }
-//
-// export interface FieldDataInterface {
-//   placeholder:string,
-//   width:number,
-//   height:number,
-//   required:boolean,
-//   borderStyle:string,
-//   fortSize:number,
-//   fontWeight:number,
-//   color:string
-// }
+import {AccordionChangeStylingAction} from "../actions/accordionActions";
+import {AccordionChangeFormAction} from "../actions/accordionActions";
 
 @Component({
   selector: 'app-forms-builder',
   templateUrl: './forms-builder.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./forms-builder.component.css']
 })
-export class FormsBuilderComponent implements AfterViewInit{
+export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChecked{
   @Input("cdkPortalOutlet")cdkPortalOutlet:any
   @Input("cdkDropListData")cdkDropListData:any
   @Input('cdkDropListConnectedTo') connectedTo: any
@@ -54,12 +48,26 @@ export class FormsBuilderComponent implements AfterViewInit{
   @ViewChild("dragButton") dragButton:any
   @ViewChild("dragCheck") dragCheck:any
   @ViewChild("dragSelect") dragSelect:any
+  @ViewChild("mainInput") mainInput:any
+
 
   @ViewChild(FormsBuilderAccordionComponent) accordionComponent:any
+  @ViewChildren("formStyleItems") formStyleItems:any
+  @ViewChildren("fieldStyleItems") fieldStyleItems:any
 
+
+
+  styleItems:any
 
   //Observables
   expandAccordionObservable:any
+  changeFormEvents:any[] = []
+  changeFormObserver$:any
+
+  //State
+  accordionState:any
+  dragAreaState:any
+  dropAreaState:any
 
   //Accordion Data
   accordionData = {
@@ -96,7 +104,19 @@ export class FormsBuilderComponent implements AfterViewInit{
   dropAreaPortal:any
   dragAreaPortal:any
 
-  constructor(private _viewContainerRef: ViewContainerRef) { }
+  constructor(private _viewContainerRef: ViewContainerRef,private store$:Store<FormsBuilderContentState>,private cdr: ChangeDetectorRef) { }
+
+  ngOnInit() {
+    this.store$.pipe(select(selectAccordion)).subscribe((data:any)=>{
+      this.accordionState = data
+    })
+    this.store$.pipe(select(selectDragArea)).subscribe((data:any)=>{
+      this.dragAreaState = data
+    })
+    this.store$.pipe(select(selectDropArea)).subscribe((data:any)=>{
+      this.dropAreaState = data
+    })
+  }
 
   ngAfterViewInit() {
     this.accordionPortal = new TemplatePortal(this.accordionPortalContent,this._viewContainerRef)
@@ -106,6 +126,23 @@ export class FormsBuilderComponent implements AfterViewInit{
     this.expandAccordionObservable = fromEvent(this.accordionComponent.expandBtn.nativeElement,"click").subscribe((evt:any)=>{
       this.accordionComponent.accordionItem.toggle()
     })
+
+    console.log(this.formStyleItems)
+    setTimeout(()=>{
+      this.formStyleItems._results.forEach((item:any)=>{
+       this.changeFormEvents.push(fromEvent(item.formInputRef.nativeElement,"change"))
+      })
+
+      this.changeFormObserver$ = merge(...this.changeFormEvents).subscribe((evt:any)=>{
+        console.log("change")
+        this.onChangeDropArea(evt.target.name,evt.target.value)
+      })
+
+    },1000)
+
+  }
+
+  ngAfterViewChecked() {
   }
 
   //Get dropped item position in Drop Area
@@ -113,14 +150,8 @@ export class FormsBuilderComponent implements AfterViewInit{
     const dropItem = document.getElementById("drop-list")
     if(dropItem){
       if(el==="x"){
-        console.log(point)
-        console.log(dropItem.getBoundingClientRect().x)
-        console.log(point - dropItem.getBoundingClientRect().x)
         return point - dropItem.getBoundingClientRect().x
       }else if(el==="y"){
-        console.log(point)
-        console.log(dropItem.getBoundingClientRect().y)
-        console.log(point - dropItem.getBoundingClientRect().y)
       return point - dropItem.getBoundingClientRect().y
     }
     }
@@ -138,6 +169,7 @@ export class FormsBuilderComponent implements AfterViewInit{
       const x = this.getPosition("x",dropPoint.x)
       const y = this.getPosition("y",dropPoint.y)
       //Add element into Drop Area
+
       this.dropElements.push({
         elementId,
         x,
@@ -157,10 +189,47 @@ export class FormsBuilderComponent implements AfterViewInit{
     }
   }
 
-
   customiseInput(index:number){
       this.selectedIndex = index
-      this.accordionData.isFormStyleActive = false
+      this.store$.dispatch(new AccordionChangeStylingAction())
+  }
+
+  onChangeDropArea = (name:string,value:any) =>{
+    if(name && value){
+      if(this.accordionState.isFormStylingActive){
+        this.store$.dispatch(new AccordionChangeFormAction({name,value}))
+      }
+    }
+  }
+
+
+  getInputType(key:any):string{
+    switch (key) {
+      case "width":
+        return "number"
+      case "height":
+        return "number"
+      case "fontSize":
+        return "number"
+      case "padding":
+        return "number"
+      case "borderWidth":
+        return "number"
+      case "borderRadius":
+        return "number"
+      case "fontWeight":
+        return "number"
+      case "backgroundColor":
+        return "color"
+      case "borderColor":
+        return "color"
+      case "color":
+        return "color"
+      case "required":
+        return "checkbox"
+      default:
+       return "text"
+    }
   }
 
 }

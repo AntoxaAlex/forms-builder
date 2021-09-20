@@ -105,3 +105,15 @@ h1{
 .dropped-item{
   position: absolute;
 }
+
+#backgroundText{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  max-width: 100%;
+  text-align: center;
+  z-index: 1;
+  opacity: 0.2;
+  font-size: 5rem;
+}

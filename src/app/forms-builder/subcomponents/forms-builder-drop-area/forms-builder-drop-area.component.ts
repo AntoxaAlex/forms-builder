@@ -10,7 +10,6 @@ import {DumbComponent} from "../subclass-decorator.component";
 
 export class FormsBuilderDropAreaComponent extends SubclassComponent{
   @Input("dropAreaPortal") dropAreaPortal:any
-  @Input("cdkPortalOutlet") cdkPortalOutlet:any
 
   constructor() {
     super();

@@ -2,33 +2,37 @@
 <div [class.main-container]=true>
   <h1>Forms Builder</h1>
 <!-- Accordion Component -->
+  <input #mainInput type="number">
   <app-forms-builder-accordion
-    [class.accordion]=true
+    class="accordion"
     [accordionPortal]="accordionPortal"
-    [isFormStyleActive]="accordionData.isFormStyleActive"
-    [accordionData]="accordionData.isFormStyleActive ? accordionData.formStyle : accordionData.fieldStyle"
+    [isFormStyleActive]="accordionState.isFormStylingActive"
+    [accordionData]="accordionState.isFormStylingActive ? accordionState.formStyling : accordionState.fieldStyling"
     [cdkPortalOutlet]="cdkPortalOutlet"
-    [ngModel]="ngModel"
   ></app-forms-builder-accordion>
+
 <!-- Drop Area Component -->
-  <div [class.drag-drop-section]=true>
+  <div class="drag-drop-section">
     <app-forms-builder-drop-area
       [dropAreaPortal]="dropAreaPortal"
-      [cdkPortalOutlet]="cdkPortalOutlet"
-      [class.drop-section]=true
-      [style.padding]="accordionData.formStyle.padding + 'px'"
-      [style.backgroundColor]="accordionData.formStyle.backgroundColor"
-      [style.fontSize]="accordionData.formStyle.fontSize + 'px'"
+      class="drop-section"
+      [style]="{
+        width:accordionState.formStyling.width+'%',
+        height:accordionState.formStyling.height+'px',
+        backgroundColor:accordionState.formStyling.backgroundColor,
+        padding:accordionState.formStyling.padding+'px',
+        borderStyle:accordionState.formStyling.borderStyle,
+        borderWidth:accordionState.formStyling.borderWidth+'px',
+        borderColor:accordionState.formStyling.borderColor,
+        borderRadius:accordionState.formStyling.borderRadius+'px'
+      }"
       (mouseenter)="isDragging ? isDragItemEnter=true : isDragItemEnter=false"
       (mouseleave)="isDragItemEnter=false"
     ></app-forms-builder-drop-area>
 <!--  Drag Area Component  -->
     <app-forms-builder-drag-area
       [dragAreaPortal]="dragAreaPortal"
-      [cdkPortalOutlet]="cdkPortalOutlet"
-      [class.drag-section]=true
-      [cdkDragDropped]="cdkDragDropped"
-      [cdkDragStarted]="cdkDragStarted"
+      class="drag-section"
     ></app-forms-builder-drag-area>
   </div>
 </div>
@@ -37,120 +41,27 @@
 
 <!--Accordion Portal Content-->
 <ng-template #accordionPortalContent>
-  <div [class.accordion-container]=true>
-    <div *ngIf="accordionData.isFormStyleActive; else filedStyling">
-      <div *ngFor="let item of accordionData.formStyle|keyvalue">
-        <div *ngIf="item.key==='padding'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Padding</label>
-          <mat-slider
-            class="example-margin"
-            [id]="item.key"
-            [max]=100
-            [min]=0
-            [step]=1
-            [thumbLabel]=true
-            [(ngModel)]="accordionData.formStyle.padding"
-            aria-labelledby="example-name-label">
-          </mat-slider>
-        </div>
-        <div *ngIf="item.key==='backgroundColor'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Background Color</label>
-          <mat-form-field [id]="item.key" class="example-form-field" appearance="fill">
-            <input matInput type="color" [(ngModel)]="accordionData.formStyle.backgroundColor">
-          </mat-form-field>
-        </div>
-        <div *ngIf="item.key==='fontSize'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Font Size</label>
-          <mat-slider
-            class="example-margin"
-            [id]="item.key"
-            [max]=20
-            [min]=10
-            [step]=1
-            [thumbLabel]=true
-            [(ngModel)]="accordionData.formStyle.fontSize"
-            aria-labelledby="example-name-label">
-          </mat-slider>
-        </div>
+  <div class="accordion-container">
+    <div *ngIf="accordionState.isFormStylingActive; else filedStyling">
+      <div *ngFor="let item of accordionState.formStyling|keyvalue">
+        <app-style-item
+          #formStyleItems
+          [isFormActive]="accordionState.isFormStylingActive"
+          [key]="item.key"
+          [inputType]="getInputType(item.key)"
+          [value]="item.value"
+        ></app-style-item>
       </div>
     </div>
   </div>
   <ng-template #filedStyling>
-    <div *ngFor="let item of accordionData.fieldStyle | keyvalue">
-
-        <div *ngIf="item.key === 'placeholder'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Placeholder</label>
-          <mat-form-field [id]="item.key" class="example-form-field" appearance="fill">
-            <input matInput type="text" [(ngModel)]="dropElements[selectedIndex].placeholder">
-          </mat-form-field>
-        </div>
-        <div *ngIf="item.key === 'width'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Width</label>
-          <mat-slider
-            class="example-margin"
-            [id]="item.key"
-            [max]=400
-            [min]=150
-            [step]=1
-            [thumbLabel]=true
-            [(ngModel)]="dropElements[selectedIndex].width"
-            aria-labelledby="example-name-label">
-          </mat-slider>
-        </div>
-        <div *ngIf="item.key === 'height'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Height</label>
-          <mat-slider
-            class="example-margin"
-            [id]="item.key"
-            [max]=100
-            [min]=20
-            [step]=1
-            [thumbLabel]=true
-            [(ngModel)]="dropElements[selectedIndex].height"
-            aria-labelledby="example-name-label">
-          </mat-slider>
-        </div>
-        <div *ngIf="item.key === 'required'" [class.style-item]=true>
-          <mat-checkbox [id]="item.key" class="example-margin" [(ngModel)]="dropElements[selectedIndex].required">Required</mat-checkbox>
-        </div>
-        <div *ngIf="item.key === 'borderStyle'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Border Style</label>
-          <mat-form-field [id]="item.key" class="example-form-field" appearance="fill">
-            <input matInput type="text" [(ngModel)]="dropElements[selectedIndex].borderStyle">
-          </mat-form-field>
-        </div>
-        <div *ngIf="item.key === 'fontSize'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Font Size</label>
-          <mat-slider
-            class="example-margin"
-            [id]="item.key"
-            [max]=25
-            [min]=10
-            [step]=1
-            [thumbLabel]=true
-            [(ngModel)]="dropElements[selectedIndex].fontSize"
-            aria-labelledby="example-name-label">
-          </mat-slider>
-        </div>
-        <div *ngIf="item.key === 'fontWeight'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Font Weight</label>
-          <mat-slider
-            class="example-margin"
-            [id]="item.key"
-            [max]=900
-            [min]=100
-            [step]=100
-            [thumbLabel]=true
-            [(ngModel)]="dropElements[selectedIndex].fontWeight"
-            aria-labelledby="example-name-label">
-          </mat-slider>
-        </div>
-        <div *ngIf="item.key === 'color'" [class.style-item]=true>
-          <label [htmlFor]="item.key">Text color</label>
-          <mat-form-field [id]="item.key" class="example-form-field" appearance="fill">
-            <input matInput type="color" [(ngModel)]="dropElements[selectedIndex].color">
-          </mat-form-field>
-        </div>
+    <div *ngFor="let item of accordionState.fieldStyling | keyvalue">
+      <app-style-item
+        #fieldStyleItems
+        [key]="item.key"
+        [inputType]="getInputType(item.key)"
+        [value]="item.value"
+      ></app-style-item>
       </div>
   </ng-template>
 </ng-template>
@@ -208,7 +119,7 @@
           <input [style]="{
           color:dropElements[i].color,
           height:dropElements[i].height+'px'
-          }" [required]="dropElements[i].required" [id]="'dropItem'+i"  matInput (click)="customiseInput(i)">
+          }" [required]="dropElements[i].required" [id]="'dropItem'+i" class="customiseBtn"  matInput (click)="customiseInput(i)">
         </mat-form-field>
       </div>
       <div class="dropped-item"  *ngIf="element.elementId==='drag-textarea'" [style]="{top:element.y+'px',left:element.x+'px'}">
@@ -220,13 +131,13 @@
           borderStyle:dropElements[i].borderStyle
           }"
           id="drag-text" #dragTextarea class="example-full-width" appearance="fill" cdkDrag >
-          <textarea [id]="'dropItem'+i"matInput [placeholder]="!dropElements[i].placeholder ? 'Type some text' : dropElements[i].placeholder" (click)="customiseInput(i)" [style]="{
+          <textarea class="customiseBtn" [id]="'dropItem'+i"matInput [placeholder]="!dropElements[i].placeholder ? 'Type some text' : dropElements[i].placeholder" (click)="customiseInput(i)" [style]="{
           color:dropElements[i].color,
           height:dropElements[i].height+'px'
           }" [required]="dropElements[i].required" ></textarea>
         </mat-form-field>
       </div>
-      <div class="dropped-item"  *ngIf="element.elementId==='drag-button'" [style]="{top:element.y+'px',left:element.x+'px'}">
+      <div class="dropped-item" class="customiseBtn"  *ngIf="element.elementId==='drag-button'" [style]="{top:element.y+'px',left:element.x+'px'}">
         <button
           [style]="{
           width:dropElements[i].width+'px',
@@ -236,7 +147,7 @@
           borderStyle:dropElements[i].borderStyle,
           color:dropElements[i].color
           }"
-          [id]="'dropItem'+i" #dragButton mat-button cdkDrag (click)="customiseInput(i)">{{!dropElements[i].placeholder ? "Button" : dropElements[i].placeholder}}</button>
+          [id]="'dropItem'+i" class="customiseBtn" #dragButton mat-button cdkDrag (click)="customiseInput(i)">{{!dropElements[i].placeholder ? "Button" : dropElements[i].placeholder}}</button>
       </div>
       <div class="dropped-item"  *ngIf="element.elementId==='drag-checkbox'" [style]="{top:element.y+'px',left:element.x+'px'}">
         <mat-checkbox
@@ -249,10 +160,10 @@
           color:dropElements[i].color
           }"
           [required]="dropElements[i].required"
-          [id]="'dropItem'+i" id="drag-check" #dragCheck class="example-margin" cdkDrag (click)="customiseInput(i)">{{!dropElements[i].placeholder ? "Check something" : dropElements[i].placeholder}}</mat-checkbox>
+          [id]="'dropItem'+i" id="drag-check" #dragCheck class="example-margin customiseBtn" cdkDrag (click)="customiseInput(i)">{{!dropElements[i].placeholder ? "Check something" : dropElements[i].placeholder}}</mat-checkbox>
       </div>
       <div class="dropped-item"  *ngIf="element.elementId==='drag-select'" [style]="{top:element.y+'px',left:element.x+'px'}">
-        <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag (click)="customiseInput(i)" [style]="{
+        <mat-form-field id="drag-select" class="customiseBtn" #dragSelect appearance="fill" cdkDrag (click)="customiseInput(i)" [style]="{
                         width:dropElements[i].width+'px',
         fontSize:dropElements[i].fontSize+'px',
         fontWeight:dropElements[i].fontWeight,
@@ -268,8 +179,10 @@
               {{dropElements[i].placeholder}}
             </mat-option>
           </mat-select>
+
         </mat-form-field>
       </div>
     </div>
+    <h1 id="backgroundText">{{accordionState.formStyling.backgroundText}}</h1>
   </div>
 </ng-template>
