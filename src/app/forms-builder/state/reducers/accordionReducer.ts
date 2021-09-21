@@ -33,7 +33,7 @@ export interface AccordionState {
 const initialState:AccordionState = {
   isFormStylingActive:true,
   formStyling:{
-    width:60,
+    width:100,
     height:600,
     padding:20,
     backgroundColor:"#fff",
@@ -41,7 +41,7 @@ const initialState:AccordionState = {
     borderWidth:1,
     borderStyle:"solid",
     borderColor:"#000",
-    borderRadius:0
+    borderRadius:15
   },
   fieldStyling:{
     width:150,

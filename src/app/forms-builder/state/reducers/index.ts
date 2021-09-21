@@ -5,7 +5,7 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import {AccordionState,accordionReducer} from "./accordionReducer";
 import {DragAreaState,dragAreaReducer} from "./dragAreaReducer";
 import {DropAreaState,dropAreaReducer} from "./dropAreaReducer";

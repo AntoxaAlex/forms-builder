@@ -1,32 +1,6 @@
 h1{
   text-align: center;
 }
-.accordion-container{
-  overflow-x: auto;
-  display: grid;
-  grid-column-gap: 50px;
-  scroll-snap-type: x proximity;
-  grid-template-rows: minmax(100px, 1fr);
-}
-.accordion .ng-star-inserted{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.style-item{
-  margin: 0;
-  position: relative;
-  padding: 10px;
-  scroll-snap-align: center;
-  background-color: transparent;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: ease;
-}
-
 
 .main-container{
   width: 90%;
@@ -55,11 +29,8 @@ h1{
 .drop-section{
   height: 600px;
   width: 60%;
-  background: transparent;
-  border: 1px solid rgb(217,217,217);
   border-radius: 25px;
   box-sizing: border-box;
-  overflow-y: auto;
   position: relative;
 }
 
@@ -67,15 +38,6 @@ h1{
   cursor: pointer;
 }
 
-.drag-item-list{
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-around;
-  height: 100%;
-  margin: 0;
-}
 
 .draggable-element-content{
   width:100px;
@@ -104,16 +66,4 @@ h1{
 
 .dropped-item{
   position: absolute;
-}
-
-#backgroundText{
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
-  max-width: 100%;
-  text-align: center;
-  z-index: 1;
-  opacity: 0.2;
-  font-size: 5rem;
 }

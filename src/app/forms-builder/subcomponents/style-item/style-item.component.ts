@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-style-item',
@@ -11,12 +11,17 @@ export class StyleItemComponent implements OnInit {
   @Input() value:any
   @Input() inputType:any
   @Input() isFormActive:any
+  @Output("formChanged") formChanged = new EventEmitter()
 
   @ViewChild('formInputRef') formInputRef:any
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeForm(evt:any){
+    this.formChanged.emit(evt)
   }
 
 }

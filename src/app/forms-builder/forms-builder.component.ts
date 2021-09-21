@@ -14,14 +14,14 @@ import {from, fromEvent,merge} from "rxjs";
 import {map, } from "rxjs/operators";
 
 import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
-import {StyleItemComponent} from "./style-item/style-item.component";
+import {StyleItemComponent} from "./subcomponents/style-item/style-item.component";
 import {Store} from "@ngrx/store";
 import {select} from "@ngrx/store";
-import {selectAccordion,selectDragArea,selectDropArea} from "../selectors";
-import {FormsBuilderContentState} from "../reducers";
+import {selectAccordion,selectDragArea,selectDropArea} from "./state/selectors";
+import {FormsBuilderContentState} from "./state/reducers";
 
-import {AccordionChangeStylingAction} from "../actions/accordionActions";
-import {AccordionChangeFormAction} from "../actions/accordionActions";
+import {AccordionChangeStylingAction,AccordionChangeFormAction} from "./state/actions/accordionActions";
+import {DropAreaAddItemAction, DropAreaEditItemAction, DropAreaItem} from "./state/actions/dropAreaActions";
 
 @Component({
   selector: 'app-forms-builder',
@@ -39,7 +39,6 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
 
   @Input("ngModel") ngModel:any
 
-  @ViewChild("accordionPortalContent") accordionPortalContent:any
   @ViewChild("dropAreaPortalContent")dropAreaPortalContent:any
   @ViewChild("dragAreaPortalContent") dragAreaPortalContent:any
 
@@ -61,7 +60,7 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
 
   //Observables
   expandAccordionObservable:any
-  changeFormEvents:any[] = []
+
   changeFormObserver$:any
 
   //State
@@ -107,42 +106,19 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
   constructor(private _viewContainerRef: ViewContainerRef,private store$:Store<FormsBuilderContentState>,private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.store$.pipe(select(selectAccordion)).subscribe((data:any)=>{
-      this.accordionState = data
-    })
-    this.store$.pipe(select(selectDragArea)).subscribe((data:any)=>{
-      this.dragAreaState = data
-    })
-    this.store$.pipe(select(selectDropArea)).subscribe((data:any)=>{
-      this.dropAreaState = data
-    })
+    this.accordionState = this.store$.pipe(select(selectAccordion))
+    this.dragAreaState = this.store$.pipe(select(selectDragArea))
+    this.dropAreaState = this.store$.pipe(select(selectDropArea))
   }
 
   ngAfterViewInit() {
-    this.accordionPortal = new TemplatePortal(this.accordionPortalContent,this._viewContainerRef)
-    this.dropAreaPortal = new TemplatePortal(this.dropAreaPortalContent,this._viewContainerRef)
-    this.dragAreaPortal = new TemplatePortal(this.dragAreaPortalContent,this._viewContainerRef)
-
-    this.expandAccordionObservable = fromEvent(this.accordionComponent.expandBtn.nativeElement,"click").subscribe((evt:any)=>{
-      this.accordionComponent.accordionItem.toggle()
-    })
-
-    console.log(this.formStyleItems)
-    setTimeout(()=>{
-      this.formStyleItems._results.forEach((item:any)=>{
-       this.changeFormEvents.push(fromEvent(item.formInputRef.nativeElement,"change"))
-      })
-
-      this.changeFormObserver$ = merge(...this.changeFormEvents).subscribe((evt:any)=>{
-        console.log("change")
-        this.onChangeDropArea(evt.target.name,evt.target.value)
-      })
-
-    },1000)
-
   }
 
   ngAfterViewChecked() {
+  }
+
+  toggleExpander(){
+    this.accordionComponent.accordionItem.toggle()
   }
 
   //Get dropped item position in Drop Area
@@ -170,35 +146,48 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
       const y = this.getPosition("y",dropPoint.y)
       //Add element into Drop Area
 
-      this.dropElements.push({
-        elementId,
+      const payload:DropAreaItem = {
+        id:elementId,
         x,
         y,
         styles:{
           placeholder:"Type some text",
-          width:100,
+          width:150,
           height:50,
           required:false,
-          borderStyle:"solid",
-          fontSize:20,
-          fontWeight:400,
+          borderStyle:"none",
+          fontSize:14,
+          fontWeight:200,
           color:"#000"
-        }})
+        }}
+      this.store$.dispatch(new DropAreaAddItemAction(payload))
+
       this.isDragging = false
       this.isDragItemEnter = false
     }
   }
 
-  customiseInput(index:number){
+  selectField(index:number){
+      console.log(index)
       this.selectedIndex = index
       this.store$.dispatch(new AccordionChangeStylingAction())
   }
 
-  onChangeDropArea = (name:string,value:any) =>{
-    if(name && value){
-      if(this.accordionState.isFormStylingActive){
-        this.store$.dispatch(new AccordionChangeFormAction({name,value}))
-      }
+  onChangeDropArea = (evt:any) =>{
+    if(evt.target){
+      const {name,value} = evt.target
+      console.log(name,value)
+      this.store$.dispatch(new AccordionChangeFormAction({name,value}))
+    }
+  }
+
+  onChangeField = (data:any) => {
+    if(data.evt.target){
+      const {items} = data
+      const {name,value} = data.evt.target
+      const newItems = [...items]
+      newItems[this.selectedIndex] = {...newItems[this.selectedIndex],styles:{...newItems[this.selectedIndex].styles,[name]:value}}
+      this.store$.dispatch(new DropAreaEditItemAction(newItems))
     }
   }
 

@@ -1,0 +1,80 @@
+<div class="dropped-item" [style]="{top:element.y+'px',left:element.x+'px'}" *ngIf="element.id==='drag-input'">
+  <mat-form-field
+    id="drag-input"
+    #dragInput
+    class="example-full-width"
+    [style]="{
+          width:element.styles.width+'px',
+          fontSize:element.styles.fontSize+'px',
+          fontWeight:element.styles.fontWeight,
+          borderStyle:element.styles.borderStyle,
+          height:element.styles.height+'px'
+          }"
+    appearance="fill"
+    cdkDrag
+  >
+    <mat-label>{{!element.styles.placeholder ? "Type some text" : element.styles.placeholder}}</mat-label>
+    <input [style]="{
+          color:element.styles.color
+          }" [required]="element.styles.required" [id]="'dropItem'+index" class="customiseBtn"  matInput (click)="selectField()">
+  </mat-form-field>
+</div>
+<div class="dropped-item"  *ngIf="element.id==='drag-textarea'" [style]="{top:element.y+'px',left:element.x+'px'}">
+  <mat-form-field
+    [style]="{
+          width:element.styles.width+'px',
+          fontSize:element.styles.fontSize+'px',
+          fontWeight:element.styles.fontWeight,
+          borderStyle:element.styles.borderStyle,
+          height:element.styles.height+'px'
+          }"
+    id="drag-text" #dragTextarea class="example-full-width" appearance="fill" cdkDrag >
+          <textarea class="customiseBtn" [id]="'dropItem'+index"matInput [placeholder]="!element.styles.placeholder ? 'Type some text' : element.styles.placeholder" (click)="selectField()" [style]="{
+          color:element.styles.color
+          }" [required]="element.styles.required" ></textarea>
+  </mat-form-field>
+</div>
+<div class="dropped-item" class="customiseBtn"  *ngIf="element.id==='drag-button'" [style]="{top:element.y+'px',left:element.x+'px'}">
+  <button
+    [style]="{
+          width:element.styles.width+'px',
+          height:element.styles.height+'px',
+          fontSize:element.styles.fontSize+'px',
+          fontWeight:element.styles.fontWeight,
+          borderStyle:element.styles.borderStyle,
+          color:element.styles.color
+          }"
+    [id]="'dropItem'+index" class="customiseBtn" #dragButton mat-button cdkDrag (click)="selectField()">{{!element.styles.placeholder ? "Button" : element.styles.placeholder}}</button>
+</div>
+<div class="dropped-item"  *ngIf="element.id==='drag-checkbox'" [style]="{top:element.y+'px',left:element.x+'px'}">
+  <mat-checkbox
+    [style]="{
+          width:element.styles.width+'px',
+          height:element.styles.height+'px',
+          fontSize:element.styles.fontSize+'px',
+          fontWeight:element.styles.fontWeight,
+          borderStyle:element.styles.borderStyle,
+          color:element.styles.color
+          }"
+    [required]="element.styles.required"
+    [id]="'dropItem'+index" id="drag-check" #dragCheck class="example-margin customiseBtn" cdkDrag (click)="selectField()">{{!element.styles.placeholder ? "Check something" : element.styles.placeholder}}</mat-checkbox>
+</div>
+<div class="dropped-item"  *ngIf="element.id==='drag-select'" [style]="{top:element.y+'px',left:element.x+'px'}">
+  <mat-form-field id="drag-select" class="customiseBtn" #dragSelect appearance="fill" cdkDrag (click)="selectField()" [style]="{
+                        width:element.styles.width+'px',
+        fontSize:element.styles.fontSize+'px',
+        fontWeight:element.styles.fontWeight,
+        borderStyle:element.styles.borderStyle,
+        height:element.styles.height+'px'
+        }">
+    <mat-label [style]="{color:element.styles.color}">Select</mat-label>
+    <mat-select
+      [required]="element.styles.required"
+      [id]="'dropItem'+index">
+      <mat-option [style]="{color:element.styles.color}">
+        {{element.styles.placeholder}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+</div>

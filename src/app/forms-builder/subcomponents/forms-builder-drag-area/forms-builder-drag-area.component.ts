@@ -1,5 +1,6 @@
-import {Component, Input, Output} from "@angular/core";
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild, ViewContainerRef} from "@angular/core";
 import {SubclassComponent} from "../subclass.component";
+import {TemplatePortal} from "@angular/cdk/portal";
 
 @Component({
   selector: 'app-forms-builder-drag-area',
@@ -7,10 +8,26 @@ import {SubclassComponent} from "../subclass.component";
   styleUrls: ['./forms-builder-drag-area.component.css']
 })
 
-export class FormsBuilderDragAreaComponent extends SubclassComponent{
+export class FormsBuilderDragAreaComponent implements AfterViewInit{
   @Input("dragAreaPortal") dragAreaPortal:any
+  @Output("itemDropped") itemDropped = new EventEmitter()
+  @Output("dragStarted") dragStarted = new EventEmitter()
 
-  constructor() {
-    super();
+  @ViewChild("dragAreaPortalContent") dragAreaPortalContent: any
+
+  constructor(private _viewContainerRef: ViewContainerRef) {}
+
+  ngAfterViewInit() {
+    this.dragAreaPortal = new TemplatePortal(this.dragAreaPortalContent,this._viewContainerRef)
   }
+
+  dropItem(evt:any){
+    this.itemDropped.emit(evt)
+  }
+
+  startDragging(){
+    this.dragStarted.emit()
+  }
+
+
 }

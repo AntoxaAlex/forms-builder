@@ -2,9 +2,12 @@
   <label [htmlFor]="key">{{key}}</label>
   <input
     #formInputRef
+    [id]="key"
     [name]="key"
     class="style-item"
     [type]="inputType"
     [value]="value"
+    (change)="changeForm($event)"
   >
 </div>
+

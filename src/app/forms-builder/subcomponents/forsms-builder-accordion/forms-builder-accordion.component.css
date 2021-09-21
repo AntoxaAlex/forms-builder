@@ -3,6 +3,33 @@
   max-width: 100%;
 }
 
+.accordion-container{
+  overflow-x: auto;
+  display: grid;
+  grid-column-gap: 50px;
+  scroll-snap-type: x proximity;
+  grid-template-rows: minmax(100px, 1fr);
+}
+.accordion .ng-star-inserted{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.style-item{
+  margin: 0;
+  position: relative;
+  padding: 10px;
+  scroll-snap-align: center;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: ease;
+}
+
+
 .accordion-item {
   display: block;
   border: solid 1px #ccc;
@@ -17,6 +44,7 @@
   align-content: center;
   justify-content: space-between;
 }
+
 
 
 .accordion-container{

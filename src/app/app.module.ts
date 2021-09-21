@@ -15,7 +15,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {environment} from "../environments/environment";
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AppEffects } from './app.effects';
-import { reducers, metaReducers } from './reducers';
+import { reducers, metaReducers } from './forms-builder/state/reducers';
 
 
 
@@ -26,18 +26,11 @@ import { reducers, metaReducers } from './reducers';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-
-    StoreModule.forRoot(reducers, {
-      metaReducers
-    }),
-    EffectsModule.forRoot([AppEffects]),
-
-    StoreRouterConnectingModule.forRoot(),
-
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+
+}

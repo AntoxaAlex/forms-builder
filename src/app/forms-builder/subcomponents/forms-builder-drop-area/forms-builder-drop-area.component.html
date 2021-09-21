@@ -1,1 +1,34 @@
 <ng-template [cdkPortalOutlet]="dropAreaPortal"></ng-template>
+
+<ng-template #dropAreaPortalContent>
+  <div
+    id="drop-list"
+    cdkDropList
+    #dropList="cdkDropList"
+    [cdkDropListData]="dropElements"
+    class="example-list"
+    [style]="{
+        position:'relative',
+        width:accordionData.formStyling.width+'%',
+        height:accordionData.formStyling.height+'px',
+        backgroundColor:accordionData.formStyling.backgroundColor,
+        padding:accordionData.formStyling.padding+'px',
+        borderStyle:accordionData.formStyling.borderStyle,
+        borderWidth:accordionData.formStyling.borderWidth+'px',
+        borderColor:accordionData.formStyling.borderColor,
+        borderRadius:accordionData.formStyling.borderRadius+'px'
+      }"
+    (cdkDropListDropped)="dropItem($event)">
+    <div class="example-box" *ngFor="let element of dropElements.items;index as index" cdkDrag>
+      <app-drop-item
+      [element]="element"
+      [index]="index"
+      [dropElements]="dropElements"
+      (fieldSelected)="selectField(index)"
+      >
+      </app-drop-item>
+    </div>
+    <h1 id="backgroundText">{{accordionData.formStyling.backgroundText}}</h1>
+  </div>
+</ng-template>
+

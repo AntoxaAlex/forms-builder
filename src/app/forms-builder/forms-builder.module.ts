@@ -18,7 +18,17 @@ import {FormsModule} from "@angular/forms";
 import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
 import {FormsBuilderDropAreaComponent} from "./subcomponents/forms-builder-drop-area/forms-builder-drop-area.component";
 import {FormsBuilderDragAreaComponent} from "./subcomponents/forms-builder-drag-area/forms-builder-drag-area.component";
-import { StyleItemComponent } from './style-item/style-item.component';
+import { StyleItemComponent } from './subcomponents/style-item/style-item.component';
+import { DropItemsComponent } from './subcomponents/drop-items/drop-items.component';
+
+//NgRx
+import {StoreModule} from "@ngrx/store";
+import {metaReducers, reducers} from "./state/reducers";
+import {EffectsModule} from "@ngrx/effects";
+import {AppEffects} from "../app.effects";
+import {StoreRouterConnectingModule} from "@ngrx/router-store";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {environment} from "../../environments/environment";
 
 
 
@@ -35,14 +45,24 @@ import { StyleItemComponent } from './style-item/style-item.component';
     MatInputModule,
     MatSlideToggleModule,
     PortalModule,
-    MatSelectModule
+    MatSelectModule,
+
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    EffectsModule.forRoot([AppEffects]),
+
+    StoreRouterConnectingModule.forRoot(),
+
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   declarations:[
     FormsBuilderComponent,
     FormsBuilderAccordionComponent,
     FormsBuilderDropAreaComponent,
     FormsBuilderDragAreaComponent,
-    StyleItemComponent
+    StyleItemComponent,
+    DropItemsComponent
   ]
 })
 
