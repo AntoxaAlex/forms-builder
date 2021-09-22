@@ -4,6 +4,7 @@ import {EventEmitter} from "@angular/core";
 import {DumbComponent} from "../subclass-decorator.component";
 import {TemplatePortal} from "@angular/cdk/portal";
 
+
 @Component({
   selector: 'app-forms-builder-drop-area',
   templateUrl: './forms-builder-drop-area.component.html',

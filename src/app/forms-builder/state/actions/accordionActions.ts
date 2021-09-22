@@ -1,7 +1,8 @@
 import {Action} from "@ngrx/store";
 
 export interface ChangeFormValues {
-  name:string,
+  index:number
+  name:string
   value:any
 }
 

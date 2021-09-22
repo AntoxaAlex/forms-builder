@@ -13,6 +13,7 @@ import {TemplatePortal} from "@angular/cdk/portal";
 import {from, fromEvent,merge} from "rxjs";
 import {map, } from "rxjs/operators";
 
+
 import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
 import {StyleItemComponent} from "./subcomponents/style-item/style-item.component";
 import {Store} from "@ngrx/store";
@@ -22,6 +23,7 @@ import {FormsBuilderContentState} from "./state/reducers";
 
 import {AccordionChangeStylingAction,AccordionChangeFormAction} from "./state/actions/accordionActions";
 import {DropAreaAddItemAction, DropAreaEditItemAction, DropAreaItem} from "./state/actions/dropAreaActions";
+import {SliderComponent} from "./dynamic-fields/slider/slider.component";
 
 @Component({
   selector: 'app-forms-builder',
@@ -51,8 +53,9 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
 
 
   @ViewChild(FormsBuilderAccordionComponent) accordionComponent:any
-  @ViewChildren("formStyleItems") formStyleItems:any
+
   @ViewChildren("fieldStyleItems") fieldStyleItems:any
+
 
 
 
@@ -112,6 +115,7 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
   }
 
   ngAfterViewInit() {
+
   }
 
   ngAfterViewChecked() {
@@ -150,16 +154,83 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
         id:elementId,
         x,
         y,
-        styles:{
-          placeholder:"Type some text",
-          width:150,
-          height:50,
-          required:false,
-          borderStyle:"none",
-          fontSize:14,
-          fontWeight:200,
-          color:"#000"
-        }}
+        styles:[
+          {
+            type:"slider",
+            id:"width",
+            name:"width",
+            label:"Width",
+            max:600,
+            min:10,
+            step:1,
+            tickInterval:1,
+            value:150
+          },
+          {
+            type:"slider",
+            id:"height",
+            name:"height",
+            label:"Height",
+            max:100,
+            min:20,
+            step:1,
+            tickInterval:1,
+            value:50
+          },
+          {
+            type:"checkbox",
+            id:"required",
+            name:"required",
+            label:"Required",
+            checked:false
+          },
+          {
+            type:"input",
+            id:"placeholder",
+            name:"placeholder",
+            label:"Placeholder",
+            inputType:"text",
+            value:"Type some text"
+          },
+          {
+            type:"slider",
+            id:"fontSize",
+            name:"fontSize",
+            label:"Font Size",
+            max:25,
+            min:10,
+            step:1,
+            tickInterval:1,
+            value:14
+          },
+          {
+            type:"slider",
+            id:"fontWeight",
+            name:"fontWeight",
+            label:"Font Weight",
+            max:900,
+            min:100,
+            step:100,
+            tickInterval:100,
+            value:14
+          },
+          {
+            type:"input",
+            id:"borderStyle",
+            name:"borderStyle",
+            label:"Border Style",
+            inputType:"text",
+            value:"none"
+          },
+          {
+            type:"input",
+            id:"color",
+            name:"color",
+            label:"Text Color",
+            inputType:"color",
+            value:"#000"
+          }
+        ]}
       this.store$.dispatch(new DropAreaAddItemAction(payload))
 
       this.isDragging = false
@@ -173,20 +244,37 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
       this.store$.dispatch(new AccordionChangeStylingAction())
   }
 
-  onChangeDropArea = (evt:any) =>{
-    if(evt.target){
-      const {name,value} = evt.target
-      console.log(name,value)
-      this.store$.dispatch(new AccordionChangeFormAction({name,value}))
+  onChangeDropArea = (data:any) =>{
+    if(data){
+      const {evt,index} = data
+      const name = evt.target ? evt.target.id : evt.source._elementRef.nativeElement.id
+      const value = name ==="required" ? evt.checked : (name === "borderStyle"|| name==="placeholder" || name==="backgroundText"||name==="color"||name==="backgroundColor"||name==="borderColor" ? evt.target.value : evt.value)
+      this.store$.dispatch(new AccordionChangeFormAction({index,name,value}))
+    //   if(isFormStylingActive){
+    //     this.store$.dispatch(new AccordionChangeFormAction({index,name,value}))
+    //   }else {
+    //     console.log(index,name,value)
+    //     // this.store$.dispatch(new DropAreaEditItemAction(newItems))
+    //   }
+    // }
+    // if(evt){
+    //   const name = evt.target ? evt.target.id : evt.source._elementRef.nativeElement.id
+    //   const value = name==="borderStyle"||name==="backgroundText"||name==="color"||name==="backgroundColor"||name==="borderColor" ? evt.target.value :evt.value
+    //   console.log(name,value)
+      // this.store$.dispatch(new AccordionChangeFormAction({name,value}))
     }
   }
 
   onChangeField = (data:any) => {
-    if(data.evt.target){
-      const {items} = data
-      const {name,value} = data.evt.target
+    if(data.contentData){
+      const {items,contentData} = data
+      const {index,evt} = contentData
+      const name = evt.target ? evt.target.id : evt.source._elementRef.nativeElement.id
+      const value = name ==="required" ? evt.checked : (name === "borderStyle" || name==="placeholder"||name==="color"||name==="backgroundColor"||name==="borderColor" ? evt.target.value : evt.value)
       const newItems = [...items]
-      newItems[this.selectedIndex] = {...newItems[this.selectedIndex],styles:{...newItems[this.selectedIndex].styles,[name]:value}}
+      newItems[this.selectedIndex] = {...newItems[this.selectedIndex]}
+      newItems[this.selectedIndex].styles = [...newItems[this.selectedIndex].styles]
+      newItems[this.selectedIndex].styles[index] = {...newItems[this.selectedIndex].styles[index],[name]:value}
       this.store$.dispatch(new DropAreaEditItemAction(newItems))
     }
   }

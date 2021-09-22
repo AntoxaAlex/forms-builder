@@ -1,13 +1,132 @@
-<div>
+<div *ngIf="key==='width'">
   <label [htmlFor]="key">{{key}}</label>
-  <input
-    #formInputRef
+  <mat-slider
+    thumbLabel
+    tickInterval="1"
+    step="1"
+    min="10"
+    [max]="isFormActive ? '100' : '300'"
+    aria-label="units"
     [id]="key"
-    [name]="key"
-    class="style-item"
-    [type]="inputType"
     [value]="value"
     (change)="changeForm($event)"
-  >
+  ></mat-slider>
 </div>
-
+<div *ngIf="key==='height'">
+  <label [htmlFor]="key">{{key}}</label>
+  <mat-slider
+    thumbLabel
+    tickInterval="1"
+    step="1"
+    min="10"
+    [max]="isFormActive ? '800' : '100'"
+    aria-label="units"
+    [id]="key"
+    [value]="value"
+    (change)="changeForm($event)"
+  ></mat-slider>
+</div>
+<div *ngIf="key==='padding'">
+  <label [htmlFor]="key">{{key}}</label>
+  <mat-slider
+    thumbLabel
+    tickInterval="1000"
+    step="1"
+    min="0"
+    max="100"
+    aria-label="units"
+    [id]="key"
+    [value]="value"
+    (change)="changeForm($event)"
+  ></mat-slider>
+</div>
+<div *ngIf="key==='fontSize'">
+  <label [htmlFor]="key">{{key}}</label>
+  <mat-slider
+    thumbLabel
+    tickInterval="1000"
+    step="1"
+    min="10"
+    max="30"
+    aria-label="units"
+    [id]="key"
+    [value]="value"
+    (change)="changeForm($event)"
+  ></mat-slider>
+</div>
+<div *ngIf="key==='fontWeight'">
+  <label [htmlFor]="key">{{key}}</label>
+  <mat-slider
+    thumbLabel
+    tickInterval="1000"
+    step="100"
+    min="200"
+    max="900"
+    aria-label="units"
+    [id]="key"
+    [value]="value"
+    (change)="changeForm($event)"
+  ></mat-slider>
+</div>
+<div *ngIf="key==='required'">
+  <mat-checkbox
+    class="example-margin"
+    [id]="key"
+    [checked]="value"
+    (change)="changeForm($event)"
+  >
+    {{key}}
+  </mat-checkbox>
+</div>
+<div *ngIf="key==='borderStyle'||key==='placeholder'||key==='backgroundText'">
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>{{key}}</mat-label>
+    <input
+      matInput
+      type="text"
+      [id]="key"
+      [value]="value"
+      (change)="changeForm($event)"
+    >
+  </mat-form-field>
+</div>
+<div *ngIf="key==='borderColor'||key==='color'||key==='backgroundColor'">
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>{{key}}</mat-label>
+    <input
+      matInput
+      type="color"
+      [id]="key"
+      [value]="value"
+      (change)="changeForm($event)"
+    >
+  </mat-form-field>
+</div>
+<div *ngIf="key==='borderRadius'">
+  <label [htmlFor]="key">{{key}}</label>
+  <mat-slider
+    thumbLabel
+    tickInterval="1000"
+    step="1"
+    min="0"
+    max="50"
+    aria-label="units"
+    [id]="key"
+    [value]="value"
+    (change)="changeForm($event)"
+  ></mat-slider>
+</div>
+<div *ngIf="key==='borderWidth'">
+  <label [htmlFor]="key">{{key}}</label>
+  <mat-slider
+    thumbLabel
+    tickInterval="1000"
+    step="1"
+    min="1"
+    max="10"
+    aria-label="units"
+    [id]="key"
+    [value]="value"
+    (change)="changeForm($event)"
+  ></mat-slider>
+</div>

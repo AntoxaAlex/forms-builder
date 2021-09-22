@@ -16,6 +16,8 @@ import {environment} from "../environments/environment";
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AppEffects } from './app.effects';
 import { reducers, metaReducers } from './forms-builder/state/reducers';
+import { MaterialModule } from './material.module';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -26,7 +28,10 @@ import { reducers, metaReducers } from './forms-builder/state/reducers';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

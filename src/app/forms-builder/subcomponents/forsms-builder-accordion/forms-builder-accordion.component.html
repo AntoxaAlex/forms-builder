@@ -23,31 +23,10 @@
 </cdk-accordion>
 
 <ng-template #accordionPortalContent>
-  <div class="accordion-container">
-    <div *ngIf="accordionData.isFormStylingActive; else filedStyling">
-      <div *ngFor="let item of accordionData.formStyling|keyvalue">
-        <app-style-item
-          #formStyleItems
-          [isFormActive]="accordionData.isFormStylingActive"
-          [key]="item.key"
-          [inputType]="getInputType(item.key)"
-          [value]="item.value"
-          (formChanged) = "changeForm($event)"
-        ></app-style-item>
-      </div>
-    </div>
+  <div *ngIf="accordionData.isFormStylingActive;else fieldStyling">
+    <app-dynamic-form [fields]="accordionData.formStyling" (formChanged)="changeForm($event)"></app-dynamic-form>
   </div>
-  <ng-template #filedStyling>
-    <div>
-      <div *ngFor="let item of dropElements.items[selectedIndex].styles | keyvalue">
-        <app-style-item
-          #fieldStyleItems
-          [key]="item.key"
-          [inputType]="getInputType(item.key)"
-          [value]="item.value"
-          (formChanged) = "changeField($event,dropElements.items)"
-        ></app-style-item>
-      </div>
-    </div>
+  <ng-template #fieldStyling>
+    <app-dynamic-form [fields]="dropElements.items[selectedIndex].styles" (formChanged)="changeField($event,dropElements.items)"></app-dynamic-form>
   </ng-template>
 </ng-template>

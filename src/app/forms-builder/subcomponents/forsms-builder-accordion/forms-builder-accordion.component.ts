@@ -10,6 +10,8 @@ import {
 } from "@angular/core";
 import {SubclassComponent} from "../subclass.component";
 import {TemplatePortal} from "@angular/cdk/portal";
+import {FieldConfig} from "../../../interfaces/field.interface";
+
 
 @Component({
   selector: 'app-forms-builder-accordion',
@@ -18,6 +20,8 @@ import {TemplatePortal} from "@angular/cdk/portal";
 })
 
 export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit{
+
+
   @Input("accordionData") accordionData:any
   @Input("accordionPortal") accordionPortal:any
   @Input("cdkPortalOutlet") cdkPortalOutlet:any
@@ -37,7 +41,7 @@ export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit{
   }
 
   ngOnInit() {
-    console.log(this.accordionData)
+    console.log(this.accordionData.formStyling)
   }
 
   ngAfterViewInit() {
@@ -52,7 +56,7 @@ export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit{
     this.formChanged.emit(evt)
   }
   changeField(evt:any,items:any){
-    this.fieldChanged.emit({evt,items})
+    this.fieldChanged.emit({contentData:evt, items})
   }
 
 

@@ -9,16 +9,17 @@
     class="example-list"
     [style]="{
         position:'relative',
-        width:accordionData.formStyling.width+'%',
-        height:accordionData.formStyling.height+'px',
-        backgroundColor:accordionData.formStyling.backgroundColor,
-        padding:accordionData.formStyling.padding+'px',
-        borderStyle:accordionData.formStyling.borderStyle,
-        borderWidth:accordionData.formStyling.borderWidth+'px',
-        borderColor:accordionData.formStyling.borderColor,
-        borderRadius:accordionData.formStyling.borderRadius+'px'
+        width:accordionData.formStyling[0].value+'%',
+        height:accordionData.formStyling[1].value+'px',
+        padding:accordionData.formStyling[2].value+'px',
+        backgroundColor:accordionData.formStyling[4].value,
+        borderWidth:accordionData.formStyling[5].value+'px',
+        borderStyle:accordionData.formStyling[6].value,
+        borderColor:accordionData.formStyling[7].value,
+        borderRadius:accordionData.formStyling[8].value+'px'
       }"
     (cdkDropListDropped)="dropItem($event)">
+
     <div class="example-box" *ngFor="let element of dropElements.items;index as index" cdkDrag>
       <app-drop-item
       [element]="element"
@@ -28,7 +29,7 @@
       >
       </app-drop-item>
     </div>
-    <h1 id="backgroundText">{{accordionData.formStyling.backgroundText}}</h1>
+    <h1 id="backgroundText">{{dropElements.items.length===0 ? accordionData.formStyling[3].value : ""}}</h1>
   </div>
 </ng-template>
 

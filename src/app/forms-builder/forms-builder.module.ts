@@ -4,22 +4,20 @@ import {FormsBuilderComponent} from "./forms-builder.component";
 import {CommonModule} from "@angular/common";
 
 //Modules
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {DragDropModule} from "@angular/cdk/drag-drop";
-import {PortalModule} from "@angular/cdk/portal";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatInputModule} from "@angular/material/input";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatSliderModule} from "@angular/material/slider";
-import {CdkAccordionModule} from "@angular/cdk/accordion";
-import {MatSelectModule} from "@angular/material/select";
-import {FormsModule} from "@angular/forms";
+import {MaterialModule} from "../material.module";
+
 //Components
 import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
 import {FormsBuilderDropAreaComponent} from "./subcomponents/forms-builder-drop-area/forms-builder-drop-area.component";
 import {FormsBuilderDragAreaComponent} from "./subcomponents/forms-builder-drag-area/forms-builder-drag-area.component";
 import { StyleItemComponent } from './subcomponents/style-item/style-item.component';
 import { DropItemsComponent } from './subcomponents/drop-items/drop-items.component';
+
+import {InputComponent} from "./dynamic-fields/input/input.component";
+import {ButtonComponent} from "./dynamic-fields/button/button.component";
+import {SliderComponent} from "./dynamic-fields/slider/slider.component"
+import {CheckboxComponent} from "./dynamic-fields/checkbox/checkbox.component";
+import {SelectComponent} from "./dynamic-fields/select/select.component";
 
 //NgRx
 import {StoreModule} from "@ngrx/store";
@@ -28,7 +26,11 @@ import {EffectsModule} from "@ngrx/effects";
 import {AppEffects} from "../app.effects";
 import {StoreRouterConnectingModule} from "@ngrx/router-store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+
 import {environment} from "../../environments/environment";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { DynamicFieldDirective } from './dynamic-fields/dynamic-field.directive';
+import { DynamicFormComponent } from './dynamic-fields/dynamic-form.component';
 
 
 
@@ -36,17 +38,9 @@ import {environment} from "../../environments/environment";
   imports:[
     CommonModule,
     FormsBuilderRoutingModule,
+    MaterialModule,
     FormsModule,
-    DragDropModule,
-    MatCheckboxModule,
-    CdkAccordionModule,
-    MatSliderModule,
-    MatRadioModule,
-    MatInputModule,
-    MatSlideToggleModule,
-    PortalModule,
-    MatSelectModule,
-
+    ReactiveFormsModule,
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
@@ -61,8 +55,23 @@ import {environment} from "../../environments/environment";
     FormsBuilderAccordionComponent,
     FormsBuilderDropAreaComponent,
     FormsBuilderDragAreaComponent,
+    InputComponent,
+    ButtonComponent,
+    CheckboxComponent,
+    SliderComponent,
+    SelectComponent,
     StyleItemComponent,
-    DropItemsComponent
+    DropItemsComponent,
+    DynamicFieldDirective,
+    DynamicFormComponent
+  ],
+  entryComponents:[
+    InputComponent,
+    ButtonComponent,
+    CheckboxComponent,
+    SliderComponent,
+    SelectComponent,
+    StyleItemComponent
   ]
 })
 

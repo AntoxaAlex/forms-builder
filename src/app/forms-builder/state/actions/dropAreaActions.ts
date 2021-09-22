@@ -1,19 +1,11 @@
 import {Action} from "@ngrx/store";
+import {FieldConfig} from "../../../interfaces/field.interface";
 
 export interface DropAreaItem {
   id:string,
   x:number,
   y:number,
-  styles:{
-    placeholder:string,
-    width:number,
-    height:number,
-    required:boolean,
-    borderStyle:"solid"|"dashed"|"dotted"|"double"|"groove"|"ridge"|"inset"|"outset"|"none"|"hidden"
-    fontSize:number,
-    fontWeight:number,
-    color:string
-  }
+  styles:FieldConfig[]
 }
 
 export enum dropAreaActions {
