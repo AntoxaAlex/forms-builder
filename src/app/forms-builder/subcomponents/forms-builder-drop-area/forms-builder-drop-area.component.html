@@ -7,29 +7,12 @@
     #dropList="cdkDropList"
     [cdkDropListData]="dropElements"
     class="example-list"
-    [style]="{
-        position:'relative',
-        width:accordionData.formStyling[0].value+'%',
-        height:accordionData.formStyling[1].value+'px',
-        padding:accordionData.formStyling[2].value+'px',
-        backgroundColor:accordionData.formStyling[4].value,
-        borderWidth:accordionData.formStyling[5].value+'px',
-        borderStyle:accordionData.formStyling[6].value,
-        borderColor:accordionData.formStyling[7].value,
-        borderRadius:accordionData.formStyling[8].value+'px'
-      }"
+    [style]="accordionData.formStyling|stylePipe:['width','height','padding','borderWidth','borderStyle','borderColor','borderRadius','backgroundColor']:true"
     (cdkDropListDropped)="dropItem($event)">
-
-    <div class="example-box" *ngFor="let element of dropElements.items;index as index" cdkDrag>
-      <app-drop-item
-      [element]="element"
-      [index]="index"
-      [dropElements]="dropElements"
-      (fieldSelected)="selectField(index)"
-      >
-      </app-drop-item>
-    </div>
-    <h1 id="backgroundText">{{dropElements.items.length===0 ? accordionData.formStyling[3].value : ""}}</h1>
+    <app-dynamic-form *ngIf="dropElements.items.length>0;else backgroundText" [fields]="dropElements.items" [isStyleInput]=false (fieldSelected)="selectField($event)"></app-dynamic-form>
+    <ng-template #backgroundText>
+      <h1 id="backgroundText">{{dropElements.items.length===0 ? (accordionData.formStyling|stylePipe:['backgroundText']:true):''}}</h1>
+    </ng-template>
   </div>
 </ng-template>
 

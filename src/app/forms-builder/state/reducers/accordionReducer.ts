@@ -189,7 +189,7 @@ export const accordionReducer = (state:AccordionState = initialState,action:Acco
     case accordionActions.changeStyling:
     return {
       ...state,
-      isFormStylingActive:!state.isFormStylingActive
+      isFormStylingActive:action.payload
     }
     case accordionActions.changeForm: {
       const payload = action.payload

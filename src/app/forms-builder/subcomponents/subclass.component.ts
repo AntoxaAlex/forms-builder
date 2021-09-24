@@ -2,6 +2,7 @@ export abstract class SubclassComponent {
   private readonly subClassConstructor: Function;
   private readonly subClassNgOnInit: Function;
 
+
   protected constructor() {
 
     this.subClassConstructor = this.constructor;

@@ -7,17 +7,54 @@
     cdkDropList
     class="drag-item-list"
   >
-    <mat-form-field id="drag-input" #dragInput class="example-full-width" appearance="fill" cdkDrag (cdkDragDropped)="dropItem($event)" (cdkDragStarted)="startDragging()">
+    <mat-form-field
+      id="input"
+      class="example-full-width"
+      appearance="fill"
+      cdkDrag
+      (cdkDragDropped)="dropItem($event)"
+      (cdkDragStarted)="startDragging()"
+    >
       <mat-label>Input</mat-label>
       <input matInput disabled>
     </mat-form-field>
-    <mat-form-field id="drag-textarea" #dragTextarea class="example-full-width" appearance="fill" cdkDrag (cdkDragDropped)="dropItem($event)" (cdkDragStarted)="startDragging()">
+    <mat-form-field
+      id="textarea"
+      class="example-full-width"
+      appearance="fill"
+      cdkDrag
+      (cdkDragDropped)="dropItem($event)"
+      (cdkDragStarted)="startDragging()"
+    >
       <mat-label>Textarea</mat-label>
       <textarea matInput placeholder="Ex. 100 Main St" disabled>text</textarea>
     </mat-form-field>
-    <button id="drag-button" #dragButton mat-button cdkDrag (cdkDragDropped)="dropItem($event)" (cdkDragStarted)="startDragging()">Button</button>
-    <mat-checkbox id="drag-checkbox" #dragCheck class="example-margin" disabled cdkDrag (cdkDragDropped)="dropItem($event)" (cdkDragStarted)="startDragging()">Checkbox</mat-checkbox>
-    <mat-form-field id="drag-select" #dragSelect appearance="fill" cdkDrag (cdkDragDropped)="dropItem($event)" (cdkDragStarted)="startDragging()">
+    <button
+      id="button"
+      mat-button
+      cdkDrag
+      (cdkDragDropped)="dropItem($event)"
+      (cdkDragStarted)="startDragging()"
+    >
+      Button
+    </button>
+    <mat-checkbox
+      id="checkbox"
+      class="example-margin"
+      disabled
+      cdkDrag
+      (cdkDragDropped)="dropItem($event)"
+      (cdkDragStarted)="startDragging()"
+    >
+      Checkbox
+    </mat-checkbox>
+    <mat-form-field
+      id="select"
+      appearance="fill"
+      cdkDrag
+      (cdkDragDropped)="dropItem($event)"
+      (cdkDragStarted)="startDragging()"
+    >
       <mat-label>Select</mat-label>
       <mat-select disabled>
         <mat-option>Select option</mat-option>

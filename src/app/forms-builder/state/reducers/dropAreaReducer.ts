@@ -17,12 +17,11 @@ const initialState:DropAreaState = {
 export const dropAreaReducer = (state:DropAreaState = initialState,action:DropAreaActions) => {
   switch (action.type) {
     case dropAreaActions.addItem:
+      const newItems = [...state.items]
+      newItems.push(action.payload)
       return {
         ...state,
-        items:[
-          ...state.items,
-          action.payload
-        ]
+        items:newItems
       }
     case dropAreaActions.editItem:
       const payloadEdit = action.payload;

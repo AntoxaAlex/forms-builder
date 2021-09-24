@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FieldConfig} from "../../../interfaces/field.interface";
 import {FormGroup} from "@angular/forms";
+import {SubclassComponent} from "../../subcomponents/subclass.component";
 
 @Component({
   selector: 'app-button',
@@ -10,26 +11,33 @@ import {FormGroup} from "@angular/forms";
         [id]="field.id"
         type="button"
         mat-raised-button
-        color="primary"
+        [style]="styles|stylePipe:['width','fontSize','fontWeight','borderStyle','color','height']:false:isStyleInput"
         (change)="changeForm($event)"
-      >{{field.label}}</button>
+        (click)="selectField()"
+      >{{styles|stylePipe:['placeholder']:false:isStyleInput}}</button>
     </div>
   `,
   styles: [
   ]
 })
-export class ButtonComponent implements OnInit {
+export class ButtonComponent extends SubclassComponent{
   field: FieldConfig;
   group: FormGroup;
   index:number
+  styles:any
+  isStyleInput:boolean
 
   @Output("formChanged") formChanged = new EventEmitter()
-  constructor() { }
-
-  ngOnInit(): void {
+  @Output("fieldSelected") fieldSelected = new EventEmitter()
+  constructor() {
+    super()
   }
 
   changeForm(evt:any){
     this.formChanged.emit({index:this.index,evt})
+  }
+
+  selectField(){
+    this.fieldSelected.emit()
   }
 }

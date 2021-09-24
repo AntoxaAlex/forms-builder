@@ -23,9 +23,6 @@ export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit{
 
 
   @Input("accordionData") accordionData:any
-  @Input("accordionPortal") accordionPortal:any
-  @Input("cdkPortalOutlet") cdkPortalOutlet:any
-  @Input("getInputType") getInputType:any
   @Input("dropElements") dropElements:any
   @Input("selectedIndex") selectedIndex:any
 
@@ -37,11 +34,12 @@ export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit{
   @ViewChild("expandBtn") expandBtn:any
   @ViewChild("accordionPortalContent") accordionPortalContent:any
 
+  accordionPortal:any
+
   constructor(private _viewContainerRef: ViewContainerRef) {
   }
 
   ngOnInit() {
-    console.log(this.accordionData.formStyling)
   }
 
   ngAfterViewInit() {

@@ -17,4 +17,7 @@ export interface FieldConfig {
   tickInterval?:number
   step?:number,
   checked?:boolean
+  x?:number,
+  y?:number,
+  styles?:any[]
 }

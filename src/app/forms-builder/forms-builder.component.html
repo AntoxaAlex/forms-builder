@@ -3,25 +3,23 @@
   <h1>Forms Builder</h1>
 <!-- Accordion Component -->
   <app-forms-builder-accordion
-    #accordion
+    *ngrxLet="accordionState$ as accordionData"
     class="accordion"
-    [accordionPortal]="accordionPortal"
-    [accordionData]="accordionState | async"
-    [dropElements]="dropAreaState|async"
+    [accordionData]="accordionData"
+    [dropElements]="dropAreaState$|ngrxPush"
     [selectedIndex]="selectedIndex"
-    [cdkPortalOutlet]="cdkPortalOutlet"
-    [getInputType]="getInputType"
     (accordionExpanded) = toggleExpander()
     (formChanged)="onChangeDropArea($event)"
     (fieldChanged)="onChangeField($event)"
   ></app-forms-builder-accordion>
 
   <div class="drag-drop-section">
+    <!-- Drop Area Component -->
     <app-forms-builder-drop-area
-      [dropAreaPortal]="dropAreaPortal"
-      [dropElements] = "dropAreaState | async"
-      [accordionData]="accordionState | async"
       class="drop-section"
+      *ngrxLet="accordionState$ as accordionData"
+      [accordionData]="accordionData"
+      [dropElements]="dropAreaState$|ngrxPush"
       (itemDropped)="drop($event)"
       (fieldSelected)="selectField($event)"
       (mouseenter)="isDragging ? isDragItemEnter=true : isDragItemEnter=false"
@@ -29,11 +27,11 @@
     ></app-forms-builder-drop-area>
 <!--  Drag Area Component  -->
     <app-forms-builder-drag-area
-      [dragAreaPortal]="dragAreaPortal"
       (dragStarted)="isDragging=true"
       (itemDropped)="drop($event)"
       class="drag-section"
     ></app-forms-builder-drag-area>
+
   </div>
 </div>
 

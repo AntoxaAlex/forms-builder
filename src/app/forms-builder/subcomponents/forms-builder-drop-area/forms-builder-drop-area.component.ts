@@ -1,7 +1,5 @@
 import {AfterViewInit, Component, Input, Output, ViewChild, ViewContainerRef} from "@angular/core";
-import {SubclassComponent} from "../subclass.component";
 import {EventEmitter} from "@angular/core";
-import {DumbComponent} from "../subclass-decorator.component";
 import {TemplatePortal} from "@angular/cdk/portal";
 
 
@@ -12,7 +10,6 @@ import {TemplatePortal} from "@angular/cdk/portal";
 })
 
 export class FormsBuilderDropAreaComponent implements AfterViewInit{
-  @Input("dropAreaPortal") dropAreaPortal:any
   @Input("dropElements") dropElements:any
   @Input("accordionData") accordionData:any
   @Output("fieldSelected") fieldSelected = new EventEmitter<number>()
@@ -21,6 +18,7 @@ export class FormsBuilderDropAreaComponent implements AfterViewInit{
   @ViewChild("dropList") dropList:any
   @ViewChild("dropAreaPortalContent") dropAreaPortalContent:any
 
+  dropAreaPortal:any
 
   constructor(private _viewContainerRef: ViewContainerRef) {
   }

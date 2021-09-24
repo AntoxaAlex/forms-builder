@@ -1,38 +1,53 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FieldConfig} from "../../../interfaces/field.interface";
 import {FormGroup} from "@angular/forms";
+import {SubclassComponent} from "../../subcomponents/subclass.component";
 
 
 @Component({
   selector: 'app-input',
   template: `
-    <mat-form-field class="demo-full-width" [formGroup]="group">
+    <mat-form-field
+      class="demo-full-width"
+      [formGroup]="group"
+      [style]="styles|stylePipe:['width','fontSize','fontWeight','borderStyle']:isFormActive:isStyleInput"
+    >
       <input
         matInput
         [formControlName]="field.name!"
-        [placeholder]="field.label!"
         [type]="field.inputType!"
-        [id]="field.id"
+        [placeholder]="styles|stylePipe:['placeholder']:isFormActive:isStyleInput:field.label"
+        [required]="styles|stylePipe:['required']:isFormActive:isStyleInput:false"
+        [style]="styles|stylePipe:['color','height']:isFormActive:isStyleInput"
+        [id]="isFormActive ? field.id : 'field-'+field.type"
         [value]="field.value!"
         (change)="changeForm($event)"
+        (click)="selectField()"
       >
     </mat-form-field>
   `,
   styles: [
   ]
 })
-export class InputComponent implements OnInit {
+export class InputComponent extends SubclassComponent{
   field: FieldConfig;
   group: FormGroup;
   index:number
+  styles:any
+  isStyleInput:boolean
+  isFormActive:boolean
 
   @Output("formChanged") formChanged = new EventEmitter()
-  constructor() { }
-
-  ngOnInit(): void {
+  @Output("fieldSelected") fieldSelected = new EventEmitter()
+  constructor() {
+    super()
   }
 
   changeForm(evt:any){
     this.formChanged.emit({index:this.index,evt})
+  }
+
+  selectField(){
+    this.fieldSelected.emit()
   }
 }

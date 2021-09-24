@@ -14,6 +14,7 @@ export enum accordionActions{
 
 export class AccordionChangeStylingAction implements Action{
   readonly type = accordionActions.changeStyling
+  constructor(public payload:boolean) {}
 }
 
 export class AccordionChangeFormAction implements Action{

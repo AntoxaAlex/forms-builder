@@ -15,9 +15,11 @@ import {CheckboxComponent} from "./checkbox/checkbox.component";
 import {ButtonComponent} from "./button/button.component";
 import {SliderComponent} from "./slider/slider.component";
 import {FieldConfig} from "../../interfaces/field.interface";
+import {TextareaComponent} from "./textarea/textarea.component";
 
 const componentMapper:any = {
   input:InputComponent,
+  textarea:TextareaComponent,
   select:SelectComponent,
   checkbox:CheckboxComponent,
   button:ButtonComponent,
@@ -32,7 +34,11 @@ export class DynamicFieldDirective implements OnInit,AfterViewInit{
   @Input() field: FieldConfig;
   @Input() group: FormGroup;
   @Input() index: number;
+  @Input() styles: any;
+  @Input() isStyleInput:boolean
+  @Input() isFormActive:boolean
   @Output() formChanged = new EventEmitter()
+  @Output() fieldSelected = new EventEmitter()
 
   componentRef:any
 
@@ -56,12 +62,23 @@ export class DynamicFieldDirective implements OnInit,AfterViewInit{
     this.componentRef.instance.field = this.field;
     this.componentRef.instance.group = this.group;
     this.componentRef.instance.index = this.index;
+    this.componentRef.instance.isStyleInput = this.isStyleInput;
+    this.componentRef.instance.isFormActive = this.isFormActive;
+    if(!this.isStyleInput){
+      this.componentRef.instance.styles = this.field.styles
+    }
   }
 
   ngAfterViewInit() {
-    this.componentRef.instance.formChanged.subscribe((evt:any)=>{
-      this.formChanged.emit(evt)
-    })
+    if(this.isStyleInput){
+      this.componentRef.instance.formChanged.subscribe((evt:any)=>{
+        this.formChanged.emit(evt)
+      })
+    }else{
+      this.componentRef.instance.fieldSelected.subscribe(()=>{
+        this.fieldSelected.emit()
+      })
+    }
   }
 
 

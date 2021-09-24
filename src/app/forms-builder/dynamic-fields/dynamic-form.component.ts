@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChildren} from "@angular/core";
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChildren
+} from "@angular/core";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import {FieldConfig} from "../../interfaces/field.interface";
 import {SliderComponent} from "./slider/slider.component";
@@ -7,7 +17,18 @@ import {SliderComponent} from "./slider/slider.component";
   selector: 'app-dynamic-form',
   template: `
     <form class="accordion-container" [formGroup]="form">
-      <ng-container *ngFor="let field of fields;index as index" dynamicField [field]="field" [group]="form" [index]="index" (formChanged)="changeForm($event)">
+      <ng-container
+        *ngFor="let field of fields;index as index"
+        dynamicField
+        [field]="field"
+        [group]="form"
+        [index]="index"
+        [isStyleInput]="isStyleInput"
+        [isFormActive]="isFormActive"
+        [style]="!isStyleInput ? field.styles :''"
+        (formChanged)="changeForm($event)"
+        (fieldSelected)="selectField(index)"
+      >
       </ng-container>
     </form>
   `,
@@ -23,8 +44,11 @@ import {SliderComponent} from "./slider/slider.component";
 export class DynamicFormComponent implements OnInit,AfterViewInit {
 
   @Input() fields: FieldConfig[] = [];
+  @Input() isStyleInput:boolean
+  @Input() isFormActive:boolean
   form: FormGroup;
   @Output("formChanged") formChanged = new EventEmitter()
+  @Output("fieldSelected") fieldSelected = new EventEmitter()
 
   @ViewChildren(SliderComponent) sliderComponents:any
 
@@ -56,6 +80,10 @@ export class DynamicFormComponent implements OnInit,AfterViewInit {
 
   changeForm(evt:any){
     this.formChanged.emit(evt)
+  }
+
+  selectField(index:number){
+    this.fieldSelected.emit(index)
   }
 
 }

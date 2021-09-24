@@ -2,6 +2,7 @@ import {Action} from "@ngrx/store";
 import {FieldConfig} from "../../../interfaces/field.interface";
 
 export interface DropAreaItem {
+  type:string,
   id:string,
   x:number,
   y:number,

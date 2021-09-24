@@ -5,13 +5,12 @@ import {CommonModule} from "@angular/common";
 
 //Modules
 import {MaterialModule} from "../material.module";
+import {ReactiveComponentModule} from "@ngrx/component";
 
 //Components
 import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
 import {FormsBuilderDropAreaComponent} from "./subcomponents/forms-builder-drop-area/forms-builder-drop-area.component";
 import {FormsBuilderDragAreaComponent} from "./subcomponents/forms-builder-drag-area/forms-builder-drag-area.component";
-import { StyleItemComponent } from './subcomponents/style-item/style-item.component';
-import { DropItemsComponent } from './subcomponents/drop-items/drop-items.component';
 
 import {InputComponent} from "./dynamic-fields/input/input.component";
 import {ButtonComponent} from "./dynamic-fields/button/button.component";
@@ -31,6 +30,8 @@ import {environment} from "../../environments/environment";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { DynamicFieldDirective } from './dynamic-fields/dynamic-field.directive';
 import { DynamicFormComponent } from './dynamic-fields/dynamic-form.component';
+import {TextareaComponent} from "./dynamic-fields/textarea/textarea.component";
+import { StylePipePipe } from './style-pipe.pipe';
 
 
 
@@ -40,6 +41,7 @@ import { DynamicFormComponent } from './dynamic-fields/dynamic-form.component';
     FormsBuilderRoutingModule,
     MaterialModule,
     FormsModule,
+    ReactiveComponentModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers, {
       metaReducers
@@ -60,18 +62,18 @@ import { DynamicFormComponent } from './dynamic-fields/dynamic-form.component';
     CheckboxComponent,
     SliderComponent,
     SelectComponent,
-    StyleItemComponent,
-    DropItemsComponent,
+    TextareaComponent,
     DynamicFieldDirective,
-    DynamicFormComponent
+    DynamicFormComponent,
+    StylePipePipe
   ],
   entryComponents:[
     InputComponent,
     ButtonComponent,
+    TextareaComponent,
     CheckboxComponent,
     SliderComponent,
-    SelectComponent,
-    StyleItemComponent
+    SelectComponent
   ]
 })
 

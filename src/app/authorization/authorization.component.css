@@ -1,0 +1,21 @@
+.authorization-main{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+
+.authorization-container{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
+
+.authorization-form{
+
+}
+
+.full-width{
+  width: 100%;
+}

@@ -1,5 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild, ViewContainerRef} from "@angular/core";
-import {SubclassComponent} from "../subclass.component";
+import {AfterViewInit, Component, EventEmitter,Output, ViewChild, ViewContainerRef} from "@angular/core";
 import {TemplatePortal} from "@angular/cdk/portal";
 
 @Component({
@@ -9,11 +8,12 @@ import {TemplatePortal} from "@angular/cdk/portal";
 })
 
 export class FormsBuilderDragAreaComponent implements AfterViewInit{
-  @Input("dragAreaPortal") dragAreaPortal:any
   @Output("itemDropped") itemDropped = new EventEmitter()
   @Output("dragStarted") dragStarted = new EventEmitter()
 
   @ViewChild("dragAreaPortalContent") dragAreaPortalContent: any
+
+  dragAreaPortal:any
 
   constructor(private _viewContainerRef: ViewContainerRef) {}
 

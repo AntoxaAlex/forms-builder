@@ -1,4 +1,4 @@
-<cdk-accordion class="accordion">
+<cdk-accordion [id]="accordionData.isFormStylingActive ? 'form-accordion':'field-accordion'" class="accordion">
   <cdk-accordion-item
     #accordionItem="cdkAccordionItem"
     class="accordion-item"
@@ -24,9 +24,9 @@
 
 <ng-template #accordionPortalContent>
   <div *ngIf="accordionData.isFormStylingActive;else fieldStyling">
-    <app-dynamic-form [fields]="accordionData.formStyling" (formChanged)="changeForm($event)"></app-dynamic-form>
+    <app-dynamic-form [fields]="accordionData.formStyling" [isStyleInput]=true [isFormActive]="true" (formChanged)="changeForm($event)"></app-dynamic-form>
   </div>
   <ng-template #fieldStyling>
-    <app-dynamic-form [fields]="dropElements.items[selectedIndex].styles" (formChanged)="changeField($event,dropElements.items)"></app-dynamic-form>
+    <app-dynamic-form [fields]="dropElements.items[selectedIndex].styles" [isStyleInput]=true [isFormActive]="false" (formChanged)="changeField($event,dropElements.items)"></app-dynamic-form>
   </ng-template>
 </ng-template>

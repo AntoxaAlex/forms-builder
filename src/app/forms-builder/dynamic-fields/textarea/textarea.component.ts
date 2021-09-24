@@ -3,49 +3,41 @@ import {FieldConfig} from "../../../interfaces/field.interface";
 import {FormGroup} from "@angular/forms";
 import {SubclassComponent} from "../../subcomponents/subclass.component";
 
-
 @Component({
-  selector: 'app-select',
+  selector: 'app-textarea',
   template: `
     <mat-form-field
-      class="demo-full-width margin-top"
+      class="example-full-width"
+      appearance="fill"
       [formGroup]="group"
-      [style]="styles|stylePipe:['width','fontSize','fontWeight','borderStyle','height']:false:isStyleInput"
+      [style]="styles|stylePipe:['width','fontSize','fontWeight','borderStyle']:false:isStyleInput"
     >
-      <mat-select
-        [placeholder]="styles|stylePipe:['placeholder']:false:isStyleInput:field.label"
+      <mat-label>{{styles|stylePipe:['placeholder']:false:isStyleInput:field.label}}</mat-label>
+      <textarea
+        matInput
         [formControlName]="field.name!"
         [id]="field.id"
         [required]="styles|stylePipe:['required']:false:isStyleInput:false"
-        (change)="changeForm($event)"
-        (click)="selectField()"
         [style]="styles|stylePipe:['color','height']:false:isStyleInput"
-      >
-        <mat-option
-          id="field-option"
-          [style]="styles|stylePipe:['color','height']:false:isStyleInput"
-        >{{styles|stylePipe:['placeholder']:false:isStyleInput:"option"}}</mat-option>
-      </mat-select>
+        (click)="selectField()"
+      >{{field.value}}</textarea>
     </mat-form-field>
   `,
   styles: [
   ]
 })
-export class SelectComponent extends SubclassComponent{
+export class TextareaComponent extends SubclassComponent{
+
   field: FieldConfig;
   group: FormGroup;
   index:number
   styles:any
   isStyleInput:boolean
 
-  @Output("formChanged") formChanged = new EventEmitter()
   @Output("fieldSelected") fieldSelected = new EventEmitter()
+
   constructor() {
     super()
-  }
-
-  changeForm(evt:any){
-    this.formChanged.emit({index:this.index,evt})
   }
 
   selectField(){
