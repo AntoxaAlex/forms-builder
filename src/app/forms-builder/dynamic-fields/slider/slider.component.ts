@@ -7,23 +7,30 @@ import {SubclassComponent} from "../../subcomponents/subclass.component";
 @Component({
   selector: 'app-slider',
   template: `
-    <div class="demo-full-width margin-top" [formGroup]="group" >
-      <mat-slider
-        thumbLabel
-        aria-label="units"
-        [formControlName]="field.name!"
+    <div class="demo-full-width margin-top" [formGroup]="group" [class]="isStyleInput ? 'style-item':''" >
+      <p *ngIf="isStyleInput">{{field.label}}</p>
+      <input
+        type="range"
+        [name]="field.name!"
         [id]="isFormActive ? field.id : 'field-'+field.type"
         [max]="field.max!"
         [min]="field.min!"
+        color="primary"
         [step]="field.step"
-        [tickInterval]="field.tickInterval!"
         [value]="field.value!"
-        (change)="changeForm($event)"
+        (change)="isFormActive ? changeForm($event) : changeField($event)"
         (click)="selectField()"
-      ></mat-slider>
+      >
+
     </div>
   `,
   styles: [
+    `
+      .style-item{
+        padding: 10px;
+        box-sizing: border-box;
+      }
+    `
   ]
 })
 export class SliderComponent extends SubclassComponent{
@@ -35,6 +42,7 @@ export class SliderComponent extends SubclassComponent{
   isFormActive:boolean
 
   @Output("formChanged") formChanged = new EventEmitter()
+  @Output("fieldChanged") fieldChanged = new EventEmitter()
   @Output("fieldSelected") fieldSelected = new EventEmitter()
 
   constructor() {
@@ -43,6 +51,10 @@ export class SliderComponent extends SubclassComponent{
 
   changeForm(evt:any){
     this.formChanged.emit({index:this.index,evt})
+  }
+
+  changeField(evt:any){
+    this.fieldChanged.emit({index:this.index,evt})
   }
 
 

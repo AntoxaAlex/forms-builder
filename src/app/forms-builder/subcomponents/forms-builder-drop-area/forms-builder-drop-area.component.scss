@@ -1,3 +1,5 @@
+@import "../../../../variables";
+
 #backgroundText{
   position: absolute;
   top:50%;
@@ -8,4 +10,8 @@
   z-index: 1;
   opacity: 0.2;
   font-size: 5rem;
+}
+
+#drop-list{
+  box-sizing: border-box;
 }

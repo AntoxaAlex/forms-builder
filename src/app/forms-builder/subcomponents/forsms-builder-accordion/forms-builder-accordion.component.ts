@@ -8,53 +8,45 @@ import {
   ViewChild,
   ViewContainerRef
 } from "@angular/core";
-import {SubclassComponent} from "../subclass.component";
 import {TemplatePortal} from "@angular/cdk/portal";
-import {FieldConfig} from "../../../interfaces/field.interface";
+import {Store} from "@ngrx/store";
+import {FormsBuilderContentState} from "../../state/reducers";
+import {AccordionExpandAction} from "../../state/actions/accordionActions";
 
 
 @Component({
   selector: 'app-forms-builder-accordion',
   templateUrl: './forms-builder-accordion.component.html',
-  styleUrls: ['./forms-builder-accordion.component.css']
+  styleUrls: ['./forms-builder-accordion.component.scss']
 })
 
-export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit{
+export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit {
 
 
-  @Input("accordionData") accordionData:any
-  @Input("dropElements") dropElements:any
-  @Input("selectedIndex") selectedIndex:any
+  @Input("accordionData") accordionData: any
+  @Input("dropElements") dropElements: any
+  @Input("selectedIndex") selectedIndex: any
 
   @Output("accordionExpanded") accordionExpanded = new EventEmitter<boolean>()
-  @Output("formChanged") formChanged = new EventEmitter()
-  @Output("fieldChanged") fieldChanged = new EventEmitter()
 
-  @ViewChild("accordionItem") accordionItem:any
-  @ViewChild("expandBtn") expandBtn:any
-  @ViewChild("accordionPortalContent") accordionPortalContent:any
+  @ViewChild("accordionItem") accordionItem: any
+  @ViewChild("expandBtn") expandBtn: any
+  @ViewChild("accordionPortalContent") accordionPortalContent: any
 
-  accordionPortal:any
+  accordionPortal: any
 
-  constructor(private _viewContainerRef: ViewContainerRef) {
+  constructor(private _viewContainerRef: ViewContainerRef,private store$:Store<FormsBuilderContentState>) {
   }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    this.accordionPortal = new TemplatePortal(this.accordionPortalContent,this._viewContainerRef)
+    this.accordionPortal = new TemplatePortal(this.accordionPortalContent, this._viewContainerRef)
   }
 
-  toggleExpander(){
-    this.accordionExpanded.emit()
-  }
-
-  changeForm(evt:any){
-    this.formChanged.emit(evt)
-  }
-  changeField(evt:any,items:any){
-    this.fieldChanged.emit({contentData:evt, items})
+  toggleExpander() {
+    this.store$.dispatch(new AccordionExpandAction())
   }
 
 

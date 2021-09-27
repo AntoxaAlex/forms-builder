@@ -5,6 +5,7 @@ import {dropAreaActions} from "../actions/dropAreaActions";
 import {FieldConfig} from "../../../interfaces/field.interface";
 
 export interface AccordionState {
+  isAccordionExpanded:boolean,
   isFormStylingActive:boolean,
   formStyling:FieldConfig[],
   fieldStyling:FieldConfig[],
@@ -13,12 +14,13 @@ export interface AccordionState {
 }
 
 const initialState:AccordionState = {
+  isAccordionExpanded:false,
   isFormStylingActive:true,
   formStyling:[
     {
       type:"slider",
       id:"width",
-      name:"width",
+      name:"0",
       label:"Width",
       max:100,
       min:10,
@@ -29,7 +31,7 @@ const initialState:AccordionState = {
     {
       type:"slider",
       id:"height",
-      name:"height",
+      name:"1",
       label:"Height",
       max:800,
       min:100,
@@ -40,7 +42,7 @@ const initialState:AccordionState = {
     {
       type:"slider",
       id:"padding",
-      name:"padding",
+      name:"2",
       label:"Padding",
       max:100,
       min:0,
@@ -51,7 +53,7 @@ const initialState:AccordionState = {
     {
       type:"input",
       id:"backgroundText",
-      name:"backgroundText",
+      name:"3",
       label:"Background Text",
       inputType:"text",
       value:"Drop something here"
@@ -59,15 +61,15 @@ const initialState:AccordionState = {
     {
       type:"input",
       id:"backgroundColor",
-      name:"backgroundColor",
+      name:"4",
       label:"Background Color",
       inputType:"color",
-      value:"#fff"
+      value:"#1F2833"
     },
     {
       type:"slider",
       id:"borderWidth",
-      name:"borderWidth",
+      name:"5",
       label:"Border Width",
       max:10,
       min:1,
@@ -78,7 +80,7 @@ const initialState:AccordionState = {
     {
       type:"input",
       id:"borderStyle",
-      name:"borderStyle",
+      name:"6",
       label:"Border Style",
       inputType:"text",
       value:"solid"
@@ -86,7 +88,7 @@ const initialState:AccordionState = {
     {
       type:"input",
       id:"borderColor",
-      name:"borderColor",
+      name:"7",
       label:"Border Color",
       inputType:"color",
       value:"#000"
@@ -94,20 +96,20 @@ const initialState:AccordionState = {
     {
       type:"slider",
       id:"borderRadius",
-      name:"borderRadius",
+      name:"8",
       label:"Border Radius",
       max:50,
       min:0,
       step:1,
       tickInterval:1,
-      value:15
+      value:0
     }
   ],
   fieldStyling:[
     {
       type:"slider",
       id:"width",
-      name:"width",
+      name:"0",
       label:"Width",
       max:600,
       min:10,
@@ -118,7 +120,7 @@ const initialState:AccordionState = {
     {
       type:"slider",
       id:"height",
-      name:"height",
+      name:"1",
       label:"Height",
       max:100,
       min:20,
@@ -129,14 +131,14 @@ const initialState:AccordionState = {
     {
       type:"checkbox",
       id:"required",
-      name:"required",
+      name:"2",
       label:"Required",
       checked:false
     },
     {
       type:"input",
       id:"placeholder",
-      name:"placeholder",
+      name:"3",
       label:"Placeholder",
       inputType:"text",
       value:"Type some text"
@@ -144,7 +146,7 @@ const initialState:AccordionState = {
     {
       type:"slider",
       id:"fontSize",
-      name:"fontSize",
+      name:"4",
       label:"Font Size",
       max:25,
       min:10,
@@ -155,7 +157,7 @@ const initialState:AccordionState = {
     {
       type:"slider",
       id:"fontWeight",
-      name:"fontWeight",
+      name:"5",
       label:"Font Weight",
       max:900,
       min:100,
@@ -166,7 +168,7 @@ const initialState:AccordionState = {
     {
       type:"input",
       id:"borderStyle",
-      name:"borderStyle",
+      name:"6",
       label:"Border Style",
       inputType:"text",
       value:"solid"
@@ -174,7 +176,7 @@ const initialState:AccordionState = {
     {
       type:"input",
       id:"color",
-      name:"color",
+      name:"7",
       label:"Text Color",
       inputType:"color",
       value:"#000"
@@ -186,6 +188,11 @@ const initialState:AccordionState = {
 
 export const accordionReducer = (state:AccordionState = initialState,action:AccordionActions) => {
   switch (action.type) {
+    case accordionActions.expandAccordion:
+      return {
+        ...state,
+        isAccordionExpanded: !state.isAccordionExpanded
+      }
     case accordionActions.changeStyling:
     return {
       ...state,

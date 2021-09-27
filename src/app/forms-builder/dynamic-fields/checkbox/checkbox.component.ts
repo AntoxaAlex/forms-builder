@@ -7,7 +7,8 @@ import {SubclassComponent} from "../../subcomponents/subclass.component";
 @Component({
   selector: 'app-checkbox',
   template: `
-    <div class="demo-full-width margin-top" [formGroup]="group" >
+    <div class="demo-full-width margin-top" [formGroup]="group" [class]="isStyleInput ? 'style-item':''">
+      <p *ngIf="isStyleInput">{{field.label}}</p>
       <mat-checkbox
         [formControlName]="field.name!"
         [id]="isFormActive ? field.id : 'field-'+field.type"
@@ -28,6 +29,12 @@ import {SubclassComponent} from "../../subcomponents/subclass.component";
     </div>
   `,
   styles: [
+    `
+      .style-item{
+        padding: 10px;
+        box-sizing: border-box;
+      }
+    `
   ]
 })
 export class CheckboxComponent extends SubclassComponent{

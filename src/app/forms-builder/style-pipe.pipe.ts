@@ -30,7 +30,8 @@ export class StylePipePipe implements PipeTransform {
       newObj = {...newObj,[entryName]:null}
     })
     stylesArray.forEach(styleElement=>{
-      const {name,value,checked} = styleElement
+      const {id,value,checked} = styleElement
+      const name =id
       if(newObj.hasOwnProperty(name)){
         if(name === "width"){
           newObj ={...newObj,width: isFormActive ? value+'%' : value+'px'}

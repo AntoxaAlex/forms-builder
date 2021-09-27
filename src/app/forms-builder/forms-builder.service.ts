@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import {FormsBuilderModule} from "./forms-builder.module";
-import {DropAreaItem} from "./state/actions/dropAreaActions";
+import {DropAreaAddItemAction, DropAreaEditItemAction, DropAreaItem} from "./state/actions/dropAreaActions";
+import {AccordionChangeFormAction} from "./state/actions/accordionActions";
+import {Store} from "@ngrx/store";
+import {FormsBuilderContentState} from "./state/reducers";
+import {DragAreaEnterToDropAreaAction, DragAreaStartDraggingAction} from "./state/actions/dragAreaActions";
 
 @Injectable({
   providedIn: "any"
 })
 export class FormsBuilderService {
+  index:number=0
 
-  constructor() { }
+  constructor(private store$:Store<FormsBuilderContentState>) { }
 
   getPosition = (el:string,point:number):any => {
     const dropItem = document.getElementById("drop-list")
@@ -20,7 +25,16 @@ export class FormsBuilderService {
     }
   }
 
-  createDropElement = (event:any) => {
+  drop(event:any,isDragItemEnter:boolean,index:string|null){
+    //If dragged element crossed Drop Area
+    if(isDragItemEnter){
+      const payload = this.createDropElement(event,index!)
+      this.store$.dispatch(new DropAreaAddItemAction(payload))
+      this.store$.dispatch(new DragAreaStartDraggingAction(false))
+      this.store$.dispatch(new DragAreaEnterToDropAreaAction(false))
+    }
+  }
+  createDropElement = (event:any,index:string) => {
     //Retrieve information about drop position and element id from event
     const dropPoint = event.dropPoint
     const type = event.item.element.nativeElement.id
@@ -28,17 +42,17 @@ export class FormsBuilderService {
     const x = this.getPosition("x",dropPoint.x)
     const y = this.getPosition("y",dropPoint.y)
     //Add element into Drop Area
-
     const payload:DropAreaItem = {
       type,
       id:"field-"+type,
+      index,
       x,
       y,
       styles:[
         {
           type:"slider",
           id:"width",
-          name:"width",
+          name:"0",
           label:"Width",
           max:600,
           min:10,
@@ -49,7 +63,7 @@ export class FormsBuilderService {
         {
           type:"slider",
           id:"height",
-          name:"height",
+          name:"1",
           label:"Height",
           max:100,
           min:20,
@@ -60,14 +74,14 @@ export class FormsBuilderService {
         {
           type:"checkbox",
           id:"required",
-          name:"required",
+          name:"2",
           label:"Required",
           value:false
         },
         {
           type:"input",
           id:"placeholder",
-          name:"placeholder",
+          name:"3",
           label:"Placeholder",
           inputType:"text",
           value:"Type some text"
@@ -75,7 +89,7 @@ export class FormsBuilderService {
         {
           type:"slider",
           id:"fontSize",
-          name:"fontSize",
+          name:"4",
           label:"Font Size",
           max:25,
           min:10,
@@ -86,7 +100,7 @@ export class FormsBuilderService {
         {
           type:"slider",
           id:"fontWeight",
-          name:"fontWeight",
+          name:"5",
           label:"Font Weight",
           max:900,
           min:100,
@@ -97,7 +111,7 @@ export class FormsBuilderService {
         {
           type:"input",
           id:"borderStyle",
-          name:"borderStyle",
+          name:"6",
           label:"Border Style",
           inputType:"text",
           value:"none"
@@ -105,7 +119,7 @@ export class FormsBuilderService {
         {
           type:"input",
           id:"color",
-          name:"color",
+          name:"7",
           label:"Text Color",
           inputType:"color",
           value:"#000"
@@ -113,6 +127,30 @@ export class FormsBuilderService {
       ]}
 
       return payload
+  }
+
+  onChangeDropArea = (evt:any) =>{
+    if(evt){
+      const name = evt.target ? evt.target.id : evt.source._elementRef.nativeElement.id
+      const value = name ==="required" ? evt.checked : evt.target.value
+      const index = parseInt(evt.target.name)
+      this.store$.dispatch(new AccordionChangeFormAction({index,name,value}))
+    }
+  }
+
+  onChangeField = (data:any,selectedIndex:number) => {
+    if(data){
+      const {items,evt} = data
+      const name = evt.target ? evt.target.id : evt.source._elementRef.nativeElement.id
+      const index = parseInt(evt.target.name)
+      const value = name ==="field-checkbox" ? evt.checked : evt.target.value
+      console.log(selectedIndex,index,name,value)
+      const newItems = [...items]
+      newItems[selectedIndex] = {...newItems[selectedIndex]}
+      newItems[selectedIndex].styles = [...newItems[selectedIndex].styles]
+      newItems[selectedIndex].styles[index] = {...newItems[selectedIndex].styles[index],value:value}
+      this.store$.dispatch(new DropAreaEditItemAction(newItems))
+    }
   }
 
 

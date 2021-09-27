@@ -38,6 +38,7 @@ export class DynamicFieldDirective implements OnInit,AfterViewInit{
   @Input() isStyleInput:boolean
   @Input() isFormActive:boolean
   @Output() formChanged = new EventEmitter()
+  @Output() fieldChanged = new EventEmitter()
   @Output() fieldSelected = new EventEmitter()
 
   componentRef:any
@@ -71,9 +72,7 @@ export class DynamicFieldDirective implements OnInit,AfterViewInit{
 
   ngAfterViewInit() {
     if(this.isStyleInput){
-      this.componentRef.instance.formChanged.subscribe((evt:any)=>{
-        this.formChanged.emit(evt)
-      })
+
     }else{
       this.componentRef.instance.fieldSelected.subscribe(()=>{
         this.fieldSelected.emit()

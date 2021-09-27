@@ -2,22 +2,25 @@ import {
   AfterViewChecked,
   AfterViewInit,
   Component,
-  EventEmitter,
   Input,
-  OnChanges,
   OnInit,
-  Output,
+  ViewChild,
   ViewChildren
 } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder} from "@angular/forms";
 import {FieldConfig} from "../../interfaces/field.interface";
-import {SliderComponent} from "./slider/slider.component";
+import {Store} from "@ngrx/store";
+import {FormsBuilderContentState} from "../state/reducers";
+import {fromEvent} from "rxjs";
+import {FormsBuilderService} from "../forms-builder.service";
+import {DropAreaChangeIndexAction} from "../state/actions/dropAreaActions";
 
 @Component({
   selector: 'app-dynamic-form',
   template: `
-    <form class="accordion-container" [formGroup]="form">
+    <form #dynamicForm [class]="isStyleInput ? 'accordion-container' : 'drop-area-container'" [formGroup]="form">
       <ng-container
+        #dynamicInputs
         *ngFor="let field of fields;index as index"
         dynamicField
         [field]="field"
@@ -26,7 +29,6 @@ import {SliderComponent} from "./slider/slider.component";
         [isStyleInput]="isStyleInput"
         [isFormActive]="isFormActive"
         [style]="!isStyleInput ? field.styles :''"
-        (formChanged)="changeForm($event)"
         (fieldSelected)="selectField(index)"
       >
       </ng-container>
@@ -37,27 +39,37 @@ import {SliderComponent} from "./slider/slider.component";
       .accordion-container{
         overflow-x: auto;
         display: flex;
+        padding: 20px 10px 0px 10px;
+      }
+
+      .drop-area-container{
+        display: flex;
+        flex-direction: column;
       }
     `
   ]
 })
-export class DynamicFormComponent implements OnInit,AfterViewInit {
+export class DynamicFormComponent implements OnInit,AfterViewInit,AfterViewChecked {
+
+
+  form: FormGroup;
+  changeContent$:any
 
   @Input() fields: FieldConfig[] = [];
   @Input() isStyleInput:boolean
   @Input() isFormActive:boolean
-  form: FormGroup;
-  @Output("formChanged") formChanged = new EventEmitter()
-  @Output("fieldSelected") fieldSelected = new EventEmitter()
+  @Input() items:any
+  @Input() selectedIndex:any
 
-  @ViewChildren(SliderComponent) sliderComponents:any
+  @ViewChildren("dynamicInputs") inputComponents:any
+  @ViewChild("dynamicForm") dynamicForm:any
+
 
   get value() {
     return this.form.value;
   }
 
-  constructor(private fb: FormBuilder) {
-
+  constructor(private fb: FormBuilder,private store$:Store<FormsBuilderContentState>,private formsBuilderService:FormsBuilderService) {
   }
 
   createControl() {
@@ -76,14 +88,18 @@ export class DynamicFormComponent implements OnInit,AfterViewInit {
     this.form = this.createControl();
   }
   ngAfterViewInit() {
-  }
 
-  changeForm(evt:any){
-    this.formChanged.emit(evt)
+  }
+  ngAfterViewChecked() {
+   this.changeContent$= fromEvent(this.dynamicForm.nativeElement.children,"change").subscribe((evt:any)=>{
+     this.isFormActive
+       ? this.formsBuilderService.onChangeDropArea(evt)
+       :  this.formsBuilderService.onChangeField({evt,items:this.items},this.selectedIndex)
+   })
   }
 
   selectField(index:number){
-    this.fieldSelected.emit(index)
+    this.store$.dispatch(new DropAreaChangeIndexAction(index))
   }
 
 }

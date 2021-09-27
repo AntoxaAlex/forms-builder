@@ -1,37 +1,33 @@
-h1{
-  text-align: center;
-}
+@import "../../variables";
 
 .main-container{
   width: 90%;
-  position: absolute;
-  top:50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  margin: 50px auto;
 }
 
 .drag-drop-section{
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  height: 600px;
 }
 
 .drag-section{
-  width: 35%;
-  height: 400px;
-  background-color: rgba(255,215,64,0.8);
-  border: 1px solid rgb(217,217,217);
-  border-radius: 25px;
-  box-sizing: border-box;
+  width: 150px;
+  height: 100%;
+  border: 1px solid $fb-textColor;
+  border-radius: 15px 0 0 15px;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .drop-section{
-  height: 600px;
-  width: 60%;
-  border-radius: 25px;
+  height: 100%;
+  width: 90%;
   box-sizing: border-box;
   position: relative;
+  background-color: $fb-backgroundColor;
+  overflow-y: auto;
 }
 
 .draggable-element:hover{
@@ -67,3 +63,5 @@ h1{
 .dropped-item{
   position: absolute;
 }
+
+

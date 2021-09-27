@@ -32,6 +32,7 @@ import { DynamicFieldDirective } from './dynamic-fields/dynamic-field.directive'
 import { DynamicFormComponent } from './dynamic-fields/dynamic-form.component';
 import {TextareaComponent} from "./dynamic-fields/textarea/textarea.component";
 import { StylePipePipe } from './style-pipe.pipe';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -65,7 +66,8 @@ import { StylePipePipe } from './style-pipe.pipe';
     TextareaComponent,
     DynamicFieldDirective,
     DynamicFormComponent,
-    StylePipePipe
+    StylePipePipe,
+    NavbarComponent
   ],
   entryComponents:[
     InputComponent,

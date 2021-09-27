@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-authorization',
   templateUrl: './authorization.component.html',
-  styleUrls: ['./authorization.component.css']
+  styleUrls: ['./authorization.component.scss']
 })
 export class AuthorizationComponent implements OnInit {
 
@@ -13,7 +14,8 @@ export class AuthorizationComponent implements OnInit {
   email:string
   password:string
 
-  constructor(private http:HttpClient) { }
+
+  constructor(private http:HttpClient,private router:Router) { }
 
   ngOnInit(): void {
 
@@ -27,8 +29,9 @@ export class AuthorizationComponent implements OnInit {
         "Content-Type":"application/json"
       })
     }
-    this.http.post("http://localhost:5000/",body,config).subscribe((data:any)=>{
-      console.log(data)
+    this.http.post("http://localhost:5000/",body,config).subscribe((token:any)=>{
+      localStorage.setItem("token",token)
+      this.router.navigate(['forms-builder'])
     })
   }
 

@@ -13,6 +13,9 @@ import {FormsModule} from "@angular/forms";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 
 @NgModule({
@@ -23,10 +26,13 @@ import {MatOptionModule} from "@angular/material/core";
     MatInputModule,
     MatRadioModule,
     MatSliderModule,
+    MatToolbarModule,
+    MatIconModule,
     MatCheckboxModule,
     DragDropModule,
     PortalModule,
     MatOptionModule,
+    MatButtonModule,
     CdkAccordionModule,
     MatFormFieldModule,
     FormsModule,
@@ -38,9 +44,12 @@ import {MatOptionModule} from "@angular/material/core";
     MatInputModule,
     MatRadioModule,
     MatSliderModule,
+    MatButtonModule,
+    MatToolbarModule,
     MatCheckboxModule,
     DragDropModule,
     PortalModule,
+    MatIconModule,
     MatOptionModule,
     CdkAccordionModule,
     MatFormFieldModule,

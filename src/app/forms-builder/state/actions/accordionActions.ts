@@ -9,7 +9,8 @@ export interface ChangeFormValues {
 
 export enum accordionActions{
   changeStyling="[ACCORDION] changeStyling",
-  changeForm="[ACCORDION] changeForm"
+  changeForm="[ACCORDION] changeForm",
+  expandAccordion="[ACCORDION] expandAccordion"
 }
 
 export class AccordionChangeStylingAction implements Action{
@@ -22,4 +23,8 @@ export class AccordionChangeFormAction implements Action{
   constructor(public payload:ChangeFormValues) {}
 }
 
-export type AccordionActions = |AccordionChangeFormAction|AccordionChangeStylingAction
+export class AccordionExpandAction implements Action{
+  readonly type = accordionActions.expandAccordion
+}
+
+export type AccordionActions = |AccordionChangeFormAction|AccordionChangeStylingAction|AccordionExpandAction
