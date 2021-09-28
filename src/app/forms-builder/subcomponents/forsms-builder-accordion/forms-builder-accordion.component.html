@@ -9,7 +9,7 @@
     [attr.aria-expanded]="accordionData.isAccordionExpanded">
     <div class="accordion-item-header">
       {{ accordionData.isFormStylingActive ? "Form Styles" : "Field Styles" }}
-      <button class="accordion-item-description" (click)="toggleExpander()">{{ accordionItem.expanded ? '-' : '+' }}</button>
+      <button id="expandButton" class="accordion-item-description" (click)="toggleExpander()">{{ accordionItem.expanded ? '-' : '+' }}</button>
     </div>
     <div
       class="accordion-item-body"

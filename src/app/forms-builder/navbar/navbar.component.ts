@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, OnInit, Output, ViewChild} from '@angular/core';
 import {EventEmitter} from "@angular/core";
 
 @Component({
@@ -8,13 +8,11 @@ import {EventEmitter} from "@angular/core";
 })
 export class NavbarComponent implements OnInit {
 
-  @Output("userLoggedOut") userLoggedOut = new EventEmitter()
+  @ViewChild("logoutBtn") logoutBtn:any
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  logout(){
-    this.userLoggedOut.emit()
-  }
 }

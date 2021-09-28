@@ -22,7 +22,7 @@ import {SelectComponent} from "./dynamic-fields/select/select.component";
 import {StoreModule} from "@ngrx/store";
 import {metaReducers, reducers} from "./state/reducers";
 import {EffectsModule} from "@ngrx/effects";
-import {AppEffects} from "../app.effects";
+import {FormsBuilderEffects} from "./forms-builder.effects";
 import {StoreRouterConnectingModule} from "@ngrx/router-store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 
@@ -33,12 +33,14 @@ import { DynamicFormComponent } from './dynamic-fields/dynamic-form.component';
 import {TextareaComponent} from "./dynamic-fields/textarea/textarea.component";
 import { StylePipePipe } from './style-pipe.pipe';
 import { NavbarComponent } from './navbar/navbar.component';
+import {HttpClientModule} from "@angular/common/http";
 
 
 
 @NgModule({
   imports:[
     CommonModule,
+    HttpClientModule,
     FormsBuilderRoutingModule,
     MaterialModule,
     FormsModule,
@@ -47,7 +49,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([FormsBuilderEffects]),
 
     StoreRouterConnectingModule.forRoot(),
 

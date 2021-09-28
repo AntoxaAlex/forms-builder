@@ -6,7 +6,9 @@ import { AuthorizationComponent } from './authorization.component';
 import {FormsBuilderRoutingModule} from "../forms-builder/forms-builder-routing.module";
 import {MaterialModule} from "../material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HeaderInterceptor} from "./header.interceptor";
+import {SharedInputsModule} from "../shared-inputs/shared-inputs.module";
 
 
 @NgModule({
@@ -19,7 +21,10 @@ import {HttpClientModule} from "@angular/common/http";
     MaterialModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+    SharedInputsModule
+  ],
+  providers:[
+    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }]
 })
 export class AuthorizationModule { }

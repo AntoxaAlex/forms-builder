@@ -12,10 +12,16 @@ export interface DropAreaItem {
 
 export enum dropAreaActions {
   "addItem"="[DropArea] addItem",
+  "addItemToServer"="[DropArea] addItemToServer",
   "editItem"="[DropArea] editItem",
   "changeIndex"="[DropArea] changeIndex"
 }
 
+export class DropAreaAddItemToServerAction implements Action{
+  readonly type = dropAreaActions.addItemToServer
+  constructor(public payload:DropAreaItem) {
+  }
+}
 export class DropAreaAddItemAction implements Action{
   readonly type = dropAreaActions.addItem
   constructor(public payload:DropAreaItem) {
@@ -32,4 +38,4 @@ export class DropAreaChangeIndexAction implements Action{
   }
 }
 
-export type DropAreaActions = | DropAreaAddItemAction|DropAreaEditItemAction|DropAreaChangeIndexAction
+export type DropAreaActions = | DropAreaAddItemAction| DropAreaAddItemToServerAction|DropAreaEditItemAction|DropAreaChangeIndexAction

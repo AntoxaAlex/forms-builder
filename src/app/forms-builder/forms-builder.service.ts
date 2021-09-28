@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core';
 import {FormsBuilderModule} from "./forms-builder.module";
-import {DropAreaAddItemAction, DropAreaEditItemAction, DropAreaItem} from "./state/actions/dropAreaActions";
-import {AccordionChangeFormAction} from "./state/actions/accordionActions";
+import {
+  DropAreaAddItemAction, DropAreaAddItemToServerAction,
+  DropAreaChangeIndexAction,
+  DropAreaEditItemAction,
+  DropAreaItem
+} from "./state/actions/dropAreaActions";
+import {
+  AccordionChangeFormAction,
+  AccordionChangeStylingAction,
+  AccordionExpandAction
+} from "./state/actions/accordionActions";
 import {Store} from "@ngrx/store";
 import {FormsBuilderContentState} from "./state/reducers";
 import {DragAreaEnterToDropAreaAction, DragAreaStartDraggingAction} from "./state/actions/dragAreaActions";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: "any"
@@ -12,7 +22,13 @@ import {DragAreaEnterToDropAreaAction, DragAreaStartDraggingAction} from "./stat
 export class FormsBuilderService {
   index:number=0
 
-  constructor(private store$:Store<FormsBuilderContentState>) { }
+  constructor(private store$:Store<FormsBuilderContentState>,private http:HttpClient) { }
+
+
+  getDropItems(items:any){
+    console.log(items)
+    return this.http.post("http://localhost:5000/items",items)
+  }
 
   getPosition = (el:string,point:number):any => {
     const dropItem = document.getElementById("drop-list")
@@ -29,9 +45,11 @@ export class FormsBuilderService {
     //If dragged element crossed Drop Area
     if(isDragItemEnter){
       const payload = this.createDropElement(event,index!)
-      this.store$.dispatch(new DropAreaAddItemAction(payload))
-      this.store$.dispatch(new DragAreaStartDraggingAction(false))
-      this.store$.dispatch(new DragAreaEnterToDropAreaAction(false))
+      this.store$.dispatch(new DropAreaAddItemToServerAction(payload))
+      // this.store$.dispatch(new DragAreaStartDraggingAction(false))
+      // this.store$.dispatch(new DragAreaEnterToDropAreaAction(false))
+      // this.store$.dispatch(new DropAreaChangeIndexAction(parseInt(index!)))
+      // this.store$.dispatch(new AccordionChangeStylingAction(false))
     }
   }
   createDropElement = (event:any,index:string) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {AuthService} from "./auth.service";
 
 @Component({
   selector: 'app-authorization',
@@ -11,28 +12,21 @@ export class AuthorizationComponent implements OnInit {
 
   headerTitle:string = "Sign in"
 
-  email:string
-  password:string
+  email:string = ""
+  password:string = ""
 
 
-  constructor(private http:HttpClient,private router:Router) { }
+  constructor(private http:HttpClient,private router:Router,private authService:AuthService) { }
 
   ngOnInit(): void {
 
   }
 
   onSubmit = (event:Event) => {
+    console.log("submit")
     event.preventDefault();
     const body = {email:this.email,password:this.password}
-    const config = {
-      headers: new HttpHeaders({
-        "Content-Type":"application/json"
-      })
-    }
-    this.http.post("http://localhost:5000/",body,config).subscribe((token:any)=>{
-      localStorage.setItem("token",token)
-      this.router.navigate(['forms-builder'])
-    })
+    this.authService.login(body)
   }
 
 }

@@ -2,14 +2,8 @@
   <div class="authorization-container">
     <h1>{{headerTitle}}</h1>
     <form class="authorization-form" (submit)="onSubmit($event)">
-      <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Email</mat-label>
-        <input type="email" matInput placeholder="username@gmail.com" name="email" required="true" [(ngModel)]="email">
-      </mat-form-field>
-      <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Password</mat-label>
-        <input type="password" matInput name="password" required="true" [(ngModel)]="password">
-      </mat-form-field>
+      <app-auth-input [(ngModel)]="email" name="email" [type]="'email'" #validations="ngModel"></app-auth-input>
+      <app-auth-input [(ngModel)]="password" name="password" [type]="password" #validations="ngModel"></app-auth-input>
       <button type="submit" mat-raised-button color="primary">Submit</button>
     </form>
   </div>
