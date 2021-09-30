@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { AuthBody } from '../interfaces/auth-body.interface';
+import { AuthBody } from '../core/interfaces/auth-body.interface';
 
 @Injectable({
   providedIn: 'any'

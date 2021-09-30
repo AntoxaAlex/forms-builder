@@ -1,0 +1,17 @@
+<div class="demo-full-width margin-top" [formGroup]="group" [class]="isStyleInput ? 'style-item':''">
+
+  <p *ngIf="isStyleInput">{{ field.label }}</p>
+
+  <mat-checkbox
+    [formControlName]="field.name!"
+    [id]="isFormActive ? field.id : 'field-'+field.type"
+    [style]="styles|stylePipe:['width','height','color','fontSize','fontWeight','borderStyle']:isFormActive:isStyleInput"
+    [name]="field.name!"
+    [checked]="styles|stylePipe:['required']:isFormActive:isStyleInput:false"
+    (change)="changeForm($event)"
+    (click)="selectField()"
+  >
+    {{ styles|stylePipe:['placeholder']:isFormActive:isStyleInput:field.label }}
+  </mat-checkbox>
+
+</div>
