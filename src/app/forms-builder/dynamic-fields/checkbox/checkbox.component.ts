@@ -1,61 +1,39 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FieldConfig} from "../../../interfaces/field.interface";
-import {FormGroup} from "@angular/forms";
-import {SubclassComponent} from "../../subcomponents/subclass.component";
+import { Component, EventEmitter, Output } from '@angular/core';
+import {MatCheckboxChange} from "@angular/material/checkbox";
+import { FormGroup } from '@angular/forms';
+
+import { FieldConfig } from '../../../interfaces/field.interface';
+import { SubclassComponent } from '../../subcomponents/subclass.component';
 
 
 @Component({
   selector: 'app-checkbox',
-  template: `
-    <div class="demo-full-width margin-top" [formGroup]="group" [class]="isStyleInput ? 'style-item':''">
-      <p *ngIf="isStyleInput">{{field.label}}</p>
-      <mat-checkbox
-        [formControlName]="field.name!"
-        [id]="isFormActive ? field.id : 'field-'+field.type"
-        [style]="styles|stylePipe:['width','height','color','fontSize','fontWeight','borderStyle']:isFormActive:isStyleInput"
-        [style]="!isStyleInput ? {
-        width:styles.width,
-        fontSize:styles.fontSize,
-        fontWeight:styles.fontWeight,
-        borderStyle:styles.borderStyle,
-        color:styles.color,
-        height:styles.height
-      } : ''"
-        [name]="field.name!"
-        [checked]="styles|stylePipe:['required']:isFormActive:isStyleInput:false"
-        (change)="changeForm($event)"
-        (click)="selectField()"
-      >{{styles|stylePipe:['placeholder']:isFormActive:isStyleInput:field.label}}</mat-checkbox>
-    </div>
-  `,
-  styles: [
-    `
-      .style-item{
-        padding: 10px;
-        box-sizing: border-box;
-      }
-    `
-  ]
+  templateUrl:'./checkbox.component.html',
+  styleUrls: ['../dynamic-fields.component.scss']
 })
-export class CheckboxComponent extends SubclassComponent{
-  field: FieldConfig;
-  group: FormGroup;
-  index:number;
-  styles:any
-  isStyleInput:boolean
-  isFormActive:boolean
 
-  @Output("formChanged") formChanged = new EventEmitter()
-  @Output("fieldSelected") fieldSelected = new EventEmitter()
+export class CheckboxComponent extends SubclassComponent{
+
+  public field: FieldConfig;
+  public group: FormGroup;
+  public index:number;
+  public styles:FieldConfig[]
+  public isStyleInput:boolean
+  public isFormActive:boolean
+
+  @Output('formChanged') public formChanged = new EventEmitter()
+  @Output('fieldSelected') public fieldSelected = new EventEmitter()
+
   constructor() {
     super()
   }
 
-  changeForm(evt:any){
-    this.formChanged.emit({index:this.index,evt})
+  public changeForm(evt:MatCheckboxChange):void{
+    this.formChanged.emit({ index:this.index, evt })
   }
 
-  selectField(){
+  public selectField():void{
     this.fieldSelected.emit()
   }
+
 }

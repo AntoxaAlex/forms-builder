@@ -1,18 +1,19 @@
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
   Input,
-  Output,
   ViewChild,
-  ViewChildren,
   ViewContainerRef
-} from "@angular/core";
-import {TemplatePortal} from "@angular/cdk/portal";
-import {Store} from "@ngrx/store";
-import {FormsBuilderContentState} from "../../state/reducers";
-import {DragAreaStartDraggingAction} from "../../state/actions/dragAreaActions";
-import {FormsBuilderService} from "../../forms-builder.service";
+} from '@angular/core';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Store } from '@ngrx/store';
+
+import { FormsBuilderContentState } from '../../state/reducers';
+import { DragAreaStartDraggingAction } from '../../state/actions/dragAreaActions';
+import { FormsBuilderService } from '../../forms-builder.service';
+import { DragAreaState } from '../../state/reducers/dragAreaReducer';
+import { DropAreaState } from '../../state/reducers/dropAreaReducer';
+
 
 @Component({
   selector: 'app-forms-builder-drag-area',
@@ -21,27 +22,26 @@ import {FormsBuilderService} from "../../forms-builder.service";
 })
 
 export class FormsBuilderDragAreaComponent implements AfterViewInit{
-  dragAreaPortal:any
-  @Input("draggingData") draggingData: any
-  @Input("dropElements") dropElements: any
 
-  @ViewChild("dragAreaPortalContent") dragAreaPortalContent: any
+  public dragAreaPortal:TemplatePortal
+  @Input('draggingData') public draggingData: DragAreaState
+  @Input('dropElements') public dropElements: DropAreaState
 
+  @ViewChild('dragAreaPortalContent') public dragAreaPortalContent: any
 
-  constructor(private _viewContainerRef: ViewContainerRef,private store$:Store<FormsBuilderContentState>,private fb:FormsBuilderService) {}
+  constructor(private _viewContainerRef: ViewContainerRef, private store$: Store<FormsBuilderContentState>, private fb: FormsBuilderService) {}
 
   ngAfterViewInit() {
     this.dragAreaPortal = new TemplatePortal(this.dragAreaPortalContent,this._viewContainerRef)
   }
 
-  dropItem(evt:any,isDragItemEnter:boolean,length:number){
+  public dropItem(evt:any,isDragItemEnter:boolean,length:number):void{
     const index = length.toString()
     this.fb.drop(evt,isDragItemEnter,index)
   }
 
-  startDragging(){
+  public startDragging():void{
     this.store$.dispatch(new DragAreaStartDraggingAction(true))
   }
-
 
 }

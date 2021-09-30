@@ -1,4 +1,5 @@
 <cdk-accordion [id]="accordionData.isFormStylingActive ? 'form-accordion':'field-accordion'" class="accordion">
+
   <cdk-accordion-item
     #accordionItem="cdkAccordionItem"
     class="accordion-item"
@@ -20,6 +21,7 @@
       <ng-template [cdkPortalOutlet]="accordionPortal"></ng-template>
     </div>
   </cdk-accordion-item>
+
 </cdk-accordion>
 
 <ng-template #accordionPortalContent>
@@ -27,6 +29,6 @@
     <app-dynamic-form [fields]="accordionData.formStyling" [isStyleInput]=true [isFormActive]="true"></app-dynamic-form>
   </div>
   <ng-template #fieldStyling>
-    <app-dynamic-form [fields]="dropElements.items[dropElements.selectedIndex].styles" [isStyleInput]=true [isFormActive]="false" [items]="dropElements.items" [selectedIndex]="dropElements.selectedIndex ? dropElements.selectedIndex:'0'"></app-dynamic-form>
+    <app-dynamic-form [fields]="dropElements.items[dropElements.selectedIndex!].styles" [isStyleInput]=true [isFormActive]="false" [items]="dropElements.items" [selectedIndex]="dropElements.selectedIndex ? dropElements.selectedIndex:'0'"></app-dynamic-form>
   </ng-template>
 </ng-template>

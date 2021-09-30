@@ -1,7 +1,7 @@
 export abstract class SubclassComponent {
+
   private readonly subClassConstructor: Function;
   private readonly subClassNgOnInit: Function;
-
 
   protected constructor() {
 
@@ -23,6 +23,6 @@ export abstract class SubclassComponent {
   }
 
   private throwError(reason: string): void {
-    throw new Error(`Component "${this.subClassConstructor.name}" is a DumbComponent, ${reason}.`);
+    throw new Error(`Component "${this.subClassConstructor.name}" is a DumbComponent, ${ reason }.`);
   }
 }

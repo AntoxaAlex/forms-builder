@@ -1,43 +1,37 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FieldConfig} from "../../../interfaces/field.interface";
-import {FormGroup} from "@angular/forms";
-import {SubclassComponent} from "../../subcomponents/subclass.component";
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { FieldConfig } from '../../../interfaces/field.interface';
+import { SubclassComponent } from '../../subcomponents/subclass.component';
+
 
 @Component({
   selector: 'app-button',
-  template: `
-    <div class="demo-full-width margin-top" [formGroup]="group">
-      <button
-        [id]="field.id"
-        type="button"
-        mat-raised-button
-        [style]="styles|stylePipe:['width','fontSize','fontWeight','borderStyle','color','height']:false:isStyleInput"
-        (change)="changeForm($event)"
-        (click)="selectField()"
-      >{{styles|stylePipe:['placeholder']:false:isStyleInput}}</button>
-    </div>
-  `,
-  styles: [
-  ]
+  templateUrl: './button.component.html',
+  styleUrls: ['../dynamic-fields.component.scss']
 })
-export class ButtonComponent extends SubclassComponent{
-  field: FieldConfig;
-  group: FormGroup;
-  index:number
-  styles:any
-  isStyleInput:boolean
 
-  @Output("formChanged") formChanged = new EventEmitter()
-  @Output("fieldSelected") fieldSelected = new EventEmitter()
+export class ButtonComponent extends SubclassComponent{
+
+  public field: FieldConfig;
+  public group: FormGroup;
+  public index:number
+  public styles:FieldConfig[]
+  public isStyleInput:boolean
+
+  @Output('formChanged') public formChanged = new EventEmitter()
+  @Output('fieldSelected') public fieldSelected = new EventEmitter()
+
   constructor() {
     super()
   }
 
-  changeForm(evt:any){
-    this.formChanged.emit({index:this.index,evt})
+  public changeForm(evt:Event):void{
+    this.formChanged.emit({ index:this.index, evt })
   }
 
-  selectField(){
+  public selectField():void{
     this.fieldSelected.emit()
   }
+
 }

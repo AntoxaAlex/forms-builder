@@ -1,61 +1,36 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FieldConfig} from "../../../interfaces/field.interface";
-import {FormGroup} from "@angular/forms";
-import {SubclassComponent} from "../../subcomponents/subclass.component";
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { FieldConfig } from '../../../interfaces/field.interface';
+import { SubclassComponent } from '../../subcomponents/subclass.component';
 
 
 @Component({
   selector: 'app-input',
-  template: `
-    <div [formGroup]="group" [class]="isStyleInput ? 'style-item':''">
-      <p *ngIf="isStyleInput">{{field.label}}</p>
-      <mat-form-field
-        class="demo-full-width"
-        [style]="styles|stylePipe:['width','fontSize','fontWeight','borderStyle']:isFormActive:isStyleInput"
-      >
-        <input
-          matInput
-          [name]="field.name!"
-          [type]="field.inputType!"
-          [placeholder]="styles|stylePipe:['placeholder']:isFormActive:isStyleInput:''"
-          [required]="styles|stylePipe:['required']:isFormActive:isStyleInput:false"
-          [style]="styles|stylePipe:['color','height']:isFormActive:isStyleInput"
-          [id]="isFormActive ? field.id : 'field-'+field.type"
-          [value]="field.value!"
-          (change)="changeForm($event)"
-          (click)="selectField()"
-        >
-      </mat-form-field>
-    </div>
-  `,
-  styles: [
-    `
-      .style-item{
-        padding: 10px;
-        box-sizing: border-box;
-      }
-    `
-  ]
+  templateUrl:'./input.component.html',
+  styleUrls: ['../dynamic-fields.component.scss']
 })
-export class InputComponent extends SubclassComponent{
-  field: FieldConfig;
-  group: FormGroup;
-  index:number
-  styles:any
-  isStyleInput:boolean
-  isFormActive:boolean
 
-  @Output("formChanged") formChanged = new EventEmitter()
-  @Output("fieldSelected") fieldSelected = new EventEmitter()
+export class InputComponent extends SubclassComponent{
+
+  public field: FieldConfig;
+  public group: FormGroup;
+  public index:number
+  public styles:FieldConfig[]
+  public isStyleInput:boolean
+  public isFormActive:boolean
+
+  @Output('formChanged') public formChanged = new EventEmitter()
+  @Output('fieldSelected') public fieldSelected = new EventEmitter()
   constructor() {
     super()
   }
 
-  changeForm(evt:any){
-    this.formChanged.emit({index:this.index,evt})
+  public changeForm(evt:Event):void{
+    this.formChanged.emit({ index:this.index, evt })
   }
 
-  selectField(){
+  public selectField():void{
     this.fieldSelected.emit()
   }
 }

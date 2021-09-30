@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {FieldConfig} from "../interfaces/field.interface";
+
+import { FieldConfig } from '../interfaces/field.interface';
+
 
 export interface StylesObjectInterface{
   width?:string,
@@ -27,24 +29,23 @@ export class StylePipePipe implements PipeTransform {
     if(isStyleInput) return optionValue
     let newObj:any = {}
     returnedValues.forEach(entryName=>{
-      newObj = {...newObj,[entryName]:null}
+      newObj = { ...newObj, [entryName]:null }
     })
     stylesArray.forEach(styleElement=>{
-      const {id,value,checked} = styleElement
+      const { id, value } = styleElement
       const name =id
       if(newObj.hasOwnProperty(name)){
-        if(name === "width"){
-          newObj ={...newObj,width: isFormActive ? value+'%' : value+'px'}
-        } else if(name === "height" || name === "padding"|| name === "fontSize"|| name === "borderWidth"|| name === "borderRadius"){
-          newObj ={...newObj,[name]:value+'px'}
-        } else if(name === "placeholder" || name === "backgroundText" || name === "required"){
+        if(name === 'width'){
+          newObj ={ ...newObj, width: isFormActive ? value+'%' : value+'px' }
+        } else if(name === 'height' || name === 'padding'|| name === 'fontSize'|| name === 'borderWidth'|| name === 'borderRadius'){
+          newObj ={ ...newObj, [name]:value+'px' }
+        } else if(name === 'placeholder' || name === 'backgroundText' || name === 'required'){
           newObj = value
         }else{
-          newObj ={...newObj,[name!]:value}
+          newObj ={ ...newObj, [name!]:value }
         }
       }
     })
-
     return newObj
   }
 

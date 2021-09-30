@@ -1,0 +1,18 @@
+<div class="demo-full-width margin-top" [formGroup]="group" [class]="isStyleInput ? 'style-item':''" >
+
+  <p *ngIf="isStyleInput">{{field.label}}</p>
+
+  <input
+    type="range"
+    [name]="field.name!"
+    [id]="isFormActive ? field.id : 'field-'+field.type"
+    [max]="field.max!"
+    [min]="field.min!"
+    color="primary"
+    [step]="field.step"
+    [value]="field.value!"
+    (change)="isFormActive ? changeForm($event) : changeField($event)"
+    (click)="selectField()"
+  >
+
+</div>

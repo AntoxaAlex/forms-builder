@@ -1,5 +1,4 @@
-import {Action} from "@ngrx/store";
-import {dragAreaActions,DragAreaActions} from "../actions/dragAreaActions";
+import { dragAreaActions, DragAreaActions } from '../actions/dragAreaActions';
 
 export interface DragAreaState {
   items:any[],
@@ -11,11 +10,11 @@ export interface DragAreaState {
 
 const initialState:DragAreaState = {
   items:[
-    "input",
-    "textarea",
-    "button",
-    "checkbox",
-    "select"
+    'input',
+    'textarea',
+    'button',
+    'checkbox',
+    'select'
   ],
   isDragging:false,
   isDragItemEnter:false,
@@ -24,19 +23,24 @@ const initialState:DragAreaState = {
 }
 
 
-export const dragAreaReducer = (state:DragAreaState = initialState,action:DragAreaActions) => {
+export const dragAreaReducer = (state: DragAreaState = initialState, action: DragAreaActions): DragAreaState => {
+
   switch (action.type) {
+
     case dragAreaActions.enterToDropArea:
       return {
         ...state,
         isDragItemEnter:action.payload
       }
+
     case dragAreaActions.startDragging:
       return {
         ...state,
         isDragging:action.payload
       }
+
     default:
       return state
   }
+
 }

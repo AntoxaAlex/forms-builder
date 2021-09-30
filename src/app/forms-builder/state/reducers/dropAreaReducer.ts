@@ -1,4 +1,4 @@
-import {DropAreaActions, dropAreaActions, DropAreaItem} from "../actions/dropAreaActions";
+import { DropAreaActions, dropAreaActions, DropAreaItem } from '../actions/dropAreaActions';
 
 
 export interface DropAreaState {
@@ -16,21 +16,25 @@ const initialState:DropAreaState = {
 }
 
 
-export const dropAreaReducer = (state:DropAreaState = initialState,action:DropAreaActions) => {
+export const dropAreaReducer = (state: DropAreaState = initialState, action: DropAreaActions): DropAreaState => {
+
   switch (action.type) {
+
     case dropAreaActions.addItem:
-      const newItems = [...state.items]
+      const newItems = [ ...state.items ]
       newItems.push(action.payload)
       return {
         ...state,
         items:newItems
       }
+
     case dropAreaActions.editItem:
       const payloadEdit = action.payload;
       return {
         ...state,
         items: payloadEdit
       }
+
     case dropAreaActions.changeIndex:
       const payloadChange = action.payload;
       return {
@@ -41,4 +45,5 @@ export const dropAreaReducer = (state:DropAreaState = initialState,action:DropAr
     default:
       return state
   }
+
 }

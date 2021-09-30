@@ -1,14 +1,13 @@
 import {
-  ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
+
 import { environment } from '../../../../environments/environment';
-import {AccordionState,accordionReducer} from "./accordionReducer";
-import {DragAreaState,dragAreaReducer} from "./dragAreaReducer";
-import {DropAreaState,dropAreaReducer} from "./dropAreaReducer";
+import { AccordionState, accordionReducer } from './accordionReducer';
+import { DragAreaState, dragAreaReducer } from './dragAreaReducer';
+import { DropAreaState, dropAreaReducer } from './dropAreaReducer';
+
 
 export type FormsBuilderContentState = AccordionState|DragAreaState|DropAreaState
 

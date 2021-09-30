@@ -1,10 +1,15 @@
-import {AfterViewInit, Component, Input, Output, ViewChild, ViewContainerRef} from "@angular/core";
-import {EventEmitter} from "@angular/core";
-import {TemplatePortal} from "@angular/cdk/portal";
-import {Store} from "@ngrx/store";
-import {FormsBuilderContentState} from "../../state/reducers";
-import {FormsBuilderService} from "../../forms-builder.service";
-import {DragAreaEnterToDropAreaAction} from "../../state/actions/dragAreaActions";
+import { AfterViewInit, Component, Input, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Store } from '@ngrx/store';
+import { DropListRef } from '@angular/cdk/drag-drop';
+
+import { FormsBuilderContentState } from '../../state/reducers';
+import { FormsBuilderService } from '../../forms-builder.service';
+import { DragAreaEnterToDropAreaAction } from '../../state/actions/dragAreaActions';
+import { DropAreaState } from '../../state/reducers/dropAreaReducer';
+import { DragAreaState } from '../../state/reducers/dragAreaReducer';
+import { AccordionState } from '../../state/reducers/accordionReducer';
 
 
 @Component({
@@ -15,35 +20,35 @@ import {DragAreaEnterToDropAreaAction} from "../../state/actions/dragAreaActions
 
 export class FormsBuilderDropAreaComponent implements AfterViewInit{
 
-  @Input("dropElements") dropElements:any
-  @Input("draggingData") draggingData:any
-  @Input("accordionData") accordionData:any
-  @Output("fieldSelected") fieldSelected = new EventEmitter<number>()
-  @Output("itemDropped") itemDropped = new EventEmitter()
+  @Input('dropElements') public dropElements:DropAreaState
+  @Input('draggingData') public draggingData:DragAreaState
+  @Input('accordionData') public accordionData:AccordionState
+  @Output('fieldSelected') public fieldSelected = new EventEmitter<number>()
+  @Output('itemDropped') public itemDropped = new EventEmitter()
 
-  @ViewChild("dropList") dropList:any
-  @ViewChild("dropAreaPortalContent") dropAreaPortalContent:any
+  @ViewChild('dropList') public dropList:DropListRef
+  @ViewChild('dropAreaPortalContent') public dropAreaPortalContent:any
 
-  dropAreaPortal:any
+  public dropAreaPortal:TemplatePortal
 
-  constructor(private _viewContainerRef: ViewContainerRef,private store$:Store<FormsBuilderContentState>,private fb:FormsBuilderService) {
-  }
+  constructor(private _viewContainerRef: ViewContainerRef, private store$: Store<FormsBuilderContentState>, private fb: FormsBuilderService) {}
 
   ngAfterViewInit() {
     this.dropAreaPortal = new TemplatePortal(this.dropAreaPortalContent,this._viewContainerRef)
   }
 
-
-  dropItem(evt:any,isDragItemEnter:boolean,length:number){
+  public dropItem(evt:any,isDragItemEnter:boolean,length:number):void {
     let index = length.toString()
     console.log(index)
     this.fb.drop(evt,isDragItemEnter,index)
   }
 
-  enterToDropArea(isDragging:boolean){
+  public enterToDropArea(isDragging:boolean):void {
     this.store$.dispatch(new DragAreaEnterToDropAreaAction(isDragging))
   }
-  leaveDropArea(){
+
+  public leaveDropArea():void {
     this.store$.dispatch(new DragAreaEnterToDropAreaAction(false))
   }
+
 }

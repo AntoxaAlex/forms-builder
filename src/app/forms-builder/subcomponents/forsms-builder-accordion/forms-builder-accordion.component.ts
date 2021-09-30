@@ -1,17 +1,21 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewContainerRef
-} from "@angular/core";
-import {TemplatePortal} from "@angular/cdk/portal";
-import {Store} from "@ngrx/store";
-import {FormsBuilderContentState} from "../../state/reducers";
-import {AccordionExpandAction} from "../../state/actions/accordionActions";
+} from '@angular/core';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Store } from '@ngrx/store';
+
+import { FormsBuilderContentState } from '../../state/reducers';
+import { AccordionExpandAction } from '../../state/actions/accordionActions';
+import { AccordionState } from '../../state/reducers/accordionReducer';
+import { DropAreaState } from '../../state/reducers/dropAreaReducer';
+import { DragAreaState } from '../../state/reducers/dragAreaReducer';
 
 
 @Component({
@@ -20,32 +24,27 @@ import {AccordionExpandAction} from "../../state/actions/accordionActions";
   styleUrls: ['./forms-builder-accordion.component.scss']
 })
 
-export class FormsBuilderAccordionComponent implements OnInit,AfterViewInit {
+export class FormsBuilderAccordionComponent implements AfterViewInit {
 
+  @Input('accordionData') public accordionData: AccordionState
+  @Input('dropElements') public dropElements: DropAreaState
+  @Input('selectedIndex') public selectedIndex: DragAreaState
 
-  @Input("accordionData") accordionData: any
-  @Input("dropElements") dropElements: any
-  @Input("selectedIndex") selectedIndex: any
+  @Output('accordionExpanded') public accordionExpanded = new EventEmitter<boolean>()
 
-  @Output("accordionExpanded") accordionExpanded = new EventEmitter<boolean>()
+  @ViewChild('accordionItem') public accordionItem: ElementRef
+  @ViewChild('expandBtn') public expandBtn: ElementRef
+  @ViewChild('accordionPortalContent') public accordionPortalContent: any
 
-  @ViewChild("accordionItem") accordionItem: any
-  @ViewChild("expandBtn") expandBtn: any
-  @ViewChild("accordionPortalContent") accordionPortalContent: any
+  public accordionPortal: TemplatePortal
 
-  accordionPortal: any
-
-  constructor(private _viewContainerRef: ViewContainerRef,private store$:Store<FormsBuilderContentState>) {
-  }
-
-  ngOnInit() {
-  }
+  constructor(private _viewContainerRef: ViewContainerRef, private store$: Store<FormsBuilderContentState>) {}
 
   ngAfterViewInit() {
     this.accordionPortal = new TemplatePortal(this.accordionPortalContent, this._viewContainerRef)
   }
 
-  toggleExpander() {
+  public toggleExpander():void {
     this.store$.dispatch(new AccordionExpandAction())
   }
 

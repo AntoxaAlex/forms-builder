@@ -3,23 +3,21 @@ import {
   Component,
   ViewChild,
   ChangeDetectionStrategy,
-  OnInit, AfterViewChecked, ChangeDetectorRef
+  OnInit,
+  ChangeDetectorRef
 } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { select } from '@ngrx/store';
+import { fromEvent, Observable } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
-import {FormsBuilderAccordionComponent} from "./subcomponents/forsms-builder-accordion/forms-builder-accordion.component";
-import {Store} from "@ngrx/store";
-import {select} from "@ngrx/store";
-import {selectAccordion,selectDragArea,selectDropArea} from "./state/selectors";
-import {FormsBuilderContentState} from "./state/reducers";
-
-import {AccordionChangeStylingAction} from "./state/actions/accordionActions";
-
-import {FormsBuilderService} from "./forms-builder.service";
-import {fromEvent, fromEventPattern, Observable} from "rxjs";
-import {filter, map, takeUntil, tap} from "rxjs/operators";
-import {Router} from "@angular/router";
-import {NavbarComponent} from "./navbar/navbar.component";
-import set = Reflect.set;
+import { FormsBuilderAccordionComponent } from './subcomponents/forsms-builder-accordion/forms-builder-accordion.component';
+import { selectAccordion, selectDragArea, selectDropArea } from './state/selectors';
+import { FormsBuilderContentState } from './state/reducers';
+import { AccordionChangeStylingAction } from './state/actions/accordionActions';
+import { FormsBuilderService } from './forms-builder.service';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 @Component({
@@ -28,22 +26,21 @@ import set = Reflect.set;
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./forms-builder.component.scss']
 })
-export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChecked{
 
-  @ViewChild(FormsBuilderAccordionComponent) accordionComponent:any
-  @ViewChild(NavbarComponent) navbarComponent:any
+export class FormsBuilderComponent implements OnInit,AfterViewInit{
+
+  @ViewChild(FormsBuilderAccordionComponent) accordionComponent:FormsBuilderAccordionComponent
+  @ViewChild(NavbarComponent) navbarComponent:NavbarComponent
 
   //State
-  accordionState$:any
-  dragAreaState$:any
-  dropAreaState$:any
+  public accordionState$:Observable<any>
+  public dragAreaState$:Observable<any>
+  public dropAreaState$:Observable<any>
 
-  logoutEvent$:any
-  logout$:any
+  public logoutEvent$:Observable<any>
 
 
-  constructor(private store$:Store<FormsBuilderContentState>,private router:Router,private cdr: ChangeDetectorRef,private formsBuilderService:FormsBuilderService) {
-  }
+  constructor(private store$:Store<FormsBuilderContentState>, private router: Router, private cdr: ChangeDetectorRef, private formsBuilderService: FormsBuilderService) {}
 
   ngOnInit() {
     //Detect changes explicitly when app start
@@ -57,42 +54,39 @@ export class FormsBuilderComponent implements OnInit,AfterViewInit,AfterViewChec
   }
 
   ngAfterViewInit() {
-    this.logoutEvent$ = fromEvent(this.navbarComponent.logoutBtn._elementRef.nativeElement,"click")
-    this.logout$ = this.logoutEvent$.subscribe(()=>{
+    this.logoutEvent$ = fromEvent(this.navbarComponent.logoutBtn._elementRef.nativeElement,'click')
+    this.logoutEvent$.subscribe(()=>{
       localStorage.clear()
-      this.router.navigate(["/login"])
+      this.router.navigate(['/login'])
     })
-    fromEvent(document,"click").pipe(
+    fromEvent(document,'click').pipe(
       takeUntil(this.logoutEvent$),
       map((event:any)=>{
-          const {target} = event
+          const { target } = event
           if(
-            target.id === "field-input"
-            || target.id === "field-textarea"
-            || target.id === "field-button"
-            || target.parentNode.parentNode.parentNode.id === "field-select"
-            || target.parentNode.id === "field-option"
-            || target.parentNode.parentNode.id === "field-checkbox"
-            || target.parentNode.parentNode.id == "required"
-            || (target.parentNode.parentNode.parentNode.parentNode.parentNode.id === "form-accordion")
+            target.id === 'field-input'
+            || target.id === 'field-textarea'
+            || target.id === 'field-button'
+            || target.parentNode.parentNode.parentNode.id === 'field-select'
+            || target.parentNode.id === 'field-option'
+            || target.parentNode.parentNode.id === 'field-checkbox'
+            || target.parentNode.parentNode.id == 'required'
+            || (target.parentNode.parentNode.parentNode.parentNode.parentNode.id === 'form-accordion')
           ) {
             return false
           }
           else if(
-            target.id === "backgroundText" || target.id === "drop-list"
+            target.id === 'backgroundText' || target.id === 'drop-list'
           )return true
           return null
         }
       ),
-      tap((result)=>console.log(`You choose ${result ? "form" : "field"}`))
+      tap((result)=>console.log(`You choose ${result ? 'form' : 'field'}`))
     ).subscribe((value)=>{
       if(value !== null){
         this.store$.dispatch(new AccordionChangeStylingAction(value))
       }
     })
-  }
-
-  ngAfterViewChecked() {
   }
 
 }

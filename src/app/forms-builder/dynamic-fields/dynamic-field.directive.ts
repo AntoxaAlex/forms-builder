@@ -1,21 +1,23 @@
 import {
   AfterViewInit,
-  ComponentFactory,
   ComponentFactoryResolver,
   ComponentRef,
-  Directive, EventEmitter,
+  Directive,
+  EventEmitter,
   Input,
-  OnInit, Output,
+  OnInit,
+  Output,
   ViewContainerRef
 } from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {InputComponent} from "./input/input.component";
-import {SelectComponent} from "./select/select.component";
-import {CheckboxComponent} from "./checkbox/checkbox.component";
-import {ButtonComponent} from "./button/button.component";
-import {SliderComponent} from "./slider/slider.component";
-import {FieldConfig} from "../../interfaces/field.interface";
-import {TextareaComponent} from "./textarea/textarea.component";
+import { FormGroup } from '@angular/forms';
+
+import { InputComponent } from './input/input.component';
+import { SelectComponent } from './select/select.component';
+import { CheckboxComponent } from './checkbox/checkbox.component';
+import { ButtonComponent } from './button/button.component';
+import { SliderComponent } from './slider/slider.component';
+import { FieldConfig } from '../../interfaces/field.interface';
+import { TextareaComponent } from './textarea/textarea.component';
 
 const componentMapper:any = {
   input:InputComponent,
@@ -29,19 +31,20 @@ const componentMapper:any = {
 @Directive({
   selector: '[dynamicField]'
 })
+
 export class DynamicFieldDirective implements OnInit,AfterViewInit{
 
-  @Input() field: FieldConfig;
-  @Input() group: FormGroup;
-  @Input() index: number;
-  @Input() styles: any;
-  @Input() isStyleInput:boolean
-  @Input() isFormActive:boolean
-  @Output() formChanged = new EventEmitter()
-  @Output() fieldChanged = new EventEmitter()
-  @Output() fieldSelected = new EventEmitter()
+  @Input() public field: FieldConfig;
+  @Input() public group: FormGroup;
+  @Input() public index: number;
+  @Input() public styles: FieldConfig[];
+  @Input() public isStyleInput:boolean
+  @Input() public isFormActive:boolean
+  @Output() public formChanged = new EventEmitter()
+  @Output() public fieldChanged = new EventEmitter()
+  @Output() public fieldSelected = new EventEmitter()
 
-  componentRef:any
+  public componentRef:ComponentRef<any>
 
   //Inject “ComponentFactoryResolver” and “ViewContainerRef” services in the constructor.
   // The ComponentFactoryResolver will be used to resolve the component at run time.
@@ -53,7 +56,7 @@ export class DynamicFieldDirective implements OnInit,AfterViewInit{
   ngOnInit() {
   //  Use the resolveComponentFactory method of ComponentFactoryResolver to create the component factory based on field type defined in the configuration.
     const factory = this.resolver.resolveComponentFactory(
-      componentMapper[this.field.type]
+      componentMapper[ this.field.type ]
     )
 
   //  Use the createComponent method of ViewContainerRef to create the component from the component factory.
@@ -71,14 +74,11 @@ export class DynamicFieldDirective implements OnInit,AfterViewInit{
   }
 
   ngAfterViewInit() {
-    if(this.isStyleInput){
-
-    }else{
+    if(!this.isStyleInput){
       this.componentRef.instance.fieldSelected.subscribe(()=>{
         this.fieldSelected.emit()
       })
     }
   }
-
 
 }

@@ -1,10 +1,12 @@
-import {NgModule} from "@angular/core";
-import {RouterModule,Routes} from "@angular/router";
-import {FormsBuilderComponent} from "./forms-builder.component";
+import { NgModule } from '@angular/core';
+
+import { RouterModule, Routes } from '@angular/router';
+import { FormsBuilderComponent } from './forms-builder.component';
+
 
 export const routes:Routes = [
   {
-    path:"",
+    path:'',
     component:FormsBuilderComponent
   }
 ]

@@ -14,11 +14,11 @@ declare namespace Cypress {
 
 function login(email:string,password:string): void {
   cy.visit('/login');
-  cy.url().should("includes","login");
-  cy.get("input").eq(0).type("user@gmail.com");
-  cy.get("input").eq(1).type("usertest");
-  cy.get("button").click();
-  cy.url().should("include","forms-builder")
+  cy.url().should('includes','login');
+  cy.get('input').eq(0).type('user@gmail.com');
+  cy.get('input').eq(1).type('usertest');
+  cy.get('button').click();
+  cy.url().should('include','forms-builder')
 }
 
 // NOTE: You can use it like so:

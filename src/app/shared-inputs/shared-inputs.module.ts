@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthInputComponent } from './auth-input.component';
-import {MaterialModule} from "../material.module";
 
+import { AuthInputComponent } from './auth-input.component';
+import { MaterialModule } from '../material.module';
 
 
 @NgModule({
@@ -15,4 +15,5 @@ import {MaterialModule} from "../material.module";
   ],
   exports:[AuthInputComponent]
 })
+
 export class SharedInputsModule { }

@@ -1,4 +1,4 @@
-import {Action} from "@ngrx/store";
+import { Action } from '@ngrx/store';
 
 export interface ChangeFormValues {
   index:number
@@ -6,21 +6,20 @@ export interface ChangeFormValues {
   value:any
 }
 
-
 export enum accordionActions{
-  changeStyling="[ACCORDION] changeStyling",
-  changeForm="[ACCORDION] changeForm",
-  expandAccordion="[ACCORDION] expandAccordion"
+  changeStyling='[ACCORDION] changeStyling',
+  changeForm='[ACCORDION] changeForm',
+  expandAccordion='[ACCORDION] expandAccordion'
 }
 
 export class AccordionChangeStylingAction implements Action{
   readonly type = accordionActions.changeStyling
-  constructor(public payload:boolean) {}
+  constructor(public payload: boolean) {}
 }
 
 export class AccordionChangeFormAction implements Action{
   readonly type = accordionActions.changeForm
-  constructor(public payload:ChangeFormValues) {}
+  constructor(public payload: ChangeFormValues) {}
 }
 
 export class AccordionExpandAction implements Action{

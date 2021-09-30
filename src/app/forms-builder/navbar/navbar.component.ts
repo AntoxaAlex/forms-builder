@@ -1,18 +1,15 @@
-import {Component, OnInit, Output, ViewChild} from '@angular/core';
-import {EventEmitter} from "@angular/core";
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
 
-  @ViewChild("logoutBtn") logoutBtn:any
+export class NavbarComponent {
 
-  constructor() { }
+  @ViewChild('logoutBtn') public logoutBtn:any
 
-  ngOnInit(): void {
-  }
+  constructor() {}
 
 }
