@@ -1,0 +1,102 @@
+<<<<<<< HEAD:src/styles.scss
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import 'variables';
+
+html,
+body {
+  min-height: 100vh;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: $fb-dark;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+label,
+span,
+a,
+input:focus {
+  color: $fb-textColor;
+}
+
+.style-item {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $fb-textColor;
+}
+=======
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import "variables";
+
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: $fb-dark;
+}
+
+h1,h2,h3,h4,h5{
+  text-align: center;
+}
+
+h1,h2,h3,h4,h5,p,label,span,a,input:focus{
+  color:$fb-textColor
+}
+
+::-webkit-scrollbar{
+  width: 10px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track{
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+  background: gray;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background: $fb-textColor;
+}
+
+
+
+
+>>>>>>> 2b441f217a0e0a74d8e2419cdcbeb50a1bcfd267:styles.scss

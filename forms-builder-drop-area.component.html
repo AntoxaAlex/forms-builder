@@ -1,0 +1,21 @@
+<ng-template [cdkPortalOutlet]="dropAreaPortal"></ng-template>
+
+<ng-template #dropAreaPortalContent>
+  <div
+    id="drop-list"
+    cdkDropList
+    #dropList="cdkDropList"
+    [cdkDropListData]="dropElements"
+    class="example-list"
+    (mouseenter)="enterToDropArea(draggingData.isDragging)"
+    (mouseleave)="leaveDropArea()"
+    [style]="accordionData.formStyling|stylePipe:['width','height','padding','borderWidth','borderStyle','borderColor','borderRadius','backgroundColor']:true"
+    (cdkDropListDropped)="dropItem($event,draggingData.isDragItemEnter,dropElements.items.length)"
+  >
+    <app-dynamic-form *ngIf="dropElements.items.length>0;else backgroundText" [fields]="dropElements.items" [isStyleInput]=false></app-dynamic-form>
+    <ng-template #backgroundText>
+      <h1 id="backgroundText">{{dropElements.items.length===0 ? (accordionData.formStyling|stylePipe:['backgroundText']:true):''}}</h1>
+    </ng-template>
+  </div>
+</ng-template>
+
