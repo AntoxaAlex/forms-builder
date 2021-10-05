@@ -1,35 +1,34 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 
 import { FieldConfig } from '../../../../core/interfaces/field.interface';
-import { SubclassComponent } from '../../../../core/interfaces/subclass.component';
-
+import { selectDropArea } from '../../../../core/state/selectors';
+import { DropAreaState } from '../../../../core/state/reducers/dropAreaReducer';
+import { FormsBuilderContentState } from '../../../../core/state/reducers';
 
 @Component({
   selector: 'app-select',
-  templateUrl:'./select.component.html'
+  templateUrl: './select.component.html',
+  styleUrls: [],
 })
-
-export class SelectComponent extends SubclassComponent{
-
+export class SelectComponent implements OnInit {
   public field: FieldConfig;
   public group: FormGroup;
-  public index:number
-  public styles:FieldConfig[]
-  public isStyleInput:boolean
+  public index: number;
+  public styles: FieldConfig[];
+  public isStyleInput: boolean;
 
-  @Output('formChanged') public formChanged = new EventEmitter()
-  @Output('fieldSelected') public fieldSelected = new EventEmitter()
-  constructor() {
-    super()
+  @Output('fieldSelected') public fieldSelected = new EventEmitter();
+  constructor(private store$: Store<FormsBuilderContentState>) {}
+
+  ngOnInit() {
+    this.store$.pipe(select(selectDropArea)).subscribe((state: DropAreaState) => {
+      this.styles = state.items[this.index].styles;
+    });
   }
 
-  public changeForm(evt:Event):void{
-    this.formChanged.emit({ index:this.index, evt })
+  public selectField(): void {
+    this.fieldSelected.emit();
   }
-
-  public selectField():void{
-    this.fieldSelected.emit()
-  }
-
 }

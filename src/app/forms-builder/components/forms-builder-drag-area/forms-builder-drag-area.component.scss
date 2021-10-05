@@ -1,6 +1,6 @@
-@import "./src/variables";
+@import './src/variables';
 
-.drag-item-list{
+.drag-item-list {
   list-style-type: none;
   display: flex;
   flex-direction: column;
@@ -10,15 +10,15 @@
   margin: 0;
 }
 
-.drag-item{
+.drag-item {
   color: $fb-textColor;
   border: 1px solid $fb-textColor;
   padding: 10px;
   border-radius: 10px;
 }
 
-.drag-item:hover{
+.drag-item:hover {
   cursor: pointer;
   background-color: $fb-textColor;
-  color: $fb-dark
+  color: $fb-dark;
 }

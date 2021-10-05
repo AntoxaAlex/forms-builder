@@ -1,15 +1,17 @@
 <ng-template [cdkPortalOutlet]="dragAreaPortal"></ng-template>
 
-
 <!--Drag Area Portal Content-->
 <ng-template #dragAreaPortalContent>
   <div cdkDropList class="drag-item-list">
-    <p *ngFor="let element of draggingData.items"
+    <p
+      *ngFor="let element of dragAreaState.items"
       [id]="element"
-       class="drag-item"
-       cdkDrag
-       (cdkDragDropped)="dropItem($event,draggingData.isDragItemEnter,dropElements.items.length)"
-       (cdkDragStarted)="startDragging()"
-    >{{ element }}</p>
+      class="drag-item"
+      cdkDrag
+      (cdkDragDropped)="dropItem($event, dragAreaState.isDragItemEnter, dropAreaState.items.length)"
+      (cdkDragStarted)="startDragging()"
+    >
+      {{ element }}
+    </p>
   </div>
 </ng-template>

@@ -1,8 +1,3 @@
-export interface Validator {
-  name: string;
-  validator: any;
-  message: string;
-}
 export interface FieldConfig {
   label?: string;
   name?: string;
@@ -10,14 +5,14 @@ export interface FieldConfig {
   options?: string[];
   collections?: any;
   type: string;
-  id:string,
+  id: string;
   value?: any;
-  max?:number,
-  min?:number,
-  tickInterval?:number
-  step?:number,
-  checked?:boolean
-  x?:number,
-  y?:number,
-  styles?:any[]
+  max?: number;
+  min?: number;
+  tickInterval?: number;
+  step?: number;
+  checked?: boolean;
+  x?: number;
+  y?: number;
+  styles?: any[];
 }

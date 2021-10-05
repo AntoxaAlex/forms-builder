@@ -1,29 +1,10 @@
 <app-navbar></app-navbar>
 
-<div [class.main-container]=true>
-
-  <app-forms-builder-accordion
-    *ngrxLet="accordionState$ as accordionData"
-    class="accordion"
-    [accordionData]="accordionData"
-    [dropElements]="dropAreaState$|ngrxPush"
-  ></app-forms-builder-accordion>
+<div class="main-container">
+  <app-forms-builder-accordion class="accordion"></app-forms-builder-accordion>
 
   <div class="drag-drop-section">
-    <app-forms-builder-drag-area
-      [draggingData]="dragAreaState$|ngrxPush"
-      [dropElements]="dropAreaState$|ngrxPush"
-      class="drag-section"
-    ></app-forms-builder-drag-area>
-    <app-forms-builder-drop-area
-      class="drop-section"
-      *ngrxLet="accordionState$ as accordionData"
-      [accordionData]="accordionData"
-      [dropElements]="dropAreaState$|ngrxPush"
-      [draggingData]="dragAreaState$|ngrxPush"
-    ></app-forms-builder-drop-area>
+    <app-forms-builder-drag-area class="drag-section"></app-forms-builder-drag-area>
+    <app-forms-builder-drop-area class="drop-section"></app-forms-builder-drop-area>
   </div>
-
 </div>
-
-

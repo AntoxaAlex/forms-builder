@@ -1,14 +1,13 @@
 <form #dynamicForm [class]="isStyleInput ? 'accordion-container' : 'drop-area-container'" [formGroup]="form">
   <ng-container
     #dynamicInputs
-    *ngFor="let field of fields;index as index"
+    *ngFor="let field of fields; index as index"
     dynamicField
     [field]="field"
     [group]="form"
     [index]="index"
     [isStyleInput]="isStyleInput"
     [isFormActive]="isFormActive"
-    [style]="!isStyleInput ? field.styles :''"
     (fieldSelected)="selectField(index)"
   >
   </ng-container>

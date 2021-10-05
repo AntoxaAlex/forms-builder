@@ -1,18 +1,18 @@
-@import "./src/variables";
+@import './src/variables';
 
-.main-container{
+.main-container {
   width: 90%;
   margin: 50px auto;
 }
 
-.drag-drop-section{
+.drag-drop-section {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
   height: 600px;
 }
 
-.drag-section{
+.drag-section {
   width: 150px;
   height: 100%;
   border: 1px solid $fb-textColor;
@@ -21,7 +21,7 @@
   box-sizing: border-box;
 }
 
-.drop-section{
+.drop-section {
   height: 100%;
   width: 90%;
   box-sizing: border-box;
@@ -30,29 +30,28 @@
   overflow-y: auto;
 }
 
-.draggable-element:hover{
+.draggable-element:hover {
   cursor: pointer;
 }
 
-
-.draggable-element-content{
-  width:100px;
-  height:50px;
+.draggable-element-content {
+  width: 100px;
+  height: 50px;
   border: 1px solid black;
   border-radius: 25px;
   padding: 3px;
   box-sizing: border-box;
 }
 
-.example-list{
+.example-list {
   height: 100%;
 }
 
-.draggable-input{
+.draggable-input {
   min-width: 150px;
   max-width: 500px;
   width: 100%;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   margin: 0 0 10px 0;
   font-size: 1rem;
   padding: 10px;
@@ -60,8 +59,6 @@
   border-bottom: 2px solid black;
 }
 
-.dropped-item{
+.dropped-item {
   position: absolute;
 }
-
-

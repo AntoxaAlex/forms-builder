@@ -9,11 +9,8 @@ import { MaterialModule } from '../shared/modules/material.module';
 import { HeaderInterceptor } from '../core/intercaptors/header.interceptor';
 import { SharedInputsModule } from '../shared/modules/shared-inputs.module';
 
-
 @NgModule({
-  declarations: [
-    AuthComponent
-  ],
+  declarations: [AuthComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -21,10 +18,12 @@ import { SharedInputsModule } from '../shared/modules/shared-inputs.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedInputsModule
+    SharedInputsModule,
   ],
-  providers:[
-    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }]
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HeaderInterceptor,
+    multi: true
+  }],
 })
-
-export class AuthModule { }
+export class AuthModule {}

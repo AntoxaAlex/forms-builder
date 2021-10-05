@@ -1,16 +1,17 @@
-@import "./src/variables";
+@import './src/variables';
 
-#navbar{
+#navbar {
   background-color: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-span,.nav-icon{
-  color:$fb-linkColor;
+span,
+.nav-icon {
+  color: $fb-linkColor;
   transition: 0.3s;
 }
-.nav-icon:hover{
-  color:$fb-activeLinkColor;;
+.nav-icon:hover {
+  color: $fb-activeLinkColor;
 }

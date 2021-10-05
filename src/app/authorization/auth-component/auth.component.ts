@@ -1,40 +1,36 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../auth.service';
-import { AuthBody } from '../../core/interfaces/auth-body.interface';
-
+import { User } from "../../core/interfaces/user.interface";
 
 @Component({
   selector: 'app-authorization',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  styleUrls: ['./auth.component.scss'],
 })
+export class AuthComponent implements OnInit {
+  public headerTitle: string = 'Sign in';
+  public form: FormGroup;
 
-export class AuthComponent implements OnInit{
-
-  public headerTitle:string = 'Sign in'
-  public form:FormGroup
-
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-   this.initForm();
+    this.initForm();
   }
 
-  public onSubmit = (event: Event):void => {
+  public onSubmit(event: Event): void {
     event.preventDefault();
-    const body:AuthBody = this.form.value
-    this.authService.login(body)
-  }
+    const body: User = this.form.value;
+    this.authService.login(body);
+  };
 
-  private initForm():void {
+  private initForm(): void {
     this.form = new FormGroup({
-      email:new FormControl('',[Validators.required]),
-      password:new FormControl('',[Validators.required])
-    })
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+    });
   }
-
 }

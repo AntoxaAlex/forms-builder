@@ -1,38 +1,38 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import {MatCheckboxChange} from "@angular/material/checkbox";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 
 import { FieldConfig } from '../../../../core/interfaces/field.interface';
-import { SubclassComponent } from '../../../../core/interfaces/subclass.component';
-
+import { selectDropArea } from '../../../../core/state/selectors';
+import { DropAreaState } from '../../../../core/state/reducers/dropAreaReducer';
+import { FormsBuilderContentState } from '../../../../core/state/reducers';
 
 @Component({
   selector: 'app-checkbox',
-  templateUrl:'./checkbox.component.html'
+  templateUrl: './checkbox.component.html',
+  styleUrls: [],
 })
-
-export class CheckboxComponent extends SubclassComponent{
-
+export class CheckboxComponent implements OnInit {
   public field: FieldConfig;
   public group: FormGroup;
-  public index:number;
-  public styles:FieldConfig[]
-  public isStyleInput:boolean
-  public isFormActive:boolean
+  public index: number;
+  public styles: FieldConfig[];
+  public isStyleInput: boolean;
+  public isFormActive: boolean;
 
-  @Output('formChanged') public formChanged = new EventEmitter()
-  @Output('fieldSelected') public fieldSelected = new EventEmitter()
+  @Output('fieldSelected') public fieldSelected = new EventEmitter();
 
-  constructor() {
-    super()
+  constructor(private store$: Store<FormsBuilderContentState>) {}
+
+  ngOnInit() {
+    if (!this.isStyleInput) {
+      this.store$.pipe(select(selectDropArea)).subscribe((state: DropAreaState) => {
+        this.styles = state.items[this.index].styles;
+      });
+    }
   }
 
-  public changeForm(evt:MatCheckboxChange):void{
-    this.formChanged.emit({ index:this.index, evt })
+  public selectField(): void {
+    this.fieldSelected.emit();
   }
-
-  public selectField():void{
-    this.fieldSelected.emit()
-  }
-
 }

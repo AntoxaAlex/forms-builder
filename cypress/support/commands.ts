@@ -4,21 +4,21 @@
 // IDE or Text Editor.
 // ***********************************************
 
-import '@4tw/cypress-drag-drop'
+import '@4tw/cypress-drag-drop';
 
 declare namespace Cypress {
   interface Chainable<Subject = any> {
-    login(email:string,password:string): typeof login;
+    login(email: string, password: string): typeof login;
   }
 }
 
-function login(email:string,password:string): void {
+function login(email: string, password: string): void {
   cy.visit('/login');
-  cy.url().should('includes','login');
+  cy.url().should('includes', 'login');
   cy.get('input').eq(0).type('user@gmail.com');
   cy.get('input').eq(1).type('usertest');
   cy.get('button').click();
-  cy.url().should('include','forms-builder')
+  cy.url().should('include', 'forms-builder');
 }
 
 // NOTE: You can use it like so:

@@ -16,7 +16,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-
 @NgModule({
   declarations: [],
   imports: [
@@ -35,9 +34,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     CdkAccordionModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  exports:[
+  exports: [
     MatSelectModule,
     MatSlideToggleModule,
     MatInputModule,
@@ -53,8 +52,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     CdkAccordionModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-
-export class MaterialModule { }
+export class MaterialModule {}

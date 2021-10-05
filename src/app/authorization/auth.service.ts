@@ -2,21 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { AuthBody } from '../core/interfaces/auth-body.interface';
+import { User } from "../core/interfaces/user.interface";
 
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
-
 export class AuthService {
-
   constructor(private http: HttpClient, private router: Router) {}
 
-  public login(body: AuthBody):void{
-    this.http.post('http://localhost:5000/auth',body).subscribe((token: any):void=>{
-      localStorage.setItem('token',token)
-      this.router.navigate(['forms-builder'])
-    })
+  public login(body: User): void {
+    this.http.post<string>('http://localhost:5000/auth', body).subscribe((token: string): void => {
+      localStorage.setItem('token', token);
+      this.router.navigate(['forms-builder']);
+    });
   }
-
 }

@@ -1,57 +1,58 @@
 import {
   AfterViewChecked,
   AfterViewInit,
-  Component,
+  Component, ElementRef,
   Input,
-  OnInit,
+  OnDestroy,
+  OnInit, QueryList,
   ViewChild,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Observable, ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 
 import { FieldConfig } from '../../../core/interfaces/field.interface';
 import { FormsBuilderContentState } from '../../../core/state/reducers';
 import { FormsBuilderService } from '../../services/forms-builder.service';
-import { DropAreaChangeIndexAction } from '../../../core/state/actions/dropAreaActions';
-import {takeUntil} from "rxjs/operators";
-
+import { DropAreaChangeIndexAction, DropAreaItem } from '../../../core/state/actions/dropAreaActions';
+import { AccordionChangeStylingAction } from '../../../core/state/actions/accordionActions';
 
 @Component({
   selector: 'app-dynamic-form',
-  templateUrl:'./dynamic-form.component.html',
-  styleUrls:[`./dynamic-form.component.scss`]
+  templateUrl: './dynamic-form.component.html',
+  styleUrls: [`./dynamic-form.component.scss`],
 })
-
-export class DynamicFormComponent implements OnInit,AfterViewInit,AfterViewChecked {
-
+export class DynamicFormComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
   public form: FormGroup;
-  public changeContent$:any
+  public changeContent$: Observable<any>;
 
   @Input() public fields: FieldConfig[] = [];
-  @Input() public isStyleInput:boolean
-  @Input() public isFormActive:boolean
-  @Input() public items:any
-  @Input() public selectedIndex:any
+  @Input() public isStyleInput: boolean;
+  @Input() public isFormActive: boolean;
+  @Input() public items: DropAreaItem[];
+  @Input() public selectedIndex: number;
 
-  @ViewChildren('dynamicInputs') public inputComponents:any
-  @ViewChild('dynamicForm') public dynamicForm:any
-
+  @ViewChildren('dynamicInputs') public inputComponents: QueryList<any>;
+  @ViewChild('dynamicForm') public dynamicForm: ElementRef;
 
   get value() {
     return this.form.value;
   }
 
-  constructor(private fb: FormBuilder,private store$:Store<FormsBuilderContentState>,private formsBuilderService:FormsBuilderService) {}
+  constructor(
+    private fb: FormBuilder,
+    private store$: Store<FormsBuilderContentState>,
+    private formsBuilderService: FormsBuilderService,
+  ) {}
 
   public createControl(): FormGroup {
     const group = this.fb.group({});
     this.fields.forEach(field => {
       if (field.type === 'button') return;
-      const control = this.fb.control(
-        field.value
-      );
+      const control = this.fb.control(field.value);
       group.addControl(field.name!, control);
     });
     return group;
@@ -61,20 +62,25 @@ export class DynamicFormComponent implements OnInit,AfterViewInit,AfterViewCheck
     this.form = this.createControl();
   }
   ngAfterViewInit() {
-
+    console.log(this.inputComponents);
   }
   ngAfterViewChecked() {
-   this.changeContent$= fromEvent(this.dynamicForm.nativeElement.children,'change').pipe(
-     takeUntil(fromEvent(document.getElementById('logout-btn')!,'click'))
-   ).subscribe((evt:any)=>{
-     this.isFormActive
-       ? this.formsBuilderService.onChangeDropArea(evt)
-       :  this.formsBuilderService.onChangeField({ evt, items:this.items }, this.selectedIndex)
-   })
+    this.changeContent$ = fromEvent(this.dynamicForm.nativeElement.children, 'change').pipe(takeUntil(this.destroy$));
+
+    this.changeContent$.subscribe((evt: Event) => {
+      this.isFormActive
+        ? this.formsBuilderService.onChangeDropArea(evt)
+        : this.formsBuilderService.onChangeField({ evt, items: this.items }, this.selectedIndex);
+    });
   }
 
-  public selectField(index:number):void{
-    this.store$.dispatch(new DropAreaChangeIndexAction(index))
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
+  public selectField(index: number): void {
+    this.store$.dispatch(new AccordionChangeStylingAction(false));
+    this.store$.dispatch(new DropAreaChangeIndexAction(index));
+  }
 }
