@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/app/forms-builder/components/forsms-builder-accordion/forms-builder-accordion.component.scss
 @import './src/variables';
 
 .accordion {
@@ -63,71 +62,3 @@
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
-=======
-@import "../../../../variables";
-
-.accordion {
-  display: block;
-  max-width: 100%;
-}
-
-/*.accordion-container{*/
-/*  overflow-x: auto;*/
-/*  display: grid;*/
-/*  grid-column-gap: 50px;*/
-/*  scroll-snap-type: x proximity;*/
-/*  grid-template-rows: minmax(100px, 1fr);*/
-/*}*/
-/*.accordion .ng-star-inserted{*/
-/*  display: flex;*/
-/*  justify-content: space-around;*/
-/*  align-items: center;*/
-/*}*/
-
-.accordion-item {
-  display: block;
-  border: solid 1px $fb-textColor;
-}
-
-.accordion-item + .accordion-item {
-  border-top: none;
-}
-
-.accordion-item-header {
-  display: flex;
-  align-content: center;
-  justify-content: space-between;
-  font-size: $fb-p-fontSize;
-}
-
-.accordion-item-description {
-  font-size: 0.85em;
-  color: #999;
-}
-
-.accordion-item-header,
-.accordion-item-body {
-  padding: 16px;
-}
-
-.accordion-item-header{
-  background-color: $fb-textColor;
-  transition: 0.3s;
-}
-.accordion-item-header:hover {
-  cursor: pointer;
-  background-color: lightgrey;
-}
-
-.accordion-item:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
-.accordion-item:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-
->>>>>>> 2b441f217a0e0a74d8e2419cdcbeb50a1bcfd267:forms-builder-accordion.component.scss

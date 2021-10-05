@@ -38,7 +38,7 @@ export class FormsBuilderDropAreaComponent implements OnInit, AfterViewInit, OnD
   public dropAreaState: DropAreaState;
   public dragAreaState: DragAreaState;
   public dropAreaPortal: TemplatePortal;
-  public changeStyling$: Observable<any>;
+  public changeStyling$: Observable<boolean>;
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
@@ -86,6 +86,7 @@ export class FormsBuilderDropAreaComponent implements OnInit, AfterViewInit, OnD
 
   public dropItem(evt: CdkDragDrop<any>, isDragItemEnter: boolean, length: number): void {
     let index = length.toString();
+    console.log(index);
     this.fb.drop(evt, isDragItemEnter, index);
   }
 

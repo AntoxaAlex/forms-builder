@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
@@ -27,13 +26,3 @@
     "strictTemplates": true
   }
 }
-=======
-{
-  "extends": "../tsconfig.json",
-  "include": ["**/*.ts"],
-  "compilerOptions": {
-    "sourceMap": false,
-    "types": ["cypress","@4tw/cypress-drag-drop"]
-  }
-}
->>>>>>> 2b441f217a0e0a74d8e2419cdcbeb50a1bcfd267

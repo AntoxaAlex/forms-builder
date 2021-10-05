@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/app/forms-builder/components/forms-builder-drag-area/forms-builder-drag-area.component.scss
 @import './src/variables';
 
 .drag-item-list {
@@ -23,29 +22,3 @@
   background-color: $fb-textColor;
   color: $fb-dark;
 }
-=======
-@import "../../../../variables";
-
-.drag-item-list{
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-around;
-  height: 100%;
-  margin: 0;
-}
-
-.drag-item{
-  color: $fb-textColor;
-  border: 1px solid $fb-textColor;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.drag-item:hover{
-  cursor: pointer;
-  background-color: $fb-textColor;
-  color: $fb-dark
-}
->>>>>>> 2b441f217a0e0a74d8e2419cdcbeb50a1bcfd267:forms-builder-drag-area.component.scss
