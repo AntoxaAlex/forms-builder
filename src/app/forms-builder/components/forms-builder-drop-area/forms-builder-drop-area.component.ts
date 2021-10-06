@@ -39,6 +39,7 @@ export class FormsBuilderDropAreaComponent implements OnInit, AfterViewInit, OnD
   public dragAreaState: DragAreaState;
   public dropAreaPortal: TemplatePortal;
   public changeStyling$: Observable<boolean>;
+  public cssProperties: string[] = ['width', 'height', 'padding', 'borderWidth', 'borderStyle', 'borderColor', 'borderRadius', 'backgroundColor'];
   private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(
@@ -49,13 +50,22 @@ export class FormsBuilderDropAreaComponent implements OnInit, AfterViewInit, OnD
   ) {}
 
   ngOnInit() {
-    this.store$.pipe(select(selectAccordion)).subscribe((state: AccordionState) => {
+    this.store$.pipe(
+      takeUntil(this.destroy$),
+      select(selectAccordion)
+    ).subscribe((state: AccordionState) => {
       this.accordionState = state;
     });
-    this.store$.pipe(select(selectDropArea)).subscribe((state: DropAreaState) => {
+    this.store$.pipe(
+      takeUntil(this.destroy$),
+      select(selectDropArea)
+    ).subscribe((state: DropAreaState) => {
       this.dropAreaState = state;
     });
-    this.store$.pipe(select(selectDragArea)).subscribe((state: DragAreaState) => {
+    this.store$.pipe(
+      takeUntil(this.destroy$),
+      select(selectDragArea)
+    ).subscribe((state: DragAreaState) => {
       this.dragAreaState = state;
     });
   }

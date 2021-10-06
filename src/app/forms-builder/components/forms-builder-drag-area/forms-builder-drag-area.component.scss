@@ -6,15 +6,15 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
-  height: 100%;
-  margin: 0;
+  height: $fb-full-height;
+  margin: $fb-null-offset;
 }
 
 .drag-item {
   color: $fb-textColor;
   border: 1px solid $fb-textColor;
-  padding: 10px;
-  border-radius: 10px;
+  padding: $fb-item-padding;
+  border-radius: $fb-container-offset;
 }
 
 .drag-item:hover {

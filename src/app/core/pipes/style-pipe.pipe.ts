@@ -22,19 +22,14 @@ export class StylePipePipe implements PipeTransform {
     stylesArray.forEach(styleElement => {
       const { id, value } = styleElement;
       const name = id;
+      const cssNumProperties = ['height', 'padding', 'fontSize', 'borderWidth', 'borderRadius']
+      const cssTextProperties = ['placeholder', 'backgroundText', 'required']
       if (newObj.hasOwnProperty(name)) {
         if (name === 'width') {
-          console.log('Is active:' + isFormActive);
           newObj = { ...newObj, width: isFormActive ? value + '%' : value + 'px' };
-        } else if (
-          name === 'height' ||
-          name === 'padding' ||
-          name === 'fontSize' ||
-          name === 'borderWidth' ||
-          name === 'borderRadius'
-        ) {
+        } else if (cssNumProperties.indexOf(name) > -1) {
           newObj = { ...newObj, [name]: value + 'px' };
-        } else if (name === 'placeholder' || name === 'backgroundText' || name === 'required') {
+        } else if (cssTextProperties.indexOf(name) > -1) {
           newObj = value;
         } else {
           newObj = { ...newObj, [name!]: value };

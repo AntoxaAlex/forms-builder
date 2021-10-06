@@ -7,7 +7,7 @@ body {
   min-height: 100vh;
 }
 body {
-  margin: 0;
+  margin: $fb-null-offset;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   background-color: $fb-dark;
 }
@@ -33,23 +33,23 @@ input:focus {
 }
 
 .style-item {
-  padding: 10px;
+  padding: $fb-item-padding;
   box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: $fb-item-padding;
   height: 5px;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
-  border-radius: 10px;
+  border-radius: $scrollbar-border-radius;
 }
 
 ::-webkit-scrollbar-thumb {
   background: gray;
-  border-radius: 10px;
+  border-radius: $scrollbar-border-radius;
 }
 
 ::-webkit-scrollbar-thumb:hover {

@@ -25,9 +25,9 @@ import { AccordionChangeStylingAction } from '../../../core/state/actions/accord
   styleUrls: [`./dynamic-form.component.scss`],
 })
 export class DynamicFormComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
-  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
   public form: FormGroup;
   public changeContent$: Observable<any>;
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   @Input() public fields: FieldConfig[] = [];
   @Input() public isStyleInput: boolean;
@@ -62,7 +62,6 @@ export class DynamicFormComponent implements OnInit, AfterViewInit, AfterViewChe
     this.form = this.createControl();
   }
   ngAfterViewInit() {
-    console.log(this.inputComponents);
   }
   ngAfterViewChecked() {
     this.changeContent$ = fromEvent(this.dynamicForm.nativeElement.children, 'change').pipe(takeUntil(this.destroy$));

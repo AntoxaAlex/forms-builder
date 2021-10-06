@@ -1,64 +1,39 @@
 @import './src/variables';
 
 .main-container {
-  width: 90%;
-  margin: 50px auto;
+  width: $fb-container-width;
+  margin: $fb-container-margin auto;
 }
 
 .drag-drop-section {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  height: 600px;
+  margin-top: $fb-container-offset;
+  height: $fb-dragdrop-height;
 }
 
 .drag-section {
   width: 150px;
-  height: 100%;
+  height: $fb-full-height;
   border: 1px solid $fb-textColor;
   border-radius: 15px 0 0 15px;
-  padding: 20px;
+  padding: $fb-container-offset;
   box-sizing: border-box;
 }
 
 .drop-section {
-  height: 100%;
-  width: 90%;
+  height: $fb-full-height;
+  width: $fb-container-width;
   box-sizing: border-box;
   position: relative;
   background-color: $fb-backgroundColor;
   overflow-y: auto;
 }
 
-.draggable-element:hover {
-  cursor: pointer;
-}
-
-.draggable-element-content {
-  width: 100px;
-  height: 50px;
-  border: 1px solid black;
-  border-radius: 25px;
-  padding: 3px;
-  box-sizing: border-box;
-}
 
 .example-list {
-  height: 100%;
+  height: $fb-full-height;
 }
 
-.draggable-input {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-  background-color: #f0f0f0;
-  margin: 0 0 10px 0;
-  font-size: 1rem;
-  padding: 10px;
-  box-sizing: border-box;
-  border-bottom: 2px solid black;
-}
 
-.dropped-item {
-  position: absolute;
-}
+

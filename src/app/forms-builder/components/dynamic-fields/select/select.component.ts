@@ -1,31 +1,43 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
+import { ReplaySubject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 import { FieldConfig } from '../../../../core/interfaces/field.interface';
 import { selectDropArea } from '../../../../core/state/selectors';
 import { DropAreaState } from '../../../../core/state/reducers/dropAreaReducer';
 import { FormsBuilderContentState } from '../../../../core/state/reducers';
 
+
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: [],
 })
-export class SelectComponent implements OnInit {
+export class SelectComponent implements OnInit, OnDestroy {
   public field: FieldConfig;
   public group: FormGroup;
   public index: number;
   public styles: FieldConfig[];
   public isStyleInput: boolean;
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   @Output('fieldSelected') public fieldSelected = new EventEmitter();
   constructor(private store$: Store<FormsBuilderContentState>) {}
 
   ngOnInit() {
-    this.store$.pipe(select(selectDropArea)).subscribe((state: DropAreaState) => {
+    this.store$.pipe(
+      takeUntil(this.destroy$),
+      select(selectDropArea)
+    ).subscribe((state: DropAreaState) => {
       this.styles = state.items[this.index].styles;
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public selectField(): void {

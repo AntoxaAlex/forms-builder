@@ -12,16 +12,7 @@
     [style]="
       accordionState.formStyling
         | stylePipe
-          : [
-              'width',
-              'height',
-              'padding',
-              'borderWidth',
-              'borderStyle',
-              'borderColor',
-              'borderRadius',
-              'backgroundColor'
-            ]
+          : cssProperties
           : true
     "
     (cdkDropListDropped)="dropItem($event, dragAreaState.isDragItemEnter, dropAreaState.items.length)"
