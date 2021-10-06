@@ -1,0 +1,46 @@
+<cdk-accordion [id]="accordionState.isFormStylingActive ? 'form-accordion' : 'field-accordion'" class="accordion">
+  <cdk-accordion-item
+    #accordionItem="cdkAccordionItem"
+    class="accordion-item"
+    role="button"
+    tabindex="0"
+    [attr.id]="'accordion-header'"
+    [attr.aria-controls]="'accordion-body'"
+    [attr.aria-expanded]="accordionState.isAccordionExpanded"
+  >
+    <div class="accordion-item-header">
+      {{ accordionState.isFormStylingActive ? 'Form Styles' : 'Field Styles' }}
+      <button id="expandButton" class="accordion-item-description" (click)="toggleExpander()">
+        {{ accordionItem.expanded ? '-' : '+' }}
+      </button>
+    </div>
+    <div
+      class="accordion-item-body"
+      role="region"
+      [style.display]="accordionState.isAccordionExpanded ? '' : 'none'"
+      [attr.id]="'accordion-body'"
+      [attr.aria-labelledby]="'accordion-header'"
+    >
+      <ng-template [cdkPortalOutlet]="accordionPortal"></ng-template>
+    </div>
+  </cdk-accordion-item>
+</cdk-accordion>
+
+<ng-template #accordionPortalContent>
+  <div *ngIf="accordionState.isFormStylingActive; else fieldStyling">
+    <app-dynamic-form
+      [fields]="accordionState.formStyling"
+      [isStyleInput]="true"
+      [isFormActive]="true"
+    ></app-dynamic-form>
+  </div>
+  <ng-template #fieldStyling>
+    <app-dynamic-form
+      [fields]="dropAreaState.items[dropAreaState.selectedIndex!].styles"
+      [isStyleInput]="true"
+      [isFormActive]="false"
+      [items]="dropAreaState.items"
+      [selectedIndex]="dropAreaState.selectedIndex || 0"
+    ></app-dynamic-form>
+  </ng-template>
+</ng-template>

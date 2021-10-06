@@ -1,0 +1,51 @@
+@import './src/variables';
+
+.accordion {
+  display: block;
+  max-width: $fb-full-width;
+}
+
+.accordion-item {
+  display: block;
+  border: solid 1px $fb-textColor;
+}
+
+.accordion-item + .accordion-item {
+  border-top: none;
+}
+
+.accordion-item-header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  font-size: $fb-p-fontSize;
+}
+
+.accordion-item-description {
+  font-size: 0.85em;
+  color: #999;
+}
+
+.accordion-item-header,
+.accordion-item-body {
+  padding: $fb-container-offset;
+}
+
+.accordion-item-header {
+  background-color: $fb-textColor;
+  transition: 0.3s;
+}
+.accordion-item-header:hover {
+  cursor: pointer;
+  background-color: lightgrey;
+}
+
+.accordion-item:first-child {
+  border-top-left-radius: $fb-accordion-border-radius;
+  border-top-right-radius: $fb-accordion-border-radius;
+}
+
+.accordion-item:last-child {
+  border-bottom-left-radius: $fb-accordion-border-radius;
+  border-bottom-right-radius: $fb-accordion-border-radius;
+}

@@ -1,0 +1,18 @@
+<mat-form-field
+  class="demo-full-width margin-top"
+  [formGroup]="group"
+  [style]="styles | stylePipe: ['width', 'fontSize', 'fontWeight', 'borderStyle', 'height']:false:isStyleInput"
+>
+  <mat-select
+    [placeholder]="styles | stylePipe: ['placeholder']:false:isStyleInput:field.label"
+    [formControlName]="field.name!"
+    [id]="field.id"
+    [required]="styles | stylePipe: ['required']:false:isStyleInput:false"
+    (click)="selectField()"
+    [style]="styles | stylePipe: ['color', 'height']:false:isStyleInput"
+  >
+    <mat-option id="field-option" [style]="styles | stylePipe: ['color', 'height']:false:isStyleInput">
+      {{ styles | stylePipe: ['placeholder']:false:isStyleInput:'option' }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

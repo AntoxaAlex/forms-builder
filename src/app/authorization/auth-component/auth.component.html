@@ -1,0 +1,10 @@
+<div class="authorization-main">
+  <div class="authorization-container">
+    <h1>{{ headerTitle }}</h1>
+    <form class="authorization-form" (ngSubmit)="onSubmit($event)" [formGroup]="form">
+      <app-auth-input formControlName="email" name="email" [type]="'email'"></app-auth-input>
+      <app-auth-input formControlName="password" name="password" [type]="'password'"></app-auth-input>
+      <button type="submit" mat-raised-button color="primary">Submit</button>
+    </form>
+  </div>
+</div>
