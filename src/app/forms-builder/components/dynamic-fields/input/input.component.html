@@ -1,0 +1,20 @@
+<div [formGroup]="group" [class.style-item]="isStyleInput">
+  <p *ngIf="isStyleInput">{{ field.label }}</p>
+
+  <mat-form-field
+    class="demo-full-width"
+    [style]="styles | stylePipe: ['width', 'fontSize', 'fontWeight', 'borderStyle']:isFormActive:isStyleInput"
+  >
+    <input
+      matInput
+      [name]="field.name!"
+      [type]="field.inputType!"
+      [placeholder]="styles | stylePipe: ['placeholder']:isFormActive:isStyleInput:''"
+      [required]="styles | stylePipe: ['required']:isFormActive:isStyleInput:false"
+      [style]="styles | stylePipe: ['color', 'height']:isFormActive:isStyleInput"
+      [id]="isFormActive ? field.id : 'field-' + field.type"
+      [value]="!isStyleInput ? '' : field.value"
+      (click)="selectField()"
+    />
+  </mat-form-field>
+</div>
